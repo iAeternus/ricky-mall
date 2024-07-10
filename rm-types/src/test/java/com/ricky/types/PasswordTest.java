@@ -1,8 +1,7 @@
 package com.ricky.types;
 
 import com.ricky.enums.PasswordStrength;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,11 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @className PasswordTest
  * @desc
  */
-class PasswordTest {
+public class PasswordTest {
 
     @Test
-    @DisplayName("very weak")
-    public void calculateStrengthWithVeryWeak() {
+    public void veryWeak() {
         // Given
         Password password = new Password("abc");
 
@@ -26,8 +24,7 @@ class PasswordTest {
     }
 
     @Test
-    @DisplayName("weak")
-    public void calculateStrengthWithWeak() {
+    public void weak() {
         // Given
         Password password = new Password("123abc");
 
@@ -36,8 +33,7 @@ class PasswordTest {
     }
 
     @Test
-    @DisplayName("medium")
-    public void calculateStrengthWithMedium() {
+    public void medium() {
         // Given
         Password password = new Password("Password123");
 
@@ -46,8 +42,7 @@ class PasswordTest {
     }
 
     @Test
-    @DisplayName("strong")
-    public void calculateStrengthWithStrong() {
+    public void strong() {
         // Given
         Password password = new Password("SuperSecurePassword123!@#");
 

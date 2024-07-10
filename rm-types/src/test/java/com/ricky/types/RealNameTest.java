@@ -1,6 +1,7 @@
 package com.ricky.types;
 
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -11,10 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @className RealNameTest
  * @desc
  */
-class RealNameTest {
+public class RealNameTest {
 
     @Test
-    void testToString() {
+    public void testToString() {
         // Given
         RealName realName = new RealName("吴", "子维");
 

@@ -1,6 +1,7 @@
 package com.ricky.types;
 
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 
 /**
  * @author Ricky
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.Test;
  * @className EmailTest
  * @desc
  */
-class EmailTest {
+public class EmailTest {
 
     @Test
     public void testEmail() {

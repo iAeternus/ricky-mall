@@ -11,13 +11,15 @@ spring:
     username: ${this.datasource.username}
     password: ${this.datasource.password}
 
-mybatis:
-  #mapper配置文件
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.Ricky.entity  # TODO 修改
+mybatis-plus:
+  type-aliases-package: com.ricky.persistence.po
+  global-config:
+    db-config:
+      id-type: auto
   configuration:
-    #开启驼峰命名
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
     map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
 
 # 日志
 logging:

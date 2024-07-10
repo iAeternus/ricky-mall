@@ -1,13 +1,14 @@
 package com.ricky.trigger.http;
 
+import com.ricky.dto.query.AuthenticationQuery;
+import com.ricky.dto.command.RegisterCommand;
+import com.ricky.dto.response.AuthenticationResponse;
 import com.ricky.model.Result;
+import com.ricky.service.AuthenticationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Ricky
@@ -22,10 +23,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
+    private final AuthenticationService authenticationService;
+
     @GetMapping
     @ApiOperation("测试接口")
     public Result<String> hello() {
         return Result.ok("Hello DDD!");
+    }
+
+    @ApiOperation("注册")
+    @PostMapping("/register")
+    public Result<AuthenticationResponse> register(@RequestBody RegisterCommand request) {
+        return Result.ok(authenticationService.register(request));
+    }
+
+    @ApiOperation("认证")
+    @PostMapping("/authenticate")
+    public Result<AuthenticationResponse> register(@RequestBody AuthenticationQuery request) {
+        return Result.ok(authenticationService.authentication(request));
     }
 
 }

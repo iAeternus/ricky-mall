@@ -38,7 +38,7 @@ public class Password implements ValueObject {
         return password.equals(this.afterEncryption);
     }
 
-    public String getPassword() {
+    public String getValue() {
         return this.afterEncryption;
     }
 

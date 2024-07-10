@@ -16,10 +16,10 @@ import lombok.Data;
 public class User implements Aggregate<UserId> {
 
     private UserId id;
-    private Username username;
-    private Password password;
-    private RealName realName;
     private Email email;
+    private Password password;
+    private Nickname nickname;
+    private RealName realName;
     private PhoneNumber phoneNumber;
     private UserRole role;
 
