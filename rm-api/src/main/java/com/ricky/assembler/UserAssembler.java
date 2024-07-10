@@ -24,4 +24,5 @@ public class UserAssembler {
         user.setPhoneNumber(new PhoneNumber(request.getPhoneNumber()));
         return user;
     }
+
 }
