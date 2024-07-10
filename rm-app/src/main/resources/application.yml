@@ -1,0 +1,81 @@
+spring:
+  application:
+    name: ricky-mall
+  main:
+    allow-circular-references: true
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: ${this.datasource.driver-class-name}
+    url: jdbc:mysql://${this.datasource.host}:${this.datasource.port}/${this.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${this.datasource.username}
+    password: ${this.datasource.password}
+
+mybatis:
+  #mapper配置文件
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.Ricky.entity  # TODO 修改
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+
+# 日志
+logging:
+  level:
+    root: info
+  config: classpath:logback-spring.xml
+
+## Dubbo
+#dubbo:
+#  application:
+#    name: xfg-frame-dev
+#    version: 1.0.0
+#  registry:
+#    address: zookeeper://127.0.0.1:2181
+#  protocol:
+#    name: dubbo
+#    port: 20883
+#  scan:
+#    base-packages: cn.bugstack.xfg.frame.api
+
+# 线程池配置
+thread:
+  pool:
+    executor:
+      config:
+        core-pool-size: 20
+        max-pool-size: 200
+        keep-alive-time: 10
+        block-queue-size: 5000
+        policy: CallerRunsPolicy
+
+# 限流配置
+rate-limiter:
+  permits-per-second: 1
+  timeout: 5
+
+jwt:
+  secret-key: ${this.jwt.secret-key}
+  ttl: ${this.jwt.ttl}
+  token-name: ${this.jwt.token-name}
+
+# Knife4j文档
+knife4j:
+  enable: true
+  basic:
+    enable: false
+    username: admin
+    password: admin
+  openapi:
+    title: ricky-mall接口文档
+    description: "ricky-mall接口文档"
+    email: 10449469060@qq.com
+    version: 0.0.1-SNAPSHOT
+    license: Apache 2.0
+    group:
+      default:
+        group-name: default
+        api-rule: package
+        api-rule-resources:
+          - com.ricky.trigger.http
+
