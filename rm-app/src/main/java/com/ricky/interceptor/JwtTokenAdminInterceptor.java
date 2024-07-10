@@ -3,7 +3,7 @@ package com.ricky.interceptor;
 
 import cn.hutool.core.util.StrUtil;
 import io.jsonwebtoken.Claims;
-import com.ricky.config.JwtConfigProperties;
+import com.ricky.properties.JwtProperties;
 import com.ricky.constants.JwtClaimsConstant;
 import com.ricky.context.UserContext;
 import com.ricky.utils.JwtUtils;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class JwtTokenAdminInterceptor implements HandlerInterceptor {
 
-    private final JwtConfigProperties jwtConfigProperties;
+    private final JwtProperties jwtProperties;
 
     @Override
     public boolean preHandle(
@@ -38,7 +38,7 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
         }
 
         // 从请求头中获取令牌
-        String token = request.getHeader(jwtConfigProperties.getTokenName());
+        String token = request.getHeader(jwtProperties.getTokenName());
 
         if (StrUtil.isBlank(token)) {
             throw new RuntimeException("无token，请重新登录");
@@ -47,7 +47,7 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
         // 校验令牌
         try {
             log.info("jwt校验: {}", token);
-            Claims claims = JwtUtils.parseJWT(jwtConfigProperties.getSecretKey(), token);
+            Claims claims = JwtUtils.parseJWT(jwtProperties.getSecretKey(), token);
             Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
             log.info("当前用户id: {}", userId);
             UserContext.setCurrentId(userId);

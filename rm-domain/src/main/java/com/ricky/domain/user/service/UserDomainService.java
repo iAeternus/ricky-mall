@@ -3,6 +3,8 @@ package com.ricky.domain.user.service;
 import com.ricky.domain.user.model.User;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 /**
  * @author Ricky
  * @version 1.0
@@ -13,4 +15,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserDomainService {
     void saveUser(User user);
+    Map<String, Object> getClaims(User user);
 }

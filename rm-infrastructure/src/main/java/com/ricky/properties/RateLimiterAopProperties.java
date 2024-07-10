@@ -1,11 +1,11 @@
-package com.ricky.config;
+package com.ricky.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
 @ConfigurationProperties(prefix = "rate-limiter", ignoreInvalidFields = true)
-public class RateLimiterAopConfigProperties {
+public class RateLimiterAopProperties {
 
     /**
      * 最大调用次数

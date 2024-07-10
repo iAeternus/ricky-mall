@@ -1,5 +1,7 @@
 package com.ricky.persistence.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ricky.persistence.po.UserPO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -10,7 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @desc
  */
 @Mapper
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<UserPO> {
 
 
 }

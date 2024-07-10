@@ -1,5 +1,6 @@
 package com.ricky.config;
 
+import com.ricky.properties.ThreadPoolProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -12,12 +13,12 @@ import java.util.concurrent.*;
 @Slf4j
 @EnableAsync
 @Configuration
-@EnableConfigurationProperties(ThreadPoolConfigProperties.class)
+@EnableConfigurationProperties(ThreadPoolProperties.class)
 public class ThreadPoolConfig {
 
     @Bean
     @ConditionalOnMissingBean(ThreadPoolExecutor.class)
-    public ThreadPoolExecutor threadPoolExecutor(ThreadPoolConfigProperties properties) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public ThreadPoolExecutor threadPoolExecutor(ThreadPoolProperties properties) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         // 实例化策略
         RejectedExecutionHandler handler;
         switch (properties.getPolicy()) {

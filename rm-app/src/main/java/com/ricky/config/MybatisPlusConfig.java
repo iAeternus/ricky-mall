@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 @Configuration
-@MapperScan({"com.ricky.domain.**.repository"})
+@MapperScan({"com.ricky.persistence.mapper"})
 public class MybatisPlusConfig {
 
     private static final Long MAX_LIMIT = 1000L;

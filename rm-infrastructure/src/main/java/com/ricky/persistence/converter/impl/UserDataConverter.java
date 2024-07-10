@@ -21,9 +21,11 @@ public class UserDataConverter implements DataConverter<User, UserId, UserPO> {
     @Override
     public UserPO toPO(User entity) {
         UserPO userPO = new UserPO();
-        userPO.setId(entity.getId().getValue());
+        UserId userId = entity.getId();
+        userPO.setId(userId == null ? null : userId.getValue());
         userPO.setEmail(entity.getEmail().getAddress());
         userPO.setPassword(entity.getPassword().getValue());
+        userPO.setNickname(entity.getNickname().getValue());
         userPO.setFirstName(entity.getRealName().getFirstName());
         userPO.setLastName(entity.getRealName().getLastName());
         userPO.setPhoneNumber(entity.getPhoneNumber().getValue());
@@ -37,6 +39,7 @@ public class UserDataConverter implements DataConverter<User, UserId, UserPO> {
         user.setId(new UserId(po.getId()));
         user.setEmail(new Email(po.getEmail()));
         user.setPassword(new Password(po.getPassword()));
+        user.setNickname(new Nickname(po.getNickname()));
         user.setRealName(new RealName(po.getFirstName(), po.getLastName()));
         user.setPhoneNumber(new PhoneNumber(po.getPhoneNumber()));
         user.setRole(po.getRole());

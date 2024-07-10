@@ -1,4 +1,4 @@
-package com.ricky.config;
+package com.ricky.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 @ConfigurationProperties(prefix = "jwt")
-public class JwtConfigProperties {
+public class JwtProperties {
 
     /**
      * 用户生成jwt令牌相关配置

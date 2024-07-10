@@ -1,7 +1,13 @@
 package com.ricky.repository.impl;
 
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ricky.domain.user.model.User;
 import com.ricky.domain.user.repository.UserRepository;
+import com.ricky.persistence.converter.impl.UserDataConverter;
+import com.ricky.persistence.mapper.UserMapper;
+import com.ricky.persistence.po.UserPO;
+import com.ricky.types.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -14,12 +20,15 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 @RequiredArgsConstructor
-public class UserRepositoryImpl implements UserRepository {
+public class UserRepositoryImpl extends ServiceImpl<UserMapper, UserPO> implements UserRepository {
 
-
+    private final UserDataConverter userDataConverter;
 
     @Override
     public void saveUser(User user) {
-
+        UserPO userPO = userDataConverter.toPO(user);
+        save(userPO);
+        user.setId(new UserId(userPO.getId()));
     }
+
 }

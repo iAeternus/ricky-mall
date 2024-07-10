@@ -1,11 +1,11 @@
-package com.ricky.config;
+package com.ricky.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
 @ConfigurationProperties(prefix = "thread.pool.executor.config", ignoreInvalidFields = true)
-public class ThreadPoolConfigProperties {
+public class ThreadPoolProperties {
 
     /**
      * 核心线程数

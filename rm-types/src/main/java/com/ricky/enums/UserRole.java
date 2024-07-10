@@ -1,5 +1,6 @@
 package com.ricky.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -19,6 +20,7 @@ public enum UserRole {
     ADMIN((short) 4, "管理员"),
     ;
 
+    @EnumValue
     final short value;
     final String description;
 
