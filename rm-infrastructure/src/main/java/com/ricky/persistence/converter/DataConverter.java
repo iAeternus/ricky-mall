@@ -1,6 +1,5 @@
 package com.ricky.persistence.converter;
 
-import com.ricky.marker.Aggregate;
 import com.ricky.marker.Entity;
 import com.ricky.marker.Identifier;
 import com.ricky.persistence.po.BasePO;
@@ -18,6 +17,7 @@ public interface DataConverter<E extends Entity<ID>, ID extends Identifier, PO e
 
     /**
      * 转换领域对象DO为持久化对象PO
+     *
      * @param entity 领域对象DO
      * @return 持久化对象PO
      */
@@ -25,6 +25,7 @@ public interface DataConverter<E extends Entity<ID>, ID extends Identifier, PO e
 
     /**
      * 转换持久化对象PO为领域对象DO
+     *
      * @param po 持久化对象PO
      * @return 领域对象DO
      */

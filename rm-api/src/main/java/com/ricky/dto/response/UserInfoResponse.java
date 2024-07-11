@@ -1,5 +1,8 @@
 package com.ricky.dto.response;
 
+import cn.hutool.core.math.Money;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.ricky.enums.UserRole;
 import lombok.Data;
 
@@ -20,5 +23,8 @@ public class UserInfoResponse {
     private String lastName;
     private String phoneNumber;
     private UserRole role;
+    private Long integral;
+    private Integer level;
+    private Money balance;
 
 }

@@ -1,10 +1,16 @@
 package com.ricky.persistence.po;
 
+import cn.hutool.core.math.Money;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.ricky.enums.UserRole;
+import com.ricky.types.Integral;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.math.BigDecimal;
 
 /**
  * @author Ricky
@@ -14,7 +20,7 @@ import lombok.EqualsAndHashCode;
  * @desc
  */
 @Data
-@TableName("user")
+@TableName(value = "user", autoResultMap = true)
 @EqualsAndHashCode(callSuper = true)
 public class UserPO extends BasePO {
 
@@ -27,5 +33,9 @@ public class UserPO extends BasePO {
     private String lastName;
     private String phoneNumber;
     private UserRole role;
+    private Long integral;
+    private Integer level;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private Money balance;
 
 }

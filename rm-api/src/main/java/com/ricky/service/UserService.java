@@ -1,5 +1,6 @@
 package com.ricky.service;
 
+import com.ricky.dto.command.AddIntegralCommand;
 import com.ricky.dto.command.ApplyEnterpriseUserCommand;
 import com.ricky.dto.query.EmailQuery;
 import com.ricky.dto.response.UserInfoResponse;
@@ -17,4 +18,7 @@ public interface UserService {
     void applyForEnterpriseUsers(ApplyEnterpriseUserCommand command);
 
     UserInfoResponse getByEmail(EmailQuery query);
+
+    void addIntegral(AddIntegralCommand command);
+
 }

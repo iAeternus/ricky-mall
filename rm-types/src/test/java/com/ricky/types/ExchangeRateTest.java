@@ -1,7 +1,6 @@
 package com.ricky.types;
 
 import cn.hutool.core.math.Money;
-import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.math.BigDecimal;

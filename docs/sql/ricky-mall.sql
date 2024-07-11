@@ -12,6 +12,9 @@ create table if not exists user
     last_name    varchar(10) not null comment '名',
     phone_number varchar(12) not null comment '手机号',
     role         tinyint     not null comment '用户角色',
+    integral     bigint      not null comment '积分',
+    level        int         not null comment '等级',
+    balance      decimal     not null comment '余额',
     create_time  datetime    not null comment '创建时间',
     update_time  datetime    not null comment '修改时间'
 )

@@ -18,13 +18,13 @@ public class Company {
     String ceo; // 首席执行官
 
     public Company(String recordNumber, String name, String ceo) {
-        if(StrUtil.isBlank(recordNumber)) {
+        if (StrUtil.isBlank(recordNumber)) {
             throw new IllegalArgumentException("备案号不能为空");
         }
-        if(StrUtil.isBlank(name)) {
+        if (StrUtil.isBlank(name)) {
             throw new IllegalArgumentException("公司名不能为空");
         }
-        if(StrUtil.isBlank(ceo)) {
+        if (StrUtil.isBlank(ceo)) {
             throw new IllegalArgumentException("ceo不能为空");
         }
         this.recordNumber = recordNumber;

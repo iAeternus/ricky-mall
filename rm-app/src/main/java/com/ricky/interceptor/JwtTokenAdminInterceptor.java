@@ -2,11 +2,11 @@ package com.ricky.interceptor;
 
 
 import cn.hutool.core.util.StrUtil;
-import io.jsonwebtoken.Claims;
-import com.ricky.properties.JwtProperties;
 import com.ricky.constants.JwtClaimsConstant;
 import com.ricky.context.UserContext;
+import com.ricky.properties.JwtProperties;
 import com.ricky.utils.JwtUtils;
+import io.jsonwebtoken.Claims;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

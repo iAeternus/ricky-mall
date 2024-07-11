@@ -1,6 +1,5 @@
 package com.ricky.domain.user.repository;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.ricky.domain.user.model.entity.EnterpriseUser;
 import org.springframework.stereotype.Repository;
 

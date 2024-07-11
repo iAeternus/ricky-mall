@@ -1,7 +1,7 @@
 package com.ricky.trigger.http;
 
-import com.ricky.dto.query.AuthenticationQuery;
 import com.ricky.dto.command.RegisterCommand;
+import com.ricky.dto.query.AuthenticationQuery;
 import com.ricky.dto.response.AuthenticationResponse;
 import com.ricky.dto.response.RegisterResponse;
 import com.ricky.model.Result;
@@ -9,7 +9,10 @@ import com.ricky.service.AuthenticationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Ricky

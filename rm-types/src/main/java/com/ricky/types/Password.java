@@ -1,10 +1,10 @@
 package com.ricky.types;
 
 import cn.hutool.core.util.StrUtil;
-import org.springframework.util.DigestUtils;
 import com.ricky.enums.PasswordStrength;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
+import org.springframework.util.DigestUtils;
 
 /**
  * @author Ricky
@@ -29,6 +29,7 @@ public class Password implements ValueObject {
 
     /**
      * 校验密码
+     *
      * @param p1 密码1
      * @param p2 密码2
      * @return 密码正确返回true，否则返回false

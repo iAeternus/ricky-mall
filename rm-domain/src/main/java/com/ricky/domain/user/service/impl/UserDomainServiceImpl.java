@@ -12,7 +12,6 @@ import com.ricky.exception.ForbiddenException;
 import com.ricky.exception.NotFoundException;
 import com.ricky.types.Email;
 import com.ricky.types.Password;
-import com.ricky.types.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +62,7 @@ public class UserDomainServiceImpl implements UserDomainService {
     @Override
     public User getById(Long userId) {
         User user = userRepository.getUserById(userId);
-        if(user == null) {
+        if (user == null) {
             throw new NotFoundException(MessageConstant.USER_NOT_FOUND);
         }
         return user;
@@ -83,6 +82,11 @@ public class UserDomainServiceImpl implements UserDomainService {
     @Override
     public User getByEmail(Email email) {
         return userRepository.getByEmail(email);
+    }
+
+    @Override
+    public void updateUserById(User user) {
+        userRepository.updateUserById(user);
     }
 
 }

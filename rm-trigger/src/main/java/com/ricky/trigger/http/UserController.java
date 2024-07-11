@@ -1,5 +1,6 @@
 package com.ricky.trigger.http;
 
+import com.ricky.dto.command.AddIntegralCommand;
 import com.ricky.dto.query.EmailQuery;
 import com.ricky.dto.response.UserInfoResponse;
 import com.ricky.model.Result;
@@ -28,6 +29,13 @@ public class UserController {
     @ApiOperation("根据邮箱查询用户")
     public Result<UserInfoResponse> getByEmail(EmailQuery query) {
         return Result.ok(userService.getByEmail(query));
+    }
+
+    @PutMapping("/add/integral")
+    @ApiOperation("增加积分")
+    public Result<Void> addIntegral(@RequestBody AddIntegralCommand command) {
+        userService.addIntegral(command);
+        return Result.ok();
     }
 
 }

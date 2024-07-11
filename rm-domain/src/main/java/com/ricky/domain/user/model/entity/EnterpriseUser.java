@@ -1,12 +1,10 @@
 package com.ricky.domain.user.model.entity;
 
-import com.ricky.domain.user.model.aggregate.User;
 import com.ricky.marker.Entity;
 import com.ricky.types.Company;
 import com.ricky.types.EnterpriseUserId;
 import com.ricky.types.UserId;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * @author Ricky

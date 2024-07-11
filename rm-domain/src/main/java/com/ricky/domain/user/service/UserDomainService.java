@@ -4,7 +4,6 @@ import com.ricky.domain.user.model.aggregate.User;
 import com.ricky.domain.user.model.entity.EnterpriseUser;
 import com.ricky.enums.UserRole;
 import com.ricky.types.Email;
-import com.ricky.types.UserId;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -19,6 +18,7 @@ import java.util.Map;
 @Service
 public interface UserDomainService {
     void saveUser(User user);
+
     Map<String, Object> getClaims(User user);
 
     User login(User user);
@@ -30,4 +30,6 @@ public interface UserDomainService {
     void saveEnterpriseUser(EnterpriseUser enterpriseUser);
 
     User getByEmail(Email email);
+
+    void updateUserById(User user);
 }

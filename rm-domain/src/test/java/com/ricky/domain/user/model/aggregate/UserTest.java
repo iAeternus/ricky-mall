@@ -1,9 +1,14 @@
 package com.ricky.domain.user.model.aggregate;
 
 import cn.hutool.core.math.Money;
-import com.ricky.domain.user.service.UserDomainService;
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONConfig;
+import cn.hutool.json.JSONException;
+import cn.hutool.json.JSONObject;
 import com.ricky.types.Level;
 import org.junit.Test;
+
+import java.io.Writer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,7 +37,6 @@ public class UserTest {
     public void increaseBalance() {
         // Given
         User user = new User();
-        user.setBalance(new Money(0));
         Money money = new Money(1000.5);
 
         // When
@@ -47,7 +51,7 @@ public class UserTest {
     public void deductionBalance() {
         // Given
         User user = new User();
-        user.setBalance(new Money(2001));
+        user.increaseBalance(new Money(2001));
         Money money = new Money(1000.5);
 
         // When
@@ -55,6 +59,13 @@ public class UserTest {
 
         // Then
         assertThat(user.getBalance()).isEqualTo(new Money(1000.5));
+    }
+
+    @Test
+    public void test() {
+        Money money = new Money(100000);
+        JSON json = new JSONObject(money);
+        System.out.println(json);
     }
 
 }

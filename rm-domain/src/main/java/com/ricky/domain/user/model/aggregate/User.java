@@ -6,7 +6,9 @@ import com.ricky.enums.UserRole;
 import com.ricky.exception.ForbiddenException;
 import com.ricky.marker.Aggregate;
 import com.ricky.types.*;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
@@ -29,7 +31,7 @@ public class User implements Aggregate<UserId> {
     private UserRole role;
     private Integral integral = Integral.ZERO; // 积分
     private Level level = Level.ZERO; // 等级
-    private Money balance; // 余额
+    private Money balance = new Money(0); // 余额
 
     /**
      * 设置为企业用户

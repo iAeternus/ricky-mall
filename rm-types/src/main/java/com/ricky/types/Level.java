@@ -17,7 +17,7 @@ public class Level {
     public static final Level ZERO = new Level(0);
 
     public Level(Integer value) {
-        if(value == null) {
+        if (value == null) {
             throw new IllegalArgumentException("等级不能为空");
         }
         this.value = value;

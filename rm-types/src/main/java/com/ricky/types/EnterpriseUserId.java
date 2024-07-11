@@ -16,7 +16,7 @@ public class EnterpriseUserId implements Identifier {
     Long value;
 
     public EnterpriseUserId(Long value) {
-        if(value == null) {
+        if (value == null) {
             throw new IllegalArgumentException("企业用户id不能为空");
         }
         this.value = value;

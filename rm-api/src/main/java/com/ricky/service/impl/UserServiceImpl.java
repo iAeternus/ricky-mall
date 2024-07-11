@@ -4,6 +4,7 @@ import com.ricky.assembler.UserAssembler;
 import com.ricky.domain.user.model.aggregate.User;
 import com.ricky.domain.user.model.entity.EnterpriseUser;
 import com.ricky.domain.user.service.UserDomainService;
+import com.ricky.dto.command.AddIntegralCommand;
 import com.ricky.dto.command.ApplyEnterpriseUserCommand;
 import com.ricky.dto.query.EmailQuery;
 import com.ricky.dto.response.UserInfoResponse;
@@ -40,6 +41,13 @@ public class UserServiceImpl implements UserService {
         Email email = userAssembler.emailFactory(query);
         User user = userDomainService.getByEmail(email);
         return userAssembler.userInfoResponseFactory(user);
+    }
+
+    @Override
+    public void addIntegral(AddIntegralCommand command) {
+        User user = userDomainService.getById(command.getUserId());
+        user.addIntegral(command.getIntegral());
+        userDomainService.updateUserById(user);
     }
 
 }

@@ -11,7 +11,6 @@ import com.ricky.dto.response.RegisterResponse;
 import com.ricky.dto.response.UserInfoResponse;
 import com.ricky.enums.PasswordStrength;
 import com.ricky.types.*;
-import org.apache.ibatis.javassist.scopedpool.ScopedClassPoolFactoryImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -69,6 +68,9 @@ public class UserAssembler {
         userInfoResponse.setLastName(user.getRealName().getLastName());
         userInfoResponse.setPhoneNumber(user.getPhoneNumber().getValue());
         userInfoResponse.setRole(user.getRole());
+        userInfoResponse.setIntegral(user.getIntegral().getValue());
+        userInfoResponse.setLevel(user.getLevel().getValue());
+        userInfoResponse.setBalance(user.getBalance());
         return userInfoResponse;
     }
 }

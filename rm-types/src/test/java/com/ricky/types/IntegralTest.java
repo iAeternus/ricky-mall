@@ -1,13 +1,11 @@
 package com.ricky.types;
 
-import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.in;
 
 /**
  * @author Ricky
@@ -22,7 +20,7 @@ public class IntegralTest {
     public void getLevel() {
         // Given
         List<Integral> integrals = new ArrayList<>();
-        for(long points = 10; points <= 1e8; points *= 10) {
+        for (long points = 10; points <= 1e8; points *= 10) {
             integrals.add(new Integral(points));
         }
 

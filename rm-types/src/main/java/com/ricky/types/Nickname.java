@@ -16,7 +16,7 @@ public class Nickname {
     String value;
 
     public Nickname(String value) {
-        if(StrUtil.isBlank(value)) {
+        if (StrUtil.isBlank(value)) {
             throw new IllegalArgumentException("昵称不能为空");
         }
         this.value = value;
