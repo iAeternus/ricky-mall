@@ -35,7 +35,7 @@ public class UserDomainServiceImpl implements UserDomainService {
 
     @Override
     public void saveUser(User user) {
-        user.setRole(UserRole.ORDINARY_USERS);
+        user.toEnterpriseUser();
         userRepository.saveUser(user);
     }
 
