@@ -17,7 +17,7 @@ public class PasswordTest {
     @Test
     public void veryWeak() {
         // Given
-        Password password = new Password("abc");
+        Password password = new Password("abc", true);
 
         // Then
         assertThat(password.getStrength()).isEqualTo(PasswordStrength.VERY_WEAK);
@@ -26,7 +26,7 @@ public class PasswordTest {
     @Test
     public void weak() {
         // Given
-        Password password = new Password("123abc");
+        Password password = new Password("123abc", true);
 
         // Then
         assertThat(password.getStrength()).isEqualTo(PasswordStrength.WEAK);
@@ -35,7 +35,7 @@ public class PasswordTest {
     @Test
     public void medium() {
         // Given
-        Password password = new Password("Password123");
+        Password password = new Password("Password123", true);
 
         // Then
         assertThat(password.getStrength()).isEqualTo(PasswordStrength.MEDIUM);
@@ -44,7 +44,7 @@ public class PasswordTest {
     @Test
     public void strong() {
         // Given
-        Password password = new Password("SuperSecurePassword123!@#");
+        Password password = new Password("SuperSecurePassword123!@#", true);
 
         // Then
         assertThat(password.getStrength()).isEqualTo(PasswordStrength.STRONG);

@@ -16,30 +16,25 @@ import lombok.Value;
 @Value
 public class Password implements ValueObject {
 
-    String beforeEncryption; // 原始密码
-    String afterEncryption; // 加密后的密码
+    String value; // 密码
     PasswordStrength strength; // 密码强度
 
-    public Password(String password) {
+    public Password(String password, boolean isEncrypted) {
         if (StrUtil.isBlank(password)) {
             throw new IllegalArgumentException("password不能为空");
         }
         this.strength = calculateStrength(password);
-        this.beforeEncryption = password;
-        this.afterEncryption = DigestUtils.md5DigestAsHex(password.getBytes()); // TODO
+        this.value = isEncrypted ? DigestUtils.md5DigestAsHex(password.getBytes()) : password;
     }
 
     /**
      * 校验密码
-     * @param password 密码
+     * @param p1 密码1
+     * @param p2 密码2
      * @return 密码正确返回true，否则返回false
      */
-    public boolean checkPassword(String password) {
-        return password.equals(this.afterEncryption);
-    }
-
-    public String getValue() {
-        return this.afterEncryption;
+    public static boolean checkPassword(Password p1, Password p2) {
+        return p1.value.equals(p2.value);
     }
 
     // 检查密码是否包含特定类型的字符

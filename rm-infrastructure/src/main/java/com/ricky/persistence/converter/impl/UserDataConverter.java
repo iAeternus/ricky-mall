@@ -38,7 +38,7 @@ public class UserDataConverter implements DataConverter<User, UserId, UserPO> {
         User user = new User();
         user.setId(new UserId(po.getId()));
         user.setEmail(new Email(po.getEmail()));
-        user.setPassword(new Password(po.getPassword()));
+        user.setPassword(new Password(po.getPassword(), false));
         user.setNickname(new Nickname(po.getNickname()));
         user.setRealName(new RealName(po.getFirstName(), po.getLastName()));
         user.setPhoneNumber(new PhoneNumber(po.getPhoneNumber()));

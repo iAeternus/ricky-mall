@@ -1,6 +1,7 @@
 package com.ricky.domain.user.repository;
 
 import com.ricky.domain.user.model.User;
+import com.ricky.types.Email;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,4 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository {
     void saveUser(User user);
+
+    User getByEmail(Email email);
 }

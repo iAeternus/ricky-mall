@@ -16,4 +16,6 @@ import java.util.Map;
 public interface UserDomainService {
     void saveUser(User user);
     Map<String, Object> getClaims(User user);
+
+    User login(User user);
 }

@@ -41,7 +41,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse authentication(AuthenticationQuery request) {
-        return null;
+        User user = userAssembler.toUser(request);
+        user = userDomainService.login(user);
+        Map<String, Object> claims = userDomainService.getClaims(user);
+        String jwt = JwtUtils.createJWT(jwtProperties.getSecretKey(), jwtProperties.getTtl(), claims);
+        return new AuthenticationResponse(jwt);
     }
 
 }

@@ -39,6 +39,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/api/v1/auth/**")
                 .excludePathPatterns("/swagger-resources")
+                .excludePathPatterns("/error")
                 .excludePathPatterns("/v2/api-docs/**");
     }
 
