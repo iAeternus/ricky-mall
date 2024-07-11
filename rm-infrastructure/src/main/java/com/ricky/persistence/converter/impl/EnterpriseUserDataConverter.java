@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EnterpriseUserDataConverter implements DataConverter<EnterpriseUser, EnterpriseUserId, EnterpriseUserPO> {
+
     @Override
     public EnterpriseUserPO toPO(EnterpriseUser entity) {
         EnterpriseUserPO enterpriseUserPO = new EnterpriseUserPO();
@@ -37,4 +38,5 @@ public class EnterpriseUserDataConverter implements DataConverter<EnterpriseUser
         enterpriseUser.setCompany(new Company(po.getRecordNumber(), po.getCompanyName(), po.getCeo()));
         return enterpriseUser;
     }
+
 }

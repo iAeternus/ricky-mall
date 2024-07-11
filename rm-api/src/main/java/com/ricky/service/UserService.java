@@ -1,6 +1,8 @@
 package com.ricky.service;
 
 import com.ricky.dto.command.ApplyEnterpriseUserCommand;
+import com.ricky.dto.query.EmailQuery;
+import com.ricky.dto.response.UserInfoResponse;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,4 +15,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
     void applyForEnterpriseUsers(ApplyEnterpriseUserCommand command);
+
+    UserInfoResponse getByEmail(EmailQuery query);
 }

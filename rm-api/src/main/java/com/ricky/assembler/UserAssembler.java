@@ -5,8 +5,10 @@ import com.ricky.domain.user.model.entity.EnterpriseUser;
 import com.ricky.dto.command.ApplyEnterpriseUserCommand;
 import com.ricky.dto.command.RegisterCommand;
 import com.ricky.dto.query.AuthenticationQuery;
+import com.ricky.dto.query.EmailQuery;
 import com.ricky.dto.response.AuthenticationResponse;
 import com.ricky.dto.response.RegisterResponse;
+import com.ricky.dto.response.UserInfoResponse;
 import com.ricky.enums.PasswordStrength;
 import com.ricky.types.*;
 import org.apache.ibatis.javassist.scopedpool.ScopedClassPoolFactoryImpl;
@@ -52,5 +54,21 @@ public class UserAssembler {
         enterpriseUser.setUserId(new UserId(command.getUserId()));
         enterpriseUser.setCompany(new Company(command.getRecordNumber(), command.getName(), command.getCeo()));
         return enterpriseUser;
+    }
+
+    public Email emailFactory(EmailQuery query) {
+        return new Email(query.getEmail());
+    }
+
+    public UserInfoResponse userInfoResponseFactory(User user) {
+        UserInfoResponse userInfoResponse = new UserInfoResponse();
+        userInfoResponse.setId(user.getId().getValue());
+        userInfoResponse.setEmail(user.getEmail().getAddress());
+        userInfoResponse.setNickname(user.getNickname().getValue());
+        userInfoResponse.setFirstName(user.getRealName().getFirstName());
+        userInfoResponse.setLastName(user.getRealName().getLastName());
+        userInfoResponse.setPhoneNumber(user.getPhoneNumber().getValue());
+        userInfoResponse.setRole(user.getRole());
+        return userInfoResponse;
     }
 }

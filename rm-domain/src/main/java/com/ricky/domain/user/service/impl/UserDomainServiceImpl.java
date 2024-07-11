@@ -10,6 +10,7 @@ import com.ricky.domain.user.service.UserDomainService;
 import com.ricky.enums.UserRole;
 import com.ricky.exception.ForbiddenException;
 import com.ricky.exception.NotFoundException;
+import com.ricky.types.Email;
 import com.ricky.types.Password;
 import com.ricky.types.UserId;
 import lombok.RequiredArgsConstructor;
@@ -77,6 +78,11 @@ public class UserDomainServiceImpl implements UserDomainService {
     @Override
     public void saveEnterpriseUser(EnterpriseUser enterpriseUser) {
         enterpriseUserRepository.saveEnterpriseUser(enterpriseUser);
+    }
+
+    @Override
+    public User getByEmail(Email email) {
+        return userRepository.getByEmail(email);
     }
 
 }
