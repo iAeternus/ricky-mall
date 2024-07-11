@@ -3,6 +3,7 @@ package com.ricky.service;
 import com.ricky.dto.command.RegisterCommand;
 import com.ricky.dto.query.AuthenticationQuery;
 import com.ricky.dto.response.AuthenticationResponse;
+import com.ricky.dto.response.RegisterResponse;
 
 /**
  * @author Ricky
@@ -12,7 +13,7 @@ import com.ricky.dto.response.AuthenticationResponse;
  * @desc
  */
 public interface AuthenticationService {
-    AuthenticationResponse register(RegisterCommand request);
+    RegisterResponse register(RegisterCommand request);
 
     AuthenticationResponse authentication(AuthenticationQuery request);
 }

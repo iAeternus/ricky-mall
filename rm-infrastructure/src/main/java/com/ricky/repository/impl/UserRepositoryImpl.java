@@ -1,8 +1,8 @@
 package com.ricky.repository.impl;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ricky.domain.user.model.User;
+import com.ricky.domain.user.model.aggregate.User;
+import com.ricky.domain.user.model.entity.EnterpriseUser;
 import com.ricky.domain.user.repository.UserRepository;
 import com.ricky.persistence.converter.impl.UserDataConverter;
 import com.ricky.persistence.mapper.UserMapper;
@@ -36,6 +36,18 @@ public class UserRepositoryImpl extends ServiceImpl<UserMapper, UserPO> implemen
     public User getByEmail(Email email) {
         UserPO userPO = lambdaQuery().eq(UserPO::getEmail, email.getAddress()).one();
         return userDataConverter.toEntity(userPO);
+    }
+
+    @Override
+    public User getUserById(Long userId) {
+        UserPO userPO = getById(userId);
+        return userDataConverter.toEntity(userPO);
+    }
+
+    @Override
+    public void updateUserById(User user) {
+        UserPO userPO = userDataConverter.toPO(user);
+        updateById(userPO);
     }
 
 }

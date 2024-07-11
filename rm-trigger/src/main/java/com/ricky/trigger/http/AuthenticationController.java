@@ -3,6 +3,7 @@ package com.ricky.trigger.http;
 import com.ricky.dto.query.AuthenticationQuery;
 import com.ricky.dto.command.RegisterCommand;
 import com.ricky.dto.response.AuthenticationResponse;
+import com.ricky.dto.response.RegisterResponse;
 import com.ricky.model.Result;
 import com.ricky.service.AuthenticationService;
 import io.swagger.annotations.Api;
@@ -25,21 +26,15 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @GetMapping
-    @ApiOperation("测试接口")
-    public Result<String> hello() {
-        return Result.ok("Hello DDD!");
-    }
-
     @ApiOperation("注册")
     @PostMapping("/register")
-    public Result<AuthenticationResponse> register(@RequestBody RegisterCommand request) {
+    public Result<RegisterResponse> register(@RequestBody RegisterCommand request) {
         return Result.ok(authenticationService.register(request));
     }
 
     @ApiOperation("认证")
     @PostMapping("/authenticate")
-    public Result<AuthenticationResponse> register(@RequestBody AuthenticationQuery request) {
+    public Result<AuthenticationResponse> authenticate(@RequestBody AuthenticationQuery request) {
         return Result.ok(authenticationService.authentication(request));
     }
 

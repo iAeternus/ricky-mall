@@ -1,4 +1,4 @@
-package com.ricky.domain.user.model;
+package com.ricky.domain.user.model.aggregate;
 
 import com.ricky.enums.UserRole;
 import com.ricky.marker.Aggregate;
@@ -10,7 +10,7 @@ import lombok.Data;
  * @version 1.0
  * @date 2024/7/8
  * @className User
- * @desc
+ * @desc 用户
  */
 @Data
 public class User implements Aggregate<UserId> {

@@ -1,6 +1,7 @@
 package com.ricky.domain.user.repository;
 
-import com.ricky.domain.user.model.User;
+import com.ricky.domain.user.model.aggregate.User;
+import com.ricky.domain.user.model.entity.EnterpriseUser;
 import com.ricky.types.Email;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,9 @@ public interface UserRepository {
     void saveUser(User user);
 
     User getByEmail(Email email);
+
+    User getUserById(Long userId);
+
+    void updateUserById(User user);
+
 }

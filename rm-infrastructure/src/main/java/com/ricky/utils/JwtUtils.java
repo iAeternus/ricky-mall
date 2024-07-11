@@ -1,7 +1,5 @@
 package com.ricky.utils;
 
-import com.ricky.constants.JwtClaimsConstant;
-import com.ricky.domain.user.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -9,7 +7,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 public class JwtUtils {

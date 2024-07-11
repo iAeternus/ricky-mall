@@ -1,6 +1,7 @@
 package com.ricky.persistence.converter;
 
 import com.ricky.marker.Aggregate;
+import com.ricky.marker.Entity;
 import com.ricky.marker.Identifier;
 import com.ricky.persistence.po.BasePO;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @desc 数据转换器接口
  */
 @Service
-public interface DataConverter<E extends Aggregate<ID>, ID extends Identifier, PO extends BasePO> {
+public interface DataConverter<E extends Entity<ID>, ID extends Identifier, PO extends BasePO> {
 
     /**
      * 转换领域对象DO为持久化对象PO
