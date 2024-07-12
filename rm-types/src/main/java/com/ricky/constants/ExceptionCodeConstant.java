@@ -9,14 +9,14 @@ package com.ricky.constants;
  */
 public abstract class ExceptionCodeConstant {
 
-    public static final Integer BAD_REQUEST_EXCEPTION = 400;
-    public static final Integer UNAUTHORIZED_EXCEPTION = 401;
-    public static final Integer LOGIN_EXCEPTION = 402;
-    public static final Integer FORBIDDEN_EXCEPTION = 403;
-    public static final Integer INCORRECT_PARAM_EXCEPTION = 404;
-    public static final Integer NOT_FOUND_EXCEPTION = 405;
-    public static final Integer INVALID_EXCEPTION = 406;
-    public static final Integer FULL_EXCEPTION = 407;
-    public static final Integer DB_EXCEPTION = 500;
+    public static final Integer BAD_REQUEST_EXCEPTION = -100;
+    public static final Integer UNAUTHORIZED_EXCEPTION = -101;
+    public static final Integer LOGIN_EXCEPTION = -102;
+    public static final Integer FORBIDDEN_EXCEPTION = -103;
+    public static final Integer INCORRECT_PARAM_EXCEPTION = -104;
+    public static final Integer NOT_FOUND_EXCEPTION = -105;
+    public static final Integer INVALID_EXCEPTION = -106;
+    public static final Integer FULL_EXCEPTION = -107;
+    public static final Integer DB_EXCEPTION = -108;
 
 }

@@ -1,5 +1,7 @@
 package com.ricky.aop;
 
+import com.ricky.enums.ResponseCode;
+import com.ricky.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.shaded.com.google.common.util.concurrent.RateLimiter;
 import org.aspectj.lang.JoinPoint;
@@ -38,7 +40,8 @@ public class RateLimiterAop {
         if (!tryAcquire) {
             Method method = getMethod(jp);
             log.warn("方法 {}.{} 请求已被限流，超过限流配置[{}/秒]", method.getDeclaringClass().getCanonicalName(), method.getName(), permitsPerSecond);
-            return ResponseEntity.ok();
+            return Result.error(ResponseCode.RATE_LIMITER.getCode(), ResponseCode.RATE_LIMITER.getInfo());
+            // return ResponseEntity.ok();
             // return Response.builder()
             //         .code(Constants.ResponseCode.RATE_LIMITER.getCode())
             //         .info(Constants.ResponseCode.RATE_LIMITER.getInfo())

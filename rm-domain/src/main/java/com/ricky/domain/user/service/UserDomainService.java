@@ -1,6 +1,7 @@
 package com.ricky.domain.user.service;
 
 import com.ricky.domain.user.model.aggregate.User;
+import com.ricky.domain.user.model.entity.BusinessUser;
 import com.ricky.domain.user.model.entity.EnterpriseUser;
 import com.ricky.enums.UserRole;
 import com.ricky.types.Email;
@@ -32,4 +33,7 @@ public interface UserDomainService {
     User getByEmail(Email email);
 
     void updateUserById(User user);
+
+    void saveBusinessUser(BusinessUser businessUser);
+
 }

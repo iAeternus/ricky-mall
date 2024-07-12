@@ -1,11 +1,15 @@
 package com.ricky.service.impl;
 
+import cn.hutool.core.math.Money;
 import com.ricky.assembler.UserAssembler;
 import com.ricky.domain.user.model.aggregate.User;
+import com.ricky.domain.user.model.entity.BusinessUser;
 import com.ricky.domain.user.model.entity.EnterpriseUser;
 import com.ricky.domain.user.service.UserDomainService;
 import com.ricky.dto.command.AddIntegralCommand;
 import com.ricky.dto.command.ApplyEnterpriseUserCommand;
+import com.ricky.dto.command.ApplyForStoreAuthCommand;
+import com.ricky.dto.command.DepositCommand;
 import com.ricky.dto.query.EmailQuery;
 import com.ricky.dto.response.UserInfoResponse;
 import com.ricky.enums.UserRole;
@@ -13,6 +17,8 @@ import com.ricky.service.UserService;
 import com.ricky.types.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Currency;
 
 /**
  * @author Ricky
@@ -48,6 +54,21 @@ public class UserServiceImpl implements UserService {
         User user = userDomainService.getById(command.getUserId());
         user.addIntegral(command.getIntegral());
         userDomainService.updateUserById(user);
+    }
+
+    @Override
+    public void deposit(DepositCommand command) {
+        User user = userDomainService.getById(command.getUserId());
+        user.increaseBalance(new Money(command.getAmount(),
+                Currency.getInstance(command.getCurrencyCode())));
+    }
+
+    @Override
+    public void applyForStoreAuth(ApplyForStoreAuthCommand command) {
+        User user = userDomainService.getById(command.getUserId());
+        userDomainService.changeRole(user, UserRole.BUSINESS);
+        BusinessUser businessUser = userAssembler.toBusinessUser(command);
+        userDomainService.saveBusinessUser(businessUser);
     }
 
 }

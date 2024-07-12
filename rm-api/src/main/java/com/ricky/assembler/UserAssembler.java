@@ -1,8 +1,10 @@
 package com.ricky.assembler;
 
 import com.ricky.domain.user.model.aggregate.User;
+import com.ricky.domain.user.model.entity.BusinessUser;
 import com.ricky.domain.user.model.entity.EnterpriseUser;
 import com.ricky.dto.command.ApplyEnterpriseUserCommand;
+import com.ricky.dto.command.ApplyForStoreAuthCommand;
 import com.ricky.dto.command.RegisterCommand;
 import com.ricky.dto.query.AuthenticationQuery;
 import com.ricky.dto.query.EmailQuery;
@@ -72,5 +74,17 @@ public class UserAssembler {
         userInfoResponse.setLevel(user.getLevel().getValue());
         userInfoResponse.setBalance(user.getBalance());
         return userInfoResponse;
+    }
+
+    public BusinessUser toBusinessUser(ApplyForStoreAuthCommand command) {
+        BusinessUser businessUser = new BusinessUser();
+        businessUser.setUserId(new UserId(command.getUserId()));
+        businessUser.setStore(new Store(
+                command.getName(),
+                command.getBoss(),
+                command.getRecordNumber()
+        ));
+        businessUser.setStoreType(command.getStoreType());
+        return businessUser;
     }
 }

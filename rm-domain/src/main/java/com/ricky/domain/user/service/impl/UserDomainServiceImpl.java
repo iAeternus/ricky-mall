@@ -3,7 +3,9 @@ package com.ricky.domain.user.service.impl;
 import com.ricky.constants.JwtClaimsConstant;
 import com.ricky.constants.MessageConstant;
 import com.ricky.domain.user.model.aggregate.User;
+import com.ricky.domain.user.model.entity.BusinessUser;
 import com.ricky.domain.user.model.entity.EnterpriseUser;
+import com.ricky.domain.user.repository.BusinessUserRepository;
 import com.ricky.domain.user.repository.EnterpriseUserRepository;
 import com.ricky.domain.user.repository.UserRepository;
 import com.ricky.domain.user.service.UserDomainService;
@@ -31,6 +33,7 @@ public class UserDomainServiceImpl implements UserDomainService {
 
     private final UserRepository userRepository;
     private final EnterpriseUserRepository enterpriseUserRepository;
+    private final BusinessUserRepository businessUserRepository;
 
     @Override
     public void saveUser(User user) {
@@ -87,6 +90,11 @@ public class UserDomainServiceImpl implements UserDomainService {
     @Override
     public void updateUserById(User user) {
         userRepository.updateUserById(user);
+    }
+
+    @Override
+    public void saveBusinessUser(BusinessUser businessUser) {
+        businessUserRepository.saveBusinessUser(businessUser);
     }
 
 }

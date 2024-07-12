@@ -1,15 +1,13 @@
 package com.ricky.trigger.http;
 
 import com.ricky.dto.command.ApplyEnterpriseUserCommand;
+import com.ricky.dto.command.ApplyForStoreAuthCommand;
 import com.ricky.model.Result;
 import com.ricky.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Ricky
@@ -26,11 +24,20 @@ public class RoleController {
 
     private final UserService userService;
 
-    @PostMapping("/enterprise")
+    @PostMapping("/apply/enterprise")
     @ApiOperation("申请企业用户")
     public Result<Void> applyForEnterpriseUsers(@RequestBody ApplyEnterpriseUserCommand command) {
         userService.applyForEnterpriseUsers(command);
         return Result.ok();
     }
+
+    @PostMapping("/apply/store")
+    @ApiOperation("申请店铺认证")
+    public Result<Void> applyForStoreAuth(@RequestBody ApplyForStoreAuthCommand command) {
+        userService.applyForStoreAuth(command);
+        return Result.ok();
+    }
+
+    // TODO 物流方、管理员
 
 }

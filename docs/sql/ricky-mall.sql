@@ -32,5 +32,16 @@ create table if not exists enterprise_user
 )
     comment '企业用户表';
 
+create table if not exists business_user
+(
+    id            bigint auto_increment primary key,
+    user_id       bigint      not null comment '用户id',
+    store_name    varchar(32) not null comment '店铺名称',
+    boss          varchar(12) not null comment '老板名称',
+    record_number varchar(64) not null comment '备案号',
+    create_time   datetime    not null comment '创建时间',
+    update_time   datetime    not null comment '修改时间'
+)
+    comment '商家表';
 
 

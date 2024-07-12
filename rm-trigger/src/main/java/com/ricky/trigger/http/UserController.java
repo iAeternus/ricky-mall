@@ -1,6 +1,7 @@
 package com.ricky.trigger.http;
 
 import com.ricky.dto.command.AddIntegralCommand;
+import com.ricky.dto.command.DepositCommand;
 import com.ricky.dto.query.EmailQuery;
 import com.ricky.dto.response.UserInfoResponse;
 import com.ricky.model.Result;
@@ -31,10 +32,17 @@ public class UserController {
         return Result.ok(userService.getByEmail(query));
     }
 
-    @PutMapping("/add/integral")
+    @PutMapping("/integral/add")
     @ApiOperation("增加积分")
     public Result<Void> addIntegral(@RequestBody AddIntegralCommand command) {
         userService.addIntegral(command);
+        return Result.ok();
+    }
+
+    @PutMapping("/deposit")
+    @ApiOperation("存款")
+    public Result<Void> deposit(@RequestBody DepositCommand command) {
+        userService.deposit(command);
         return Result.ok();
     }
 

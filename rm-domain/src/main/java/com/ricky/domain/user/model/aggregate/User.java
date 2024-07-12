@@ -31,7 +31,7 @@ public class User implements Aggregate<UserId> {
     private UserRole role;
     private Integral integral = Integral.ZERO; // 积分
     private Level level = Level.ZERO; // 等级
-    private Money balance = new Money(0); // 余额
+    private Money balance = new Money(0); // 余额 TODO 改成自定义的Money
 
     /**
      * 设置为企业用户
