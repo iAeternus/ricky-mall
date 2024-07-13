@@ -1,7 +1,7 @@
 package com.ricky.dto.response;
 
-import com.ricky.types.common.Money;
 import com.ricky.enums.impl.UserRole;
+import com.ricky.types.common.Money;
 import lombok.Data;
 
 /**

@@ -21,6 +21,7 @@ public class ProductDescription implements ValueObject {
 
     /**
      * 统计字符串中字母的数量（包括多语言）
+     *
      * @return 字符串中字母的总数
      */
     public int countLetters() {

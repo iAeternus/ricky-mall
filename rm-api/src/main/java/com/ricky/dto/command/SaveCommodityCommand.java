@@ -1,7 +1,5 @@
 package com.ricky.dto.command;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.ricky.enums.impl.CommodityType;
 import com.ricky.enums.impl.WeightUnit;
 import com.ricky.types.common.Money;

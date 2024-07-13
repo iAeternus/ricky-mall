@@ -1,9 +1,7 @@
 package com.ricky.enums.impl;
 
 import com.ricky.enums.BaseEnum;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 
 @Getter

@@ -2,8 +2,6 @@ package com.ricky.dto.command;
 
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 /**
  * @author Ricky
  * @version 1.0

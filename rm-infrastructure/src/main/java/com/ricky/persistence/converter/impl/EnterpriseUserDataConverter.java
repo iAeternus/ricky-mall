@@ -9,8 +9,6 @@ import com.ricky.types.user.UserId;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * @author Ricky
  * @version 1.0

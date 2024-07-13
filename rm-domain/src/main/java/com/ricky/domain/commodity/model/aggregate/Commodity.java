@@ -1,11 +1,11 @@
 package com.ricky.domain.commodity.model.aggregate;
 
-import com.ricky.types.common.Money;
 import com.ricky.constants.MessageConstant;
 import com.ricky.enums.impl.CommodityType;
 import com.ricky.exception.InsufficientStockException;
 import com.ricky.marker.Aggregate;
 import com.ricky.types.commodity.*;
+import com.ricky.types.common.Money;
 import lombok.Builder;
 import lombok.Data;
 
@@ -45,6 +45,7 @@ public class Commodity implements Aggregate<CommodityId> {
 
     /**
      * 更新商品价格
+     *
      * @param newPrice 新的商品价格
      */
     public void updatePrice(Money newPrice) {
@@ -53,6 +54,7 @@ public class Commodity implements Aggregate<CommodityId> {
 
     /**
      * 更新商品库存
+     *
      * @param newStock 新的库存量
      */
     public void updateStock(Stock newStock) {
@@ -61,6 +63,7 @@ public class Commodity implements Aggregate<CommodityId> {
 
     /**
      * 校验库存是否足够进行销售
+     *
      * @param quantity 请求销售的数量
      * @return 如果库存足够返回true，否则返回false
      */
@@ -70,6 +73,7 @@ public class Commodity implements Aggregate<CommodityId> {
 
     /**
      * 减少库存量
+     *
      * @param quantity 减少的数量
      */
     public void reduceStock(int quantity) {

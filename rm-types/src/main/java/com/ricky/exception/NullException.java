@@ -20,19 +20,19 @@ public class NullException extends BaseException {
     }
 
     public static void isNull(Object o, String message) {
-        if(o == null) {
+        if (o == null) {
             throw new NullException(message);
         }
     }
 
     public static void isNull(String str, String message) {
-        if(StrUtil.isBlank(str)) {
+        if (StrUtil.isBlank(str)) {
             throw new NullException(message);
         }
     }
 
     public static <T> void isNull(Collection<T> collection, String message) {
-        if(CollUtil.isEmpty(collection)) {
+        if (CollUtil.isEmpty(collection)) {
             throw new NullException(message);
         }
     }

@@ -1,14 +1,11 @@
 package com.ricky.types.commodity;
 
-import com.ricky.types.common.Money;
 import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
-import lombok.AllArgsConstructor;
+import com.ricky.types.common.Money;
 import lombok.Builder;
 import lombok.Value;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**

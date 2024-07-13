@@ -3,7 +3,6 @@ package com.ricky.dto.command;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Currency;
 
 /**
  * @author Ricky

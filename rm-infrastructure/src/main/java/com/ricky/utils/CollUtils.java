@@ -16,7 +16,8 @@ import java.util.function.Function;
  */
 public class CollUtils {
 
-    private CollUtils() {}
+    private CollUtils() {
+    }
 
     public static boolean isEmpty(Collection<?> collection) {
         return CollUtil.isEmpty(collection);
@@ -28,12 +29,13 @@ public class CollUtils {
 
     /**
      * 转换列表
-     * @param list 列表
+     *
+     * @param list     列表
      * @param function 转换方法
      * @return 转换后的列表
      */
     public static <T, R> List<R> listConvert(List<T> list, Function<T, R> function) {
-        if(CollUtil.isEmpty(list)) {
+        if (CollUtil.isEmpty(list)) {
             return Collections.emptyList();
         }
         return list.stream().map(function).toList();

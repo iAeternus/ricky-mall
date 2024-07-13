@@ -11,7 +11,8 @@ import java.util.Map;
 
 public class JwtUtils {
 
-    private JwtUtils() {}
+    private JwtUtils() {
+    }
 
     /**
      * 生成jwt

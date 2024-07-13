@@ -1,18 +1,16 @@
 package com.ricky.persistence.po;
 
-import com.ricky.types.common.Money;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.ricky.enums.impl.CommodityType;
-import com.ricky.enums.impl.ShippingType;
 import com.ricky.enums.impl.WeightUnit;
+import com.ricky.types.common.Money;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**

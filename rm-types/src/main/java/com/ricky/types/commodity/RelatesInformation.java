@@ -1,7 +1,5 @@
 package com.ricky.types.commodity;
 
-import cn.hutool.core.collection.CollUtil;
-import com.ricky.exception.ForbiddenException;
 import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
@@ -29,7 +27,7 @@ public class RelatesInformation implements ValueObject {
     public RelatesInformation(List<Long> relatedProducts, List<Long> skuIds) {
         NullException.isNull(relatedProducts, "相关商品ID列表不能为空");
         NullException.isNull(skuIds, "SKU ID列表不能为空");
-        if(relatedProducts.size() != skuIds.size()) {
+        if (relatedProducts.size() != skuIds.size()) {
             throw new IllegalArgumentException("不正确的关联信息");
         }
         this.relatedProducts = relatedProducts;

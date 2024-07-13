@@ -1,6 +1,5 @@
 package com.ricky.types.commodity;
 
-import cn.hutool.core.util.StrUtil;
 import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.Value;

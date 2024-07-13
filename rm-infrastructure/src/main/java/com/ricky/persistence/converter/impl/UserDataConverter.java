@@ -3,13 +3,10 @@ package com.ricky.persistence.converter.impl;
 import com.ricky.domain.user.model.aggregate.User;
 import com.ricky.persistence.converter.DataConverter;
 import com.ricky.persistence.po.UserPO;
-import com.ricky.types.user.Email;
 import com.ricky.types.user.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author Ricky

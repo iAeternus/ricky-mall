@@ -1,6 +1,5 @@
 package com.ricky.service.impl;
 
-import com.ricky.types.common.Money;
 import com.ricky.assembler.UserAssembler;
 import com.ricky.domain.user.model.aggregate.User;
 import com.ricky.domain.user.model.entity.BusinessUser;
@@ -14,6 +13,7 @@ import com.ricky.dto.query.EmailQuery;
 import com.ricky.dto.response.UserInfoResponse;
 import com.ricky.enums.impl.UserRole;
 import com.ricky.service.UserService;
+import com.ricky.types.common.Money;
 import com.ricky.types.user.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

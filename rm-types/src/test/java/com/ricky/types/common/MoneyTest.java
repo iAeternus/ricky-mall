@@ -2,9 +2,6 @@ package com.ricky.types.common;
 
 import org.junit.Test;
 
-import java.math.BigDecimal;
-import java.util.Currency;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

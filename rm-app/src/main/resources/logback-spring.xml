@@ -21,7 +21,8 @@
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
                 <Pattern>
-                    %white(%d{ISO8601}) [%tid] %highlight(${LOG_LEVEL_PATTERN:-%5p}) [%blue(%t)] %yellow(%C{1.}):%msg%n%throwable
+                    %white(%d{ISO8601}) [%tid] %highlight(${LOG_LEVEL_PATTERN:-%5p}) [%blue(%t)]
+                    %yellow(%C{1.}):%msg%n%throwable
                 </Pattern>
             </layout>
             <charset>UTF-8</charset>
@@ -46,7 +47,8 @@
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
                 <Pattern>
-                    %white(%d{ISO8601}) [%tid] %highlight(${LOG_LEVEL_PATTERN:-%5p}) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable
+                    %white(%d{ISO8601}) [%tid] %highlight(${LOG_LEVEL_PATTERN:-%5p}) [%blue(%t)] %yellow(%C{1.}):
+                    %msg%n%throwable
                 </Pattern>
             </layout>
             <charset>UTF-8</charset>
@@ -72,7 +74,8 @@
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
                 <Pattern>
-                    %white(%d{ISO8601}) [%tid] %highlight(${LOG_LEVEL_PATTERN:-%5p}) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable
+                    %white(%d{ISO8601}) [%tid] %highlight(${LOG_LEVEL_PATTERN:-%5p}) [%blue(%t)] %yellow(%C{1.}):
+                    %msg%n%throwable
                 </Pattern>
             </layout>
             <charset>UTF-8</charset>

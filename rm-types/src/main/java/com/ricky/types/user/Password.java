@@ -1,6 +1,5 @@
 package com.ricky.types.user;
 
-import cn.hutool.core.util.StrUtil;
 import com.ricky.enums.impl.PasswordStrength;
 import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;

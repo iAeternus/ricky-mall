@@ -1,7 +1,7 @@
 package com.ricky.types;
 
-import com.ricky.types.common.Money;
 import com.ricky.types.common.ExchangeRate;
+import com.ricky.types.common.Money;
 import org.junit.Test;
 
 import java.math.BigDecimal;

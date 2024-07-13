@@ -1,8 +1,8 @@
 package com.ricky.domain.user.model.aggregate;
 
-import com.ricky.types.common.Money;
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
+import com.ricky.types.common.Money;
 import com.ricky.types.user.Level;
 import org.junit.Test;
 

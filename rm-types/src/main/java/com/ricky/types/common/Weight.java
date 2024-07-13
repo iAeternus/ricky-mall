@@ -28,9 +28,10 @@ public class Weight implements ValueObject {
 
     /**
      * 重量单位转换
+     *
      * @param fromUnit 起始单位
-     * @param toUnit 目标单位
-     * @param value 重量值，单位为起始单位
+     * @param toUnit   目标单位
+     * @param value    重量值，单位为起始单位
      * @return 返回目标单位的重量值
      */
     public static Weight convert(WeightUnit fromUnit, WeightUnit toUnit, double value) {
@@ -39,6 +40,7 @@ public class Weight implements ValueObject {
 
     /**
      * 重量单位转换
+     *
      * @param targetUnit 目标单位
      * @return 返回目标单位的重量值
      */

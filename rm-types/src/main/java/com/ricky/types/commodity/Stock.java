@@ -16,7 +16,7 @@ public class Stock implements ValueObject {
     Integer value;
 
     public Stock(Integer value) {
-        if(value == null) {
+        if (value == null) {
             value = 0;
         }
         this.value = value;

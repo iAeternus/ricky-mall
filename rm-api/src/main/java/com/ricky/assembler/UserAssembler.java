@@ -12,8 +12,6 @@ import com.ricky.dto.response.AuthenticationResponse;
 import com.ricky.dto.response.RegisterResponse;
 import com.ricky.dto.response.UserInfoResponse;
 import com.ricky.enums.impl.PasswordStrength;
-import com.ricky.types.user.Company;
-import com.ricky.types.user.Email;
 import com.ricky.types.user.*;
 import org.springframework.stereotype.Service;
 

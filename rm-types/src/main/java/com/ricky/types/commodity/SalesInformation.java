@@ -2,7 +2,6 @@ package com.ricky.types.commodity;
 
 import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
-import lombok.AllArgsConstructor;
 import lombok.Value;
 
 import java.time.LocalDateTime;

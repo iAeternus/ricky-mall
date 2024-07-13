@@ -5,14 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ricky.exception.NullException;
 import lombok.Builder;
 import lombok.Value;
-import org.apache.ibatis.jdbc.Null;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Currency;
-
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
@@ -109,7 +104,7 @@ public class Money implements Serializable {
         if (!this.currency.equals(money.currency)) {
             throw new IllegalArgumentException("Currencies must be the same for division");
         }
-        if(BigDecimal.ZERO.compareTo(money.amount) == 0) {
+        if (BigDecimal.ZERO.compareTo(money.amount) == 0) {
             throw new ArithmeticException("Divided by zero");
         }
         return new Money(this.amount.divide(money.amount, scale, roundingMode), this.currency);

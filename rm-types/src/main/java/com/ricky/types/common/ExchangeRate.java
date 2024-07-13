@@ -1,6 +1,5 @@
 package com.ricky.types.common;
 
-import com.ricky.types.common.Money;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 
