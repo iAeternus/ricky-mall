@@ -5,7 +5,10 @@ import com.ricky.persistence.converter.DataConverter;
 import com.ricky.persistence.po.BusinessUserPO;
 import com.ricky.types.user.BusinessUserId;
 import com.ricky.types.user.Store;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Ricky
@@ -17,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BusinessUserDataConverter implements DataConverter<BusinessUser, BusinessUserId, BusinessUserPO> {
     @Override
-    public BusinessUserPO toPO(BusinessUser entity) {
+    public BusinessUserPO toPO(@NonNull BusinessUser entity) {
         BusinessUserPO businessUserPO = new BusinessUserPO();
         BusinessUserId id = entity.getId();
         businessUserPO.setId(id == null ? null : id.getValue());
@@ -30,7 +33,7 @@ public class BusinessUserDataConverter implements DataConverter<BusinessUser, Bu
     }
 
     @Override
-    public BusinessUser toEntity(BusinessUserPO po) {
+    public BusinessUser toEntity(@NonNull BusinessUserPO po) {
         BusinessUser businessUser = new BusinessUser();
         businessUser.setId(new BusinessUserId(po.getId()));
         businessUser.setStore(new Store(
@@ -41,4 +44,5 @@ public class BusinessUserDataConverter implements DataConverter<BusinessUser, Bu
         businessUser.setStoreType(po.getStoreType());
         return businessUser;
     }
+
 }

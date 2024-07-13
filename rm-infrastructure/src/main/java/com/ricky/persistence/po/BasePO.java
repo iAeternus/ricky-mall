@@ -2,6 +2,7 @@ package com.ricky.persistence.po;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
  * @className BasePO
  * @desc persistence object(PO) 基类
  */
+@Data
 public class BasePO {
 
     @TableField(fill = FieldFill.INSERT)

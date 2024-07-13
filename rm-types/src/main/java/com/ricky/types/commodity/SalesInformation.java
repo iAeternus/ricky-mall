@@ -1,6 +1,8 @@
 package com.ricky.types.commodity;
 
+import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
+import lombok.AllArgsConstructor;
 import lombok.Value;
 
 import java.time.LocalDateTime;
@@ -20,15 +22,10 @@ public class SalesInformation implements ValueObject {
     LocalDateTime updateTime; // 更新时间
 
     public SalesInformation(Integer soldCount, LocalDateTime createTime, LocalDateTime updateTime) {
-        if(soldCount == null) {
-            throw new IllegalArgumentException("销售数量不能为空");
-        }
-        if(createTime == null) {
-            throw new IllegalArgumentException("创建时间不能为空");
-        }
-        if(updateTime == null) {
-            throw new IllegalArgumentException("更新时间不能为空");
-        }
+        NullException.isNull(soldCount, "销售数量不能为空");
+        NullException.isNull(createTime, "创建时间不能为空");
+        NullException.isNull(updateTime, "更新时间不能为空");
+
         this.soldCount = soldCount;
         this.createTime = createTime;
         this.updateTime = updateTime;

@@ -3,7 +3,10 @@ package com.ricky.persistence.converter;
 import com.ricky.marker.Entity;
 import com.ricky.marker.Identifier;
 import com.ricky.persistence.po.BasePO;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Ricky
@@ -21,7 +24,7 @@ public interface DataConverter<E extends Entity<ID>, ID extends Identifier, PO e
      * @param entity 领域对象DO
      * @return 持久化对象PO
      */
-    PO toPO(E entity);
+    PO toPO(@NonNull E entity);
 
     /**
      * 转换持久化对象PO为领域对象DO
@@ -29,6 +32,6 @@ public interface DataConverter<E extends Entity<ID>, ID extends Identifier, PO e
      * @param po 持久化对象PO
      * @return 领域对象DO
      */
-    E toEntity(PO po);
+    E toEntity(@NonNull PO po);
 
 }

@@ -23,7 +23,7 @@ public class Commodity implements Aggregate<CommodityId> {
 
     private CommodityId id; // 商品ID
     private CommodityName name; // 商品名称
-    private ProductDescription productDescription; // 商品描述
+    private ProductDescription description; // 商品描述
     private Money price; // 商品价格
     private Stock stock; // 商品库存量
     private CommodityType type; // 商品状态
@@ -34,6 +34,7 @@ public class Commodity implements Aggregate<CommodityId> {
     private Brand brand; // 品牌
     private Attributes attributes; // 商品属性键值对
 
+    // 各种信息
     private PromotionInformation promotionInformation; // 促销信息
     private RelatesInformation relatesInformation; // 关联信息
     private SalesInformation salesInformation; // 销售信息

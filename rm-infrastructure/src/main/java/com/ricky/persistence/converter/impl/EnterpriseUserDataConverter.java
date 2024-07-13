@@ -6,7 +6,10 @@ import com.ricky.persistence.po.EnterpriseUserPO;
 import com.ricky.types.user.Company;
 import com.ricky.types.user.EnterpriseUserId;
 import com.ricky.types.user.UserId;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Ricky
@@ -19,7 +22,7 @@ import org.springframework.stereotype.Service;
 public class EnterpriseUserDataConverter implements DataConverter<EnterpriseUser, EnterpriseUserId, EnterpriseUserPO> {
 
     @Override
-    public EnterpriseUserPO toPO(EnterpriseUser entity) {
+    public EnterpriseUserPO toPO(@NonNull EnterpriseUser entity) {
         EnterpriseUserPO enterpriseUserPO = new EnterpriseUserPO();
         EnterpriseUserId enterpriseUserId = entity.getId();
         enterpriseUserPO.setId(enterpriseUserId == null ? null : enterpriseUserId.getValue());
@@ -31,7 +34,7 @@ public class EnterpriseUserDataConverter implements DataConverter<EnterpriseUser
     }
 
     @Override
-    public EnterpriseUser toEntity(EnterpriseUserPO po) {
+    public EnterpriseUser toEntity(@NonNull EnterpriseUserPO po) {
         EnterpriseUser enterpriseUser = new EnterpriseUser();
         enterpriseUser.setId(new EnterpriseUserId(po.getId()));
         enterpriseUser.setUserId(new UserId(po.getUserId()));

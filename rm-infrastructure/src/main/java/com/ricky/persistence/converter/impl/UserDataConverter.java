@@ -5,8 +5,11 @@ import com.ricky.persistence.converter.DataConverter;
 import com.ricky.persistence.po.UserPO;
 import com.ricky.types.user.Email;
 import com.ricky.types.user.*;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Ricky
@@ -20,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class UserDataConverter implements DataConverter<User, UserId, UserPO> {
 
     @Override
-    public UserPO toPO(User entity) {
+    public UserPO toPO(@NonNull User entity) {
         UserPO userPO = new UserPO();
         UserId userId = entity.getId();
         userPO.setId(userId == null ? null : userId.getValue());
@@ -38,7 +41,7 @@ public class UserDataConverter implements DataConverter<User, UserId, UserPO> {
     }
 
     @Override
-    public User toEntity(UserPO po) {
+    public User toEntity(@NonNull UserPO po) {
         User user = new User();
         user.setId(new UserId(po.getId()));
         user.setEmail(new Email(po.getEmail()));
@@ -52,4 +55,5 @@ public class UserDataConverter implements DataConverter<User, UserId, UserPO> {
         user.setBalance(po.getBalance());
         return user;
     }
+
 }

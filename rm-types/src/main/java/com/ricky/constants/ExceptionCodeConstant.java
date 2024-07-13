@@ -19,5 +19,6 @@ public abstract class ExceptionCodeConstant {
     public static final int FULL_EXCEPTION = -107;
     public static final int DB_EXCEPTION = -108;
     public static final int INSUFFICIENT_STOCK_EXCEPTION = -109;
+    public static final int NULL_EXCEPTION = -110;
 
 }
