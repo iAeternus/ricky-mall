@@ -62,7 +62,6 @@ create table if not exists commodity
     sold_count           int default 0 not null comment '销售数量',
     weight               double        not null comment '商品重量值',
     weight_unit          tinyint       not null comment '商品重量单位',
-    shipping_type        tinyint       not null comment '发货方式',
     supplier_id          bigint        not null comment '供应商ID',
     meta_title           varchar(32)   null comment 'SEO标题',
     meta_keywords        varchar(12)   null comment 'SEO关键词',
@@ -71,6 +70,38 @@ create table if not exists commodity
     update_time          datetime      not null comment '修改时间'
 )
     comment '商品表';
+
+create table if not exists associated_commodity
+(
+    id                   bigint auto_increment primary key,
+    commodity_id         bigint   not null comment '商品id',
+    related_commodity_id bigint   not null comment '相关商品ID',
+    sku_id               int      null comment '对应的SKU ID',
+    create_time          datetime not null comment '创建时间',
+    update_time          datetime not null comment '修改时间'
+)
+    comment '关联商品表';
+
+create table if not exists attributes
+(
+    id           bigint auto_increment primary key,
+    commodity_id bigint      not null comment '商品ID',
+    `key`        varchar(16) not null comment '商品属性键',
+    value        varchar(32) not null comment '商品属性值',
+    create_time  datetime    not null comment '创建时间',
+    update_time  datetime    not null comment '修改时间'
+)
+    comment '商品属性表';
+
+create table if not exists gallery_image
+(
+    id           bigint auto_increment primary key,
+    commodity_id bigint       not null comment '商品ID',
+    image_url    varchar(300) not null comment '图片URL',
+    create_time  datetime     not null comment '创建时间',
+    update_time  datetime     not null comment '修改时间'
+)
+    comment '商品图片表';
 
 
 

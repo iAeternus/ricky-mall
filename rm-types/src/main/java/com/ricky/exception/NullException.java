@@ -1,7 +1,10 @@
 package com.ricky.exception;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ricky.constants.ExceptionCodeConstant;
+
+import java.util.Collection;
 
 /**
  * @author Ricky
@@ -24,6 +27,12 @@ public class NullException extends BaseException {
 
     public static void isNull(String str, String message) {
         if(StrUtil.isBlank(str)) {
+            throw new NullException(message);
+        }
+    }
+
+    public static <T> void isNull(Collection<T> collection, String message) {
+        if(CollUtil.isEmpty(collection)) {
             throw new NullException(message);
         }
     }

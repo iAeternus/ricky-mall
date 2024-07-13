@@ -7,6 +7,7 @@ import com.ricky.persistence.po.AttributePO;
 import com.ricky.persistence.po.CommodityPO;
 import com.ricky.persistence.po.GalleryImagePO;
 import com.ricky.types.commodity.*;
+import com.ricky.types.common.Weight;
 import com.ricky.utils.CollUtils;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,9 @@ public class CommodityDataConverter implements DataConverter<Commodity, Commodit
 
     @Override
     public CommodityPO toPO(@NonNull Commodity entity) {
+        CommodityId commodityId = entity.getId();
         return CommodityPO.builder()
-                .id(entity.getId().getValue())
+                .id(commodityId == null ? null : commodityId.getValue())
                 .name(entity.getName().getValue())
                 .description(entity.getDescription().getValue())
                 .price(entity.getPrice())
@@ -42,7 +44,6 @@ public class CommodityDataConverter implements DataConverter<Commodity, Commodit
                 .soldCount(entity.getSalesInformation().getSoldCount())
                 .weight(entity.getShippingInformation().getWeight().getValue())
                 .weightUnit(entity.getShippingInformation().getWeight().getUnit())
-                .shippingType(entity.getShippingInformation().getType())
                 .supplierId(entity.getSupplierInformation().getSupplierId())
                 .metaTitle(entity.getSeo().getMetaTitle())
                 .metaKeywords(entity.getSeo().getMetaKeywords())
@@ -72,10 +73,7 @@ public class CommodityDataConverter implements DataConverter<Commodity, Commodit
                         po.getCreateTime(),
                         po.getUpdateTime()
                 ))
-                .shippingInformation(new ShippingInformation(
-                        new Weight(po.getWeight(), po.getWeightUnit()),
-                        po.getShippingType()
-                ))
+                .shippingInformation(new ShippingInformation(new Weight(po.getWeight(), po.getWeightUnit())))
                 .supplierInformation(new SupplierInformation(po.getSupplierId()))
                 .seo(new SEO(po.getMetaTitle(), po.getMetaKeywords(), po.getMetaDescription()))
                 .build();
@@ -98,7 +96,7 @@ public class CommodityDataConverter implements DataConverter<Commodity, Commodit
         ));
         commodity.setRelatesInformation(new RelatesInformation(
                 CollUtils.listConvert(associatedCommodityPOS, AssociatedCommodityPO::getRelatedCommodityId),
-                CollUtils.listConvert(associatedCommodityPOS, AssociatedCommodityPO::getSkuIds)
+                CollUtils.listConvert(associatedCommodityPOS, AssociatedCommodityPO::getSkuId)
         ));
         return commodity;
     }

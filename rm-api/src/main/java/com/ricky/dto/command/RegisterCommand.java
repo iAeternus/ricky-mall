@@ -10,7 +10,7 @@ import lombok.Data;
  * @desc 注册请求实体
  */
 @Data
-public class RegisterCommand {
+public class RegisterCommand implements Command {
 
     private String email;
     private String password;

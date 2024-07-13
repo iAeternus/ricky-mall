@@ -21,6 +21,6 @@ public class AssociatedCommodityPO extends BasePO {
     private Long id;
     private Long commodityId; // 商品id
     private Long relatedCommodityId; // 相关商品ID
-    private Long skuIds; // 对应的SKU ID
+    private Long skuId; // 对应的SKU ID
 
 }

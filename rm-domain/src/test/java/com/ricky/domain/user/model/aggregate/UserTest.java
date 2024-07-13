@@ -1,6 +1,6 @@
 package com.ricky.domain.user.model.aggregate;
 
-import cn.hutool.core.math.Money;
+import com.ricky.types.common.Money;
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
 import com.ricky.types.user.Level;
@@ -40,7 +40,7 @@ public class UserTest {
         user.increaseBalance(money);
 
         // Then
-        assertThat(user.getBalance()).isEqualTo(new Money(2001));
+        assertThat(user.getBalance()).isEqualTo(new Money(2001.0));
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.ricky.types.commodity;
 
 import com.ricky.exception.NullException;
+import com.ricky.marker.Identifier;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 
@@ -12,7 +13,7 @@ import lombok.Value;
  * @desc 分类id
  */
 @Value
-public class CategoryId implements ValueObject {
+public class CategoryId implements Identifier {
 
     Long value;
 

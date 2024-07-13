@@ -1,6 +1,6 @@
 package com.ricky.types.commodity;
 
-import cn.hutool.core.math.Money;
+import com.ricky.types.common.Money;
 import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.AllArgsConstructor;

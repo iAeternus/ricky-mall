@@ -1,6 +1,6 @@
-package com.ricky.types.user;
+package com.ricky.types.common;
 
-import cn.hutool.core.math.Money;
+import com.ricky.types.common.Money;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 

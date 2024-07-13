@@ -21,6 +21,6 @@ public class AttributePO extends BasePO {
     private Long id;
     private Long commodityId; // 商品id
     private String key; // 商品属性键
-    private Object value; // 商品属性值
+    private String value; // 商品属性值
 
 }

@@ -10,7 +10,7 @@ import lombok.Data;
  * @desc 申请企业用户实体
  */
 @Data
-public class ApplyEnterpriseUserCommand {
+public class ApplyEnterpriseUserCommand implements Command {
 
     private Long userId;
     private String recordNumber; // 备案号

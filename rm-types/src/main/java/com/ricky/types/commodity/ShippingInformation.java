@@ -1,7 +1,7 @@
 package com.ricky.types.commodity;
 
-import com.ricky.enums.impl.ShippingType;
 import com.ricky.marker.ValueObject;
+import com.ricky.types.common.Weight;
 import lombok.Value;
 
 /**
@@ -15,11 +15,9 @@ import lombok.Value;
 public class ShippingInformation implements ValueObject {
 
     Weight weight; // 商品重量
-    ShippingType type; // 发货方式
 
-    public ShippingInformation(Weight weight, ShippingType type) {
+    public ShippingInformation(Weight weight) {
         this.weight = weight;
-        this.type = type;
     }
 
 }

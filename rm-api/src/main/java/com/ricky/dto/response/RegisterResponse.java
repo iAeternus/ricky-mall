@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class RegisterResponse {
+public class RegisterResponse implements Response {
 
     private String token;
     private PasswordStrength strength;

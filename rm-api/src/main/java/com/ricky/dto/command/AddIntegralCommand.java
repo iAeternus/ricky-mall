@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * @desc
  */
 @Data
-public class AddIntegralCommand {
+public class AddIntegralCommand implements Command {
 
     private Long userId; // 用户id
     private Long integral; // 增加值

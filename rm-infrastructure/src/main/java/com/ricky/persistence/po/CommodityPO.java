@@ -1,6 +1,6 @@
 package com.ricky.persistence.po;
 
-import cn.hutool.core.math.Money;
+import com.ricky.types.common.Money;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -56,7 +56,6 @@ public class CommodityPO extends BasePO {
     // 发货信息
     private Double weight; // 商品重量值
     private WeightUnit weightUnit; // 商品重量单位
-    private ShippingType shippingType; // 发货方式
 
     // 供应商信息
     private Long supplierId; // 供应商ID

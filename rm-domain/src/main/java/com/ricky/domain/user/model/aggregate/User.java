@@ -1,12 +1,12 @@
 package com.ricky.domain.user.model.aggregate;
 
-import cn.hutool.core.math.Money;
+import com.ricky.types.common.Money;
 import com.ricky.constants.MessageConstant;
 import com.ricky.enums.impl.UserRole;
 import com.ricky.exception.ForbiddenException;
 import com.ricky.marker.Aggregate;
 import com.ricky.types.user.Email;
-import com.ricky.types.user.ExchangeRate;
+import com.ricky.types.common.ExchangeRate;
 import com.ricky.types.user.*;
 import lombok.Data;
 

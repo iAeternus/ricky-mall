@@ -1,6 +1,6 @@
 package com.ricky.persistence.po;
 
-import cn.hutool.core.math.Money;
+import com.ricky.types.common.Money;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;

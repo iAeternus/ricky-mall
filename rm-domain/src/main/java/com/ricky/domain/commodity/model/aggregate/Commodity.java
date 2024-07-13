@@ -1,6 +1,6 @@
 package com.ricky.domain.commodity.model.aggregate;
 
-import cn.hutool.core.math.Money;
+import com.ricky.types.common.Money;
 import com.ricky.constants.MessageConstant;
 import com.ricky.enums.impl.CommodityType;
 import com.ricky.exception.InsufficientStockException;
@@ -30,7 +30,7 @@ public class Commodity implements Aggregate<CommodityId> {
     private PictureInformation pictureInformation; // 图片信息
 
     // 分类与属性
-    private CategoryId categoryId; // 分类id
+    private CategoryId categoryId; // 分类ID
     private Brand brand; // 品牌
     private Attributes attributes; // 商品属性键值对
 

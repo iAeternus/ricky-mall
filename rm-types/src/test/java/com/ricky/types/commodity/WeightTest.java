@@ -1,7 +1,7 @@
 package com.ricky.types.commodity;
 
 import com.ricky.enums.impl.WeightUnit;
-import junit.framework.TestCase;
+import com.ricky.types.common.Weight;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

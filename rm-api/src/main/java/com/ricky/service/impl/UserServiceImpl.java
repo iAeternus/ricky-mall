@@ -1,6 +1,6 @@
 package com.ricky.service.impl;
 
-import cn.hutool.core.math.Money;
+import com.ricky.types.common.Money;
 import com.ricky.assembler.UserAssembler;
 import com.ricky.domain.user.model.aggregate.User;
 import com.ricky.domain.user.model.entity.BusinessUser;
@@ -17,6 +17,7 @@ import com.ricky.service.UserService;
 import com.ricky.types.user.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Currency;
 
@@ -35,6 +36,7 @@ public class UserServiceImpl implements UserService {
     private final UserDomainService userDomainService;
 
     @Override
+    @Transactional
     public void applyForEnterpriseUsers(ApplyEnterpriseUserCommand command) {
         User user = userDomainService.getById(command.getUserId());
         userDomainService.changeRole(user, UserRole.ENTERPRISE_USERS);
@@ -59,11 +61,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deposit(DepositCommand command) {
         User user = userDomainService.getById(command.getUserId());
-        user.increaseBalance(new Money(command.getAmount(),
-                Currency.getInstance(command.getCurrencyCode())));
+        user.increaseBalance(new Money(command.getAmount(), Currency.getInstance(command.getCurrencyCode())));
+        userDomainService.updateUserById(user);
     }
 
     @Override
+    @Transactional
     public void applyForStoreAuth(ApplyForStoreAuthCommand command) {
         User user = userDomainService.getById(command.getUserId());
         userDomainService.changeRole(user, UserRole.BUSINESS);

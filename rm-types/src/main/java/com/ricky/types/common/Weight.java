@@ -1,4 +1,4 @@
-package com.ricky.types.commodity;
+package com.ricky.types.common;
 
 import com.ricky.enums.impl.WeightUnit;
 import com.ricky.exception.NullException;

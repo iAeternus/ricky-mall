@@ -10,7 +10,7 @@ import lombok.Data;
  * @desc
  */
 @Data
-public class AuthenticationQuery {
+public class AuthenticationQuery implements Query {
 
     private String email;
     private String password;

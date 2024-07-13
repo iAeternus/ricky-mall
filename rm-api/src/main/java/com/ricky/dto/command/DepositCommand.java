@@ -13,7 +13,7 @@ import java.util.Currency;
  * @desc
  */
 @Data
-public class DepositCommand {
+public class DepositCommand implements Command {
 
     private Long userId;
     private BigDecimal amount;

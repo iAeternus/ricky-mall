@@ -1,6 +1,6 @@
 package com.ricky.dto.response;
 
-import cn.hutool.core.math.Money;
+import com.ricky.types.common.Money;
 import com.ricky.enums.impl.UserRole;
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import lombok.Data;
  * @desc
  */
 @Data
-public class UserInfoResponse {
+public class UserInfoResponse implements Response {
 
     private Long id;
     private String email;

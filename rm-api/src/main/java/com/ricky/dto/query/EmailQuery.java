@@ -10,7 +10,7 @@ import lombok.Data;
  * @desc
  */
 @Data
-public class EmailQuery {
+public class EmailQuery implements Query {
 
     private String email;
 

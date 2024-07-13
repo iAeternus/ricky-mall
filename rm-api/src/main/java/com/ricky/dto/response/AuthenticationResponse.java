@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class AuthenticationResponse {
+public class AuthenticationResponse implements Response {
 
     private String token;
 

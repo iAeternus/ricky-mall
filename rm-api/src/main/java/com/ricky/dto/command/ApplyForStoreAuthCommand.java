@@ -11,7 +11,7 @@ import lombok.Data;
  * @desc 申请店铺认证命令实体
  */
 @Data
-public class ApplyForStoreAuthCommand {
+public class ApplyForStoreAuthCommand implements Command {
 
     private Long userId;
     private String name; // 店铺名称

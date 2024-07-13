@@ -15,9 +15,9 @@ import java.util.Map;
 @Value
 public class Attributes implements ValueObject {
 
-    Map<String, Object> value;
+    Map<String, String> value;
 
-    public Attributes(Map<String, Object> value) {
+    public Attributes(Map<String, String> value) {
         this.value = value;
     }
 

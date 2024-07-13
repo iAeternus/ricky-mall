@@ -12,6 +12,7 @@ import com.ricky.service.AuthenticationService;
 import com.ricky.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -32,6 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtProperties jwtProperties;
 
     @Override
+    @Transactional
     public RegisterResponse register(RegisterCommand request) {
         User user = userAssembler.toUser(request);
         userDomainService.saveUser(user);

@@ -12,7 +12,7 @@ import java.util.List;
  * @desc 分页查询结果
  */
 @Data
-public class PageResponse<T> {
+public class PageResponse<T> implements Response {
 
     private Long total; // 总条数
     private Long pages; // 总页数

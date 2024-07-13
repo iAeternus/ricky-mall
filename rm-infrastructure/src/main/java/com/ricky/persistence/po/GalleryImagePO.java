@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  * @version 1.0
  * @date 2024/7/13
  * @className GalleryImagePO
- * @desc
+ * @desc 商品图片PO实体
  */
 @Data
 @TableName("gallery_image")
