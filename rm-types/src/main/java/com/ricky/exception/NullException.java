@@ -1,5 +1,6 @@
 package com.ricky.exception;
 
+import cn.hutool.core.util.StrUtil;
 import com.ricky.constants.ExceptionCodeConstant;
 
 /**
@@ -17,6 +18,12 @@ public class NullException extends BaseException {
 
     public static void isNull(Object o, String message) {
         if(o == null) {
+            throw new NullException(message);
+        }
+    }
+
+    public static void isNull(String str, String message) {
+        if(StrUtil.isBlank(str)) {
             throw new NullException(message);
         }
     }

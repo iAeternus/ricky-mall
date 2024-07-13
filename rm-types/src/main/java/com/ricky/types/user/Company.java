@@ -1,6 +1,7 @@
 package com.ricky.types.user;
 
 import cn.hutool.core.util.StrUtil;
+import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 
@@ -19,15 +20,10 @@ public class Company implements ValueObject {
     String ceo; // 首席执行官
 
     public Company(String recordNumber, String name, String ceo) {
-        if (StrUtil.isBlank(recordNumber)) {
-            throw new IllegalArgumentException("备案号不能为空");
-        }
-        if (StrUtil.isBlank(name)) {
-            throw new IllegalArgumentException("公司名不能为空");
-        }
-        if (StrUtil.isBlank(ceo)) {
-            throw new IllegalArgumentException("ceo不能为空");
-        }
+        NullException.isNull(recordNumber, "备案号不能为空");
+        NullException.isNull(name, "公司名不能为空");
+        NullException.isNull(ceo, "ceo不能为空");
+
         this.recordNumber = recordNumber;
         this.name = name;
         this.ceo = ceo;

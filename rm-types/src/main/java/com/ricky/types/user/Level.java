@@ -1,5 +1,6 @@
 package com.ricky.types.user;
 
+import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 
@@ -18,9 +19,7 @@ public class Level implements ValueObject {
     public static final Level ZERO = new Level(0);
 
     public Level(Integer value) {
-        if (value == null) {
-            throw new IllegalArgumentException("等级不能为空");
-        }
+        NullException.isNull(value, "等级不能为空");
         this.value = value;
     }
 }

@@ -1,6 +1,7 @@
 package com.ricky.types.user;
 
 import cn.hutool.core.util.StrUtil;
+import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 
@@ -17,9 +18,7 @@ public class PhoneNumber implements ValueObject {
     String value;
 
     public PhoneNumber(String value) {
-        if (StrUtil.isBlank(value)) {
-            throw new IllegalArgumentException("phone number不能为空");
-        }
+        NullException.isNull(value, "phone number不能为空");
         if (isIllegal(value)) {
             throw new IllegalArgumentException("不正确的电话号码");
         }

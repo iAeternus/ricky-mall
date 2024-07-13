@@ -1,6 +1,7 @@
 package com.ricky.types.user;
 
 import cn.hutool.core.util.StrUtil;
+import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 
@@ -17,9 +18,7 @@ public class Nickname implements ValueObject {
     String value;
 
     public Nickname(String value) {
-        if (StrUtil.isBlank(value)) {
-            throw new IllegalArgumentException("昵称不能为空");
-        }
+        NullException.isNull(value, "昵称不能为空");
         this.value = value;
     }
 

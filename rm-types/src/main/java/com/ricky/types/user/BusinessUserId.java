@@ -1,5 +1,6 @@
 package com.ricky.types.user;
 
+import com.ricky.exception.NullException;
 import com.ricky.marker.Identifier;
 import lombok.Value;
 
@@ -16,9 +17,7 @@ public class BusinessUserId implements Identifier {
     Long value;
 
     public BusinessUserId(Long value) {
-        if(value == null) {
-            throw new IllegalArgumentException("商家id不能为空");
-        }
+        NullException.isNull(value, "商家id不能为空");
         this.value = value;
     }
 }

@@ -2,6 +2,7 @@ package com.ricky.types.user;
 
 import cn.hutool.core.util.StrUtil;
 import com.ricky.enums.impl.PasswordStrength;
+import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 import org.springframework.util.DigestUtils;
@@ -20,9 +21,7 @@ public class Password implements ValueObject {
     PasswordStrength strength; // 密码强度
 
     public Password(String password, boolean isEncrypted) {
-        if (StrUtil.isBlank(password)) {
-            throw new IllegalArgumentException("password不能为空");
-        }
+        NullException.isNull(password, "password不能为空");
         this.strength = calculateStrength(password);
         this.value = isEncrypted ? DigestUtils.md5DigestAsHex(password.getBytes()) : password;
     }

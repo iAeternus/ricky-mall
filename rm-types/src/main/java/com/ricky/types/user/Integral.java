@@ -1,6 +1,7 @@
 package com.ricky.types.user;
 
 import com.ricky.exception.ForbiddenException;
+import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 
@@ -19,9 +20,7 @@ public class Integral implements ValueObject {
     public static final Integral ZERO = new Integral(0L);
 
     public Integral(Long value) {
-        if (value == null) {
-            throw new IllegalArgumentException("积分不能为空");
-        }
+        NullException.isNull(value, "积分不能为空");
         if (value < 0) {
             throw new ForbiddenException("积分不能为负");
         }

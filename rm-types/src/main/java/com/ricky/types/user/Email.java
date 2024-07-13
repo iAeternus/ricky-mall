@@ -1,6 +1,7 @@
 package com.ricky.types.user;
 
 import cn.hutool.core.util.StrUtil;
+import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 
@@ -19,9 +20,7 @@ public class Email implements ValueObject {
     String address;
 
     public Email(String address) {
-        if (StrUtil.isBlank(address)) {
-            throw new IllegalArgumentException("邮箱地址不能为空");
-        }
+        NullException.isNull(address, "邮箱地址不能为空");
         if (isIllegal(address)) {
             throw new IllegalArgumentException("不合法的邮箱地址");
         }

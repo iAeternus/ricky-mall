@@ -1,6 +1,7 @@
 package com.ricky.types.user;
 
 import cn.hutool.core.util.StrUtil;
+import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 
@@ -18,15 +19,11 @@ public class RealName implements ValueObject {
     String lastName;
 
     public RealName(String firstName, String lastName) {
-        if (isIllegal(firstName, lastName)) {
-            throw new IllegalArgumentException("不正确的实名");
-        }
+        NullException.isNull(firstName, "姓不能为空");
+        NullException.isNull(lastName, "名不能为空");
+
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    private boolean isIllegal(String firstName, String lastName) {
-        return StrUtil.isBlank(firstName) && StrUtil.isBlank(lastName);
     }
 
     @Override
