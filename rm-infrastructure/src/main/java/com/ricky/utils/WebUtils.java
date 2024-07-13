@@ -24,6 +24,8 @@ import java.util.Map;
 @Slf4j
 public class WebUtils {
 
+    private WebUtils() {}
+
     /**
      * 获取ServletRequestAttributes
      *

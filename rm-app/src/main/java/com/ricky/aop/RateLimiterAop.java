@@ -1,6 +1,6 @@
 package com.ricky.aop;
 
-import com.ricky.enums.ResponseCode;
+import com.ricky.enums.impl.ResponseCode;
 import com.ricky.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.shaded.com.google.common.util.concurrent.RateLimiter;
@@ -11,7 +11,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.http.ResponseEntity;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;

@@ -1,6 +1,7 @@
-package com.ricky.enums;
+package com.ricky.enums.impl;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.ricky.enums.BaseEnum;
 import lombok.Getter;
 
 /**
@@ -11,7 +12,7 @@ import lombok.Getter;
  * @desc 店铺类型
  */
 @Getter
-public enum StoreType {
+public enum StoreType implements BaseEnum {
 
     SELF_OPERATED_STORE((short) 0, "自营店铺"),
     PINDUOGOU_STORE((short) 1, "拼购店铺"),
@@ -21,23 +22,12 @@ public enum StoreType {
     ;
 
     @EnumValue
-    final short value;
+    final Short code;
     final String description;
 
-    StoreType(short value, String description) {
-        this.value = value;
+    StoreType(Short code, String description) {
+        this.code = code;
         this.description = description;
-    }
-
-    public static StoreType of(short index) {
-        return switch (index) {
-            case 1 -> SELF_OPERATED_STORE;
-            case 2 -> PINDUOGOU_STORE;
-            case 3 -> YOUCHUANG_STORE;
-            case 4 -> GLOBAL_SHOPPING_STORES;
-            case 5 -> POP_STORE;
-            default -> throw new IllegalStateException("Unexpected value: " + index);
-        };
     }
 
 }

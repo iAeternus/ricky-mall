@@ -3,8 +3,8 @@ package com.ricky.domain.user.service;
 import com.ricky.domain.user.model.aggregate.User;
 import com.ricky.domain.user.model.entity.BusinessUser;
 import com.ricky.domain.user.model.entity.EnterpriseUser;
-import com.ricky.enums.UserRole;
-import com.ricky.types.Email;
+import com.ricky.enums.impl.UserRole;
+import com.ricky.types.user.Email;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;

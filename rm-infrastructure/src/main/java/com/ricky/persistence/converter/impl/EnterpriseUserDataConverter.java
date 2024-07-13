@@ -3,9 +3,9 @@ package com.ricky.persistence.converter.impl;
 import com.ricky.domain.user.model.entity.EnterpriseUser;
 import com.ricky.persistence.converter.DataConverter;
 import com.ricky.persistence.po.EnterpriseUserPO;
-import com.ricky.types.Company;
-import com.ricky.types.EnterpriseUserId;
-import com.ricky.types.UserId;
+import com.ricky.types.user.Company;
+import com.ricky.types.user.EnterpriseUserId;
+import com.ricky.types.user.UserId;
 import org.springframework.stereotype.Service;
 
 /**

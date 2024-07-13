@@ -1,5 +1,6 @@
 package com.ricky.types;
 
+import com.ricky.types.user.Integral;
 import org.junit.Test;
 
 import java.util.ArrayList;

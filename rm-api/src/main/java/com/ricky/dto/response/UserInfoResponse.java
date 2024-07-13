@@ -1,9 +1,7 @@
 package com.ricky.dto.response;
 
 import cn.hutool.core.math.Money;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import com.ricky.enums.UserRole;
+import com.ricky.enums.impl.UserRole;
 import lombok.Data;
 
 /**

@@ -2,13 +2,9 @@ package com.ricky.domain.user.model.aggregate;
 
 import cn.hutool.core.math.Money;
 import cn.hutool.json.JSON;
-import cn.hutool.json.JSONConfig;
-import cn.hutool.json.JSONException;
 import cn.hutool.json.JSONObject;
-import com.ricky.types.Level;
+import com.ricky.types.user.Level;
 import org.junit.Test;
-
-import java.io.Writer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

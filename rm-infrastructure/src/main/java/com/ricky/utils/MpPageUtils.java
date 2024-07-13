@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
  */
 public class MpPageUtils {
 
+    private MpPageUtils() {}
+
     /**
      * 根据查询完毕的Page对象构建分页结果
      *

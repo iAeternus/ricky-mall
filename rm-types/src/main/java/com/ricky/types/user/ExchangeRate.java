@@ -1,6 +1,7 @@
-package com.ricky.types;
+package com.ricky.types.user;
 
 import cn.hutool.core.math.Money;
+import com.ricky.marker.ValueObject;
 import lombok.Value;
 
 import java.math.BigDecimal;
@@ -17,7 +18,7 @@ import static cn.hutool.core.lang.Assert.notNull;
  * @desc 汇率
  */
 @Value
-public class ExchangeRate {
+public class ExchangeRate implements ValueObject {
 
     BigDecimal rate; // 汇率
     Currency from; // 原始货币

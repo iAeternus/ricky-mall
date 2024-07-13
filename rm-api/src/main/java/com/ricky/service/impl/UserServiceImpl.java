@@ -12,9 +12,9 @@ import com.ricky.dto.command.ApplyForStoreAuthCommand;
 import com.ricky.dto.command.DepositCommand;
 import com.ricky.dto.query.EmailQuery;
 import com.ricky.dto.response.UserInfoResponse;
-import com.ricky.enums.UserRole;
+import com.ricky.enums.impl.UserRole;
 import com.ricky.service.UserService;
-import com.ricky.types.Email;
+import com.ricky.types.user.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

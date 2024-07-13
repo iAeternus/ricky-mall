@@ -2,7 +2,7 @@ package com.ricky.persistence.po;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ricky.enums.StoreType;
+import com.ricky.enums.impl.StoreType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

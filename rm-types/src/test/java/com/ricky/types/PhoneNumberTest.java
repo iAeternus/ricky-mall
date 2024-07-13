@@ -1,6 +1,7 @@
 package com.ricky.types;
 
 
+import com.ricky.types.user.PhoneNumber;
 import org.junit.Test;
 
 /**

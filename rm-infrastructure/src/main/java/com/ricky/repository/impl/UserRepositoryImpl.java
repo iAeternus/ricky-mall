@@ -6,8 +6,8 @@ import com.ricky.domain.user.repository.UserRepository;
 import com.ricky.persistence.converter.impl.UserDataConverter;
 import com.ricky.persistence.mapper.UserMapper;
 import com.ricky.persistence.po.UserPO;
-import com.ricky.types.Email;
-import com.ricky.types.UserId;
+import com.ricky.types.user.Email;
+import com.ricky.types.user.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

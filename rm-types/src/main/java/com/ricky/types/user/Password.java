@@ -1,7 +1,7 @@
-package com.ricky.types;
+package com.ricky.types.user;
 
 import cn.hutool.core.util.StrUtil;
-import com.ricky.enums.PasswordStrength;
+import com.ricky.enums.impl.PasswordStrength;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 import org.springframework.util.DigestUtils;

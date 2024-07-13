@@ -1,5 +1,6 @@
-package com.ricky.types;
+package com.ricky.types.user;
 
+import com.ricky.marker.ValueObject;
 import lombok.Value;
 
 /**
@@ -10,7 +11,7 @@ import lombok.Value;
  * @desc 等级
  */
 @Value
-public class Level {
+public class Level implements ValueObject {
 
     Integer value;
 

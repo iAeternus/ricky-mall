@@ -1,6 +1,7 @@
 package com.ricky.types;
 
-import com.ricky.enums.PasswordStrength;
+import com.ricky.enums.impl.PasswordStrength;
+import com.ricky.types.user.Password;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

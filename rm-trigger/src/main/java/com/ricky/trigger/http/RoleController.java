@@ -38,6 +38,6 @@ public class RoleController {
         return Result.ok();
     }
 
-    // TODO 物流方、管理员
+    // TODO 申请物流方、管理员
 
 }

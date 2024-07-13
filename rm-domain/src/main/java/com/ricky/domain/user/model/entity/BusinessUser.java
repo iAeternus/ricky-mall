@@ -1,10 +1,10 @@
 package com.ricky.domain.user.model.entity;
 
-import com.ricky.enums.StoreType;
+import com.ricky.enums.impl.StoreType;
 import com.ricky.marker.Entity;
-import com.ricky.types.BusinessUserId;
-import com.ricky.types.Store;
-import com.ricky.types.UserId;
+import com.ricky.types.user.BusinessUserId;
+import com.ricky.types.user.Store;
+import com.ricky.types.user.UserId;
 import lombok.Data;
 
 /**

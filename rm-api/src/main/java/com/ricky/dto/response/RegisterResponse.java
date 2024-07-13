@@ -1,6 +1,6 @@
 package com.ricky.dto.response;
 
-import com.ricky.enums.PasswordStrength;
+import com.ricky.enums.impl.PasswordStrength;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

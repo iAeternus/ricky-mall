@@ -11,6 +11,8 @@ import java.util.Map;
 
 public class JwtUtils {
 
+    private JwtUtils() {}
+
     /**
      * 生成jwt
      * 使用Hs256算法, 私匙使用固定秘钥

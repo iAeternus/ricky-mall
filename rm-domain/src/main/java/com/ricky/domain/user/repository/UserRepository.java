@@ -1,7 +1,7 @@
 package com.ricky.domain.user.repository;
 
 import com.ricky.domain.user.model.aggregate.User;
-import com.ricky.types.Email;
+import com.ricky.types.user.Email;
 import org.springframework.stereotype.Repository;
 
 /**

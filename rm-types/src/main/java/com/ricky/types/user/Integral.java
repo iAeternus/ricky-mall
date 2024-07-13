@@ -1,6 +1,7 @@
-package com.ricky.types;
+package com.ricky.types.user;
 
 import com.ricky.exception.ForbiddenException;
+import com.ricky.marker.ValueObject;
 import lombok.Value;
 
 /**
@@ -11,7 +12,7 @@ import lombok.Value;
  * @desc 积分
  */
 @Value
-public class Integral {
+public class Integral implements ValueObject {
 
     Long value;
 

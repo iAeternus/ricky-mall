@@ -1,4 +1,4 @@
-package com.ricky.types;
+package com.ricky.types.user;
 
 import com.ricky.marker.Identifier;
 import lombok.Value;

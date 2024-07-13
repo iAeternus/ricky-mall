@@ -1,4 +1,4 @@
-package com.ricky.types;
+package com.ricky.types.user;
 
 import cn.hutool.core.util.StrUtil;
 import com.ricky.marker.ValueObject;

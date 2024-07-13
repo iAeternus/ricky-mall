@@ -1,6 +1,7 @@
 package com.ricky.types;
 
 
+import com.ricky.types.user.RealName;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

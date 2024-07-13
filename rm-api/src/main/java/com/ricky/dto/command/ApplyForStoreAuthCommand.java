@@ -1,6 +1,6 @@
 package com.ricky.dto.command;
 
-import com.ricky.enums.StoreType;
+import com.ricky.enums.impl.StoreType;
 import lombok.Data;
 
 /**

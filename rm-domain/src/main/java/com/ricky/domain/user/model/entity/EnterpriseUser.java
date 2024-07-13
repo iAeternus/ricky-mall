@@ -1,9 +1,9 @@
 package com.ricky.domain.user.model.entity;
 
 import com.ricky.marker.Entity;
-import com.ricky.types.Company;
-import com.ricky.types.EnterpriseUserId;
-import com.ricky.types.UserId;
+import com.ricky.types.user.Company;
+import com.ricky.types.user.EnterpriseUserId;
+import com.ricky.types.user.UserId;
 import lombok.Data;
 
 /**

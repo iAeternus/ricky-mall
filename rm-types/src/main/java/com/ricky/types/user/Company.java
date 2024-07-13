@@ -1,6 +1,7 @@
-package com.ricky.types;
+package com.ricky.types.user;
 
 import cn.hutool.core.util.StrUtil;
+import com.ricky.marker.ValueObject;
 import lombok.Value;
 
 /**
@@ -11,7 +12,7 @@ import lombok.Value;
  * @desc 公司
  */
 @Value
-public class Company {
+public class Company implements ValueObject {
 
     String recordNumber; // 备案号
     String name; // 公司名

@@ -1,7 +1,7 @@
-package com.ricky.types;
+package com.ricky.types.user;
 
 import cn.hutool.core.util.StrUtil;
-import com.ricky.enums.StoreType;
+import com.ricky.marker.ValueObject;
 import lombok.Value;
 
 /**
@@ -12,7 +12,7 @@ import lombok.Value;
  * @desc 店铺
  */
 @Value
-public class Store {
+public class Store implements ValueObject {
 
     String name; // 店铺名称
     String boss; // 老板名称
