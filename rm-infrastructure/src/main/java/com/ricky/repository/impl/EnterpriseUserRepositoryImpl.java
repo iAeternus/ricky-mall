@@ -27,4 +27,5 @@ public class EnterpriseUserRepositoryImpl extends ServiceImpl<EnterpriseUserMapp
         EnterpriseUserPO enterpriseUserPO = enterpriseUserDataConverter.toPO(enterpriseUser);
         save(enterpriseUserPO);
     }
+
 }

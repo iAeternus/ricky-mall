@@ -1,7 +1,11 @@
 package com.ricky.service.impl;
 
+import com.ricky.assembler.CommodityAssembler;
+import com.ricky.domain.commodity.model.aggregate.Commodity;
+import com.ricky.domain.commodity.service.CommodityDomainService;
 import com.ricky.dto.command.SaveCommodityCommand;
 import com.ricky.service.CommodityService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,9 +16,16 @@ import org.springframework.stereotype.Service;
  * @desc
  */
 @Service
+@RequiredArgsConstructor
 public class CommodityServiceImpl implements CommodityService {
+
+    private final CommodityAssembler commodityAssembler;
+    private final CommodityDomainService commodityDomainService;
+
+
     @Override
     public void saveCommodity(SaveCommodityCommand command) {
-
+        Commodity commodity = commodityAssembler.toCommodity(command);
+        commodityDomainService.saveCommodity(commodity);
     }
 }

@@ -28,6 +28,8 @@ public class CommodityDataConverter implements DataConverter<Commodity, Commodit
     @Override
     public CommodityPO toPO(@NonNull Commodity entity) {
         CommodityId commodityId = entity.getId();
+        PromotionInformation promotionInformation = entity.getPromotionInformation();
+        SalesInformation salesInformation = entity.getSalesInformation();
         return CommodityPO.builder()
                 .id(commodityId == null ? null : commodityId.getValue())
                 .name(entity.getName().getValue())
@@ -38,10 +40,11 @@ public class CommodityDataConverter implements DataConverter<Commodity, Commodit
                 .mainImageUrl(entity.getPictureInformation().getMainImageUrl())
                 .categoryId(entity.getCategoryId().getValue())
                 .brand(entity.getBrand().getName())
-                .originalPrice(entity.getPromotionInformation().getOriginalPrice())
-                .promotionStartTime(entity.getPromotionInformation().getStartTime())
-                .promotionEndTime(entity.getPromotionInformation().getEndTime())
-                .soldCount(entity.getSalesInformation().getSoldCount())
+                .originalPrice(promotionInformation == null ? null : promotionInformation.getOriginalPrice())
+                .discountPrice(promotionInformation == null ? null : promotionInformation.getDiscountPrice())
+                .promotionStartTime(promotionInformation == null ? null : promotionInformation.getStartTime())
+                .promotionEndTime(promotionInformation == null ? null : promotionInformation.getEndTime())
+                .soldCount(salesInformation == null ? 0 : salesInformation.getSoldCount())
                 .weight(entity.getShippingInformation().getWeight().getValue())
                 .weightUnit(entity.getShippingInformation().getWeight().getUnit())
                 .supplierId(entity.getSupplierInformation().getSupplierId())

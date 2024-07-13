@@ -6,8 +6,10 @@ import com.ricky.exception.InsufficientStockException;
 import com.ricky.marker.Aggregate;
 import com.ricky.types.commodity.*;
 import com.ricky.types.common.Money;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -19,6 +21,8 @@ import lombok.Data;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Commodity implements Aggregate<CommodityId> {
 
     private CommodityId id; // 商品ID

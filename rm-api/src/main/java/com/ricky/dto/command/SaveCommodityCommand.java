@@ -18,7 +18,7 @@ public class SaveCommodityCommand implements Command {
     private Long id;
     private String name; // 商品名称
     private String description; // 商品描述
-    private Money price; // 商品价格 TODO
+    private Money price; // 商品价格
     private Integer stock; // 商品库存量
     private CommodityType commodityType; // 商品状态
     private String mainImageUrl; // 主图URL

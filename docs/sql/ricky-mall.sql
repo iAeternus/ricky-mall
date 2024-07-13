@@ -61,7 +61,7 @@ create table if not exists commodity
     promotion_end_time   datetime      null comment '促销结束时间',
     sold_count           int default 0 not null comment '销售数量',
     weight               double        not null comment '商品重量值',
-    weight_unit          tinyint       not null comment '商品重量单位',
+    weight_unit          varchar(4)    not null comment '商品重量单位',
     supplier_id          bigint        not null comment '供应商ID',
     meta_title           varchar(32)   null comment 'SEO标题',
     meta_keywords        varchar(12)   null comment 'SEO关键词',
