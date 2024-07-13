@@ -1,6 +1,7 @@
 package com.ricky.types.commodity;
 
 import cn.hutool.core.util.StrUtil;
+import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 
@@ -17,9 +18,7 @@ public class Brand implements ValueObject {
     String name; // 品牌名
 
     public Brand(String name) {
-        if(StrUtil.isBlank(name)) {
-            throw new IllegalArgumentException("品牌名不能为空");
-        }
+        NullException.isNull(name, "品牌名不能为空");
         this.name = name;
     }
 }

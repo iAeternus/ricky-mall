@@ -1,6 +1,7 @@
 package com.ricky.types.commodity;
 
 import cn.hutool.core.util.StrUtil;
+import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 
@@ -17,9 +18,7 @@ public class CommodityName implements ValueObject {
     String value;
 
     public CommodityName(String value) {
-        if(StrUtil.isBlank(value)) {
-            throw new IllegalArgumentException("商品名不能为空");
-        }
+        NullException.isNull(value, "商品名不能为空");
         this.value = value;
     }
 }

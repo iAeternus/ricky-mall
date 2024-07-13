@@ -1,5 +1,6 @@
 package com.ricky.types.commodity;
 
+import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 
@@ -16,9 +17,7 @@ public class CategoryId implements ValueObject {
     Long value;
 
     public CategoryId(Long value) {
-        if(value == null) {
-            throw new IllegalStateException("分类id不能为空");
-        }
+        NullException.isNull(value, "分类id不能为空");
         this.value = value;
     }
 }

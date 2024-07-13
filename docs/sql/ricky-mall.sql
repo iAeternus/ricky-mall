@@ -44,4 +44,33 @@ create table if not exists business_user
 )
     comment '商家表';
 
+create table if not exists commodity
+(
+    id                   bigint auto_increment primary key,
+    name                 varchar(32)   not null comment '商品名称',
+    description          varchar(128)  not null comment '商品描述',
+    price                json          not null comment '商品价格',
+    stock                int           not null comment '商品库存量',
+    commodity_type       tinyint       not null comment '商品状态',
+    main_image_url       varchar(300)  not null comment '主图URL',
+    category_id          bigint        not null comment '分类id',
+    brand                varchar(32)   null comment '品牌',
+    original_price       json          null comment '原价',
+    discount_price       json          null comment '折扣价',
+    promotion_start_time datetime      null comment '促销开始时间',
+    promotion_end_time   datetime      null comment '促销结束时间',
+    sold_count           int default 0 not null comment '销售数量',
+    weight               double        not null comment '商品重量值',
+    weight_unit          tinyint       not null comment '商品重量单位',
+    shipping_type        tinyint       not null comment '发货方式',
+    supplier_id          bigint        not null comment '供应商ID',
+    meta_title           varchar(32)   null comment 'SEO标题',
+    meta_keywords        varchar(12)   null comment 'SEO关键词',
+    meta_description     varchar(128)  null comment 'SEO描述',
+    create_time          datetime      not null comment '创建时间',
+    update_time          datetime      not null comment '修改时间'
+)
+    comment '商品表';
+
+
 

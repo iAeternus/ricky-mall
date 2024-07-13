@@ -1,5 +1,6 @@
 package com.ricky.types.commodity;
 
+import com.ricky.exception.NullException;
 import com.ricky.marker.Identifier;
 import lombok.Value;
 
@@ -16,9 +17,7 @@ public class CommodityId implements Identifier {
     Long value;
 
     public CommodityId(Long value) {
-        if (value == null) {
-            throw new IllegalArgumentException("商品id不能为空");
-        }
+        NullException.isNull(value, "商品id不能为空");
         this.value = value;
     }
 }

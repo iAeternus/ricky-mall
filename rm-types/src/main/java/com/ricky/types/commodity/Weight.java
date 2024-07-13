@@ -1,6 +1,7 @@
 package com.ricky.types.commodity;
 
 import com.ricky.enums.impl.WeightUnit;
+import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.Value;
 
@@ -18,12 +19,9 @@ public class Weight implements ValueObject {
     WeightUnit unit; // 重量单位
 
     public Weight(Double value, WeightUnit unit) {
-        if(value == null) {
-            throw new IllegalArgumentException("重量值不能为空");
-        }
-        if(unit == null) {
-            throw new IllegalArgumentException("重量单位不能为空");
-        }
+        NullException.isNull(value, "重量值不能为空");
+        NullException.isNull(unit, "重量单位不能为空");
+
         this.value = value;
         this.unit = unit;
     }

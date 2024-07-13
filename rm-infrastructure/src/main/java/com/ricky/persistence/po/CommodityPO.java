@@ -32,10 +32,8 @@ public class CommodityPO extends BasePO {
     private Long id;
     private String name; // 商品名称
     private String description; // 商品描述
-
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Money price; // 商品价格
-
     private Integer stock; // 商品库存量
     private CommodityType commodityType; // 商品状态
     private String mainImageUrl; // 主图URL
@@ -45,8 +43,10 @@ public class CommodityPO extends BasePO {
     private String brand; // 品牌
 
     // 促销信息
-    private BigDecimal originalPrice; // 原价
-    private BigDecimal discountPrice; // 折扣价
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private Money originalPrice; // 原价
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private Money discountPrice; // 折扣价
     private LocalDateTime promotionStartTime; // 促销开始时间
     private LocalDateTime promotionEndTime; // 促销结束时间
 
@@ -54,8 +54,8 @@ public class CommodityPO extends BasePO {
     private Integer soldCount; // 销售数量
 
     // 发货信息
-    Double weight; // 商品重量值
-    WeightUnit weightUnit; // 商品重量单位
+    private Double weight; // 商品重量值
+    private WeightUnit weightUnit; // 商品重量单位
     private ShippingType shippingType; // 发货方式
 
     // 供应商信息
