@@ -26,8 +26,8 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class CommodityPO extends BasePO {
 
-    // @TableId
-    // private Long id;
+    @TableId
+    private Long id;
     private String name; // 商品名称
     private String description; // 商品描述
     @TableField(typeHandler = JacksonTypeHandler.class)

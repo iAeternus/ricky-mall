@@ -17,13 +17,10 @@ import java.time.LocalDateTime;
 @Data
 public class BasePO {
 
-    @TableId
-    private Long id;
-
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime; // 创建时间
+    protected LocalDateTime createTime; // 创建时间
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime; // 修改时间
+    protected LocalDateTime updateTime; // 修改时间
 
 }

@@ -21,8 +21,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class UserPO extends BasePO {
 
-    // @TableId
-    // private Long id;
+    @TableId
+    private Long id;
     private String email;
     private String password;
     private String nickname;
