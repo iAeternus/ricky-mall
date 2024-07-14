@@ -1,15 +1,13 @@
 package com.ricky.trigger.http;
 
+import com.ricky.dto.command.ModifyCommodityCommand;
 import com.ricky.dto.command.SaveCommodityCommand;
 import com.ricky.model.Result;
 import com.ricky.service.CommodityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Ricky
@@ -33,6 +31,11 @@ public class CommodityController {
         return Result.ok();
     }
 
-    // TODO
+    @PutMapping("/modify")
+    @ApiOperation("修改商品信息")
+    public Result<Void> modifyCommodity(@RequestBody ModifyCommodityCommand command) {
+        commodityService.modifyCommodity(command);
+        return Result.ok();
+    }
 
 }

@@ -17,8 +17,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class AssociatedCommodityPO extends BasePO {
 
-    @TableId
-    private Long id;
+    // @TableId
+    // private Long id;
     private Long commodityId; // 商品id
     private Long relatedCommodityId; // 相关商品ID
     private Long skuId; // 对应的SKU ID

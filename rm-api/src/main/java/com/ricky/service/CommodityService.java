@@ -1,5 +1,6 @@
 package com.ricky.service;
 
+import com.ricky.dto.command.ModifyCommodityCommand;
 import com.ricky.dto.command.SaveCommodityCommand;
 import org.springframework.stereotype.Service;
 
@@ -13,4 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface CommodityService {
     void saveCommodity(SaveCommodityCommand command);
+
+    void modifyCommodity(ModifyCommodityCommand command);
 }

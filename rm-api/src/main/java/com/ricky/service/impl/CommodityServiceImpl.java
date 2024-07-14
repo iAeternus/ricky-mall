@@ -3,6 +3,7 @@ package com.ricky.service.impl;
 import com.ricky.assembler.CommodityAssembler;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.domain.commodity.service.CommodityDomainService;
+import com.ricky.dto.command.ModifyCommodityCommand;
 import com.ricky.dto.command.SaveCommodityCommand;
 import com.ricky.service.CommodityService;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,12 @@ public class CommodityServiceImpl implements CommodityService {
     public void saveCommodity(SaveCommodityCommand command) {
         Commodity commodity = commodityAssembler.toCommodity(command);
         commodityDomainService.saveCommodity(commodity);
+    }
+
+    @Override
+    public void modifyCommodity(ModifyCommodityCommand command) {
+        // commodityDomainService.
+        // Commodity commodity = commodityAssembler.toCommodity(command);
+        // commodityDomainService.modifyCommodity(commodity);
     }
 }

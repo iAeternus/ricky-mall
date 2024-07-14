@@ -1,0 +1,12 @@
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    database: 1
+
+cache:
+  appName: ricky_mall #缓存DDD聚合前缀id，防止redis存储对象的名字一致时，对数据进行覆盖，仅redis有效
+  type: map    #可选---  map:适用于单机模式，redis：适用于集群模式
+  cacheExpiresTime: 240000 #过期时间,单位 毫秒
+  cacheExpiresSize: 10000  #该属性仅对map时有效

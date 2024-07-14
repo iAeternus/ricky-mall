@@ -17,6 +17,7 @@
         <module>rm-infrastructure</module>
         <module>rm-trigger</module>
         <module>rm-types</module>
+        <module>common-repository</module>
     </modules>
 
     <properties>
