@@ -23,7 +23,6 @@ public class CommodityServiceImpl implements CommodityService {
     private final CommodityAssembler commodityAssembler;
     private final CommodityDomainService commodityDomainService;
 
-
     @Override
     public void saveCommodity(SaveCommodityCommand command) {
         Commodity commodity = commodityAssembler.toCommodity(command);
@@ -32,8 +31,10 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public void modifyCommodity(ModifyCommodityCommand command) {
-        // commodityDomainService.
-        // Commodity commodity = commodityAssembler.toCommodity(command);
-        // commodityDomainService.modifyCommodity(commodity);
+        Commodity commodity = commodityAssembler.toCommodity(command);
+        commodityDomainService.modifyCommodity(commodity);
     }
+
+
+
 }

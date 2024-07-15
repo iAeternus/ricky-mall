@@ -45,6 +45,11 @@
             <artifactId>rm-types</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.ricky</groupId>
+            <artifactId>common-repository</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <!-- 自身模块 end -->
     </dependencies>
 

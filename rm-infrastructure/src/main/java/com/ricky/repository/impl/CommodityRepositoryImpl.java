@@ -6,6 +6,7 @@ import com.ricky.domain.commodity.repsitory.CommodityRepository;
 import com.ricky.persistence.converter.impl.CommodityDataConverter;
 import com.ricky.persistence.mapper.CommodityMapper;
 import com.ricky.persistence.po.CommodityPO;
+import com.ricky.types.commodity.CommodityId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -17,15 +18,16 @@ import org.springframework.stereotype.Repository;
  * @desc
  */
 @Repository
-@RequiredArgsConstructor
-public class CommodityRepositoryImpl extends ServiceImpl<CommodityMapper, CommodityPO> implements CommodityRepository {
+// @RequiredArgsConstructor
+public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, CommodityId, CommodityPO> implements CommodityRepository {
 
-    private final CommodityDataConverter commodityDataConverter;
+    // private final CommodityDataConverter commodityDataConverter;
 
     @Override
     public void saveCommodity(Commodity commodity) {
-        CommodityPO commodityPO = commodityDataConverter.toPO(commodity);
-        save(commodityPO);
+        // CommodityPO commodityPO = commodityDataConverter.toPO(commodity);
+        // save(commodityPO);
+        save(commodity);
     }
 
 }

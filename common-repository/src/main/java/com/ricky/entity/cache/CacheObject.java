@@ -1,16 +1,10 @@
 package com.ricky.entity.cache;
 
-import cn.hutool.core.util.SerializeUtil;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
-
-import java.time.Duration;
-import java.util.Map;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Ricky
@@ -20,6 +14,7 @@ import java.util.Map;
  * @desc 缓存对象
  */
 @Data
+@Component
 @NoArgsConstructor
 public abstract class CacheObject<T extends Aggregate<ID>, ID extends Identifier> {
 
@@ -32,7 +27,9 @@ public abstract class CacheObject<T extends Aggregate<ID>, ID extends Identifier
     }
 
     public abstract T find(ID id);
+
     public abstract void save(ID id, T aggregate);
+
     public abstract void remove(ID id);
 
 }

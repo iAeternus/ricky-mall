@@ -1,6 +1,6 @@
 package com.ricky.utils;
 
-import com.ricky.entity.diff.EntityDiff;
+import com.ricky.entity.diff.Diff;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
 
@@ -13,7 +13,7 @@ import com.ricky.marker.Identifier;
  */
 public class DiffUtils {
 
-    public static <T extends Aggregate<ID>, ID extends Identifier> EntityDiff diff(T snapshot, T aggregate) {
+    public static <T extends Aggregate<ID>, ID extends Identifier> Diff diff(T snapshot, T aggregate) {
         return null;
     }
 

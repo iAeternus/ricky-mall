@@ -1,29 +1,16 @@
 package com.ricky.support;
 
-import cn.hutool.core.collection.CollUtil;
-import com.ricky.context.AggregateContextDelegate;
-import com.ricky.entity.diff.EntityDiff;
+import com.ricky.entity.diff.AggregateDiff;
 import com.ricky.manager.AggregateManager;
 import com.ricky.marker.Aggregate;
-import com.ricky.marker.Entity;
 import com.ricky.marker.Identifier;
-import com.ricky.persistence.converter.DataConverter;
-import com.ricky.persistence.po.BasePO;
 import com.ricky.repository.Repository;
-import lombok.RequiredArgsConstructor;
-import org.apache.curator.shaded.com.google.common.base.CaseFormat;
-import org.springframework.cglib.beans.BeanMap;
+import lombok.AccessLevel;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Ricky
@@ -36,14 +23,18 @@ import java.util.Map;
 public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Identifier> implements Repository<T, ID> {
 
     @Resource
+    @Getter(AccessLevel.PROTECTED)
     private AggregateManager<T, ID> aggregateManager;
 
     /**
      * 这几个方法是继承的子类应该去实现的
      */
     protected abstract void onInsert(T aggregate);
+
     protected abstract T onSelect(ID id);
-    protected abstract void onUpdate(T aggregate, EntityDiff diff);
+
+    protected abstract void onUpdate(T aggregate, AggregateDiff<T, ID> diff);
+
     protected abstract void onDelete(T aggregate);
 
     @Override
@@ -84,7 +75,7 @@ public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Iden
         }
 
         // 做Diff
-        EntityDiff diff = aggregateManager.detectChanges(aggregate);
+        AggregateDiff<T, ID> diff = aggregateManager.detectChanges(aggregate);
         if (diff.isEmpty()) {
             return;
         }

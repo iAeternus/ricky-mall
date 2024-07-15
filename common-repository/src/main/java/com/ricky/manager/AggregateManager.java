@@ -1,6 +1,6 @@
 package com.ricky.manager;
 
-import com.ricky.entity.diff.EntityDiff;
+import com.ricky.entity.diff.AggregateDiff;
 import com.ricky.manager.impl.ThreadLocalAggregateManager;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 public interface AggregateManager<T extends Aggregate<ID>, ID extends Identifier> {
 
     static <T extends Aggregate<ID>, ID extends Identifier> AggregateManager<T, ID> newInstance(CacheProperties cacheProperties, RedisTemplate<Object, Object> redisTemplate) {
-        return new ThreadLocalAggregateManager<>(cacheProperties, redisTemplate);
+        return new ThreadLocalAggregateManager<>();
     }
 
     void attach(T aggregate);
@@ -30,7 +30,7 @@ public interface AggregateManager<T extends Aggregate<ID>, ID extends Identifier
 
     T find(ID id);
 
-    EntityDiff detectChanges(T aggregate);
+    AggregateDiff<T, ID> detectChanges(T aggregate);
 
     void merge(T aggregate);
 

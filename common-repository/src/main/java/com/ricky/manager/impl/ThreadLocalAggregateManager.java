@@ -1,15 +1,10 @@
 package com.ricky.manager.impl;
 
 import com.ricky.context.AggregateContext;
-import com.ricky.context.AggregateContextDelegate;
-import com.ricky.entity.diff.EntityDiff;
+import com.ricky.entity.diff.AggregateDiff;
 import com.ricky.manager.AggregateManager;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
-import com.ricky.properties.CacheProperties;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,15 +12,15 @@ import org.springframework.stereotype.Service;
  * @version 1.0
  * @date 2024/6/18
  * @className ThreadLocalAggregateManager
- * @desc
+ * @desc 通过ThreadLocal避免多线程公用同一个Entity的情况
  */
 @Service
 public class ThreadLocalAggregateManager<T extends Aggregate<ID>, ID extends Identifier> implements AggregateManager<T, ID> {
 
-    private final ThreadLocal<AggregateContextDelegate<T, ID>> context;
+    private final ThreadLocal<AggregateContext<T, ID>> context;
 
-    public ThreadLocalAggregateManager(CacheProperties cacheProperties, RedisTemplate<Object, Object> redisTemplate) {
-        this.context = ThreadLocal.withInitial(() -> new AggregateContextDelegate<>(cacheProperties, redisTemplate));
+    public ThreadLocalAggregateManager() {
+        this.context = ThreadLocal.withInitial(AggregateContext::new);
     }
 
     @Override
@@ -50,7 +45,7 @@ public class ThreadLocalAggregateManager<T extends Aggregate<ID>, ID extends Ide
     }
 
     @Override
-    public EntityDiff detectChanges(T aggregate) {
+    public AggregateDiff<T, ID> detectChanges(T aggregate) {
         return context.get().detectChanges(aggregate);
     }
 

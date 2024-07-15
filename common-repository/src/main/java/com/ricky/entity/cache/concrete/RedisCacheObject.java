@@ -1,6 +1,5 @@
 package com.ricky.entity.cache.concrete;
 
-import cn.hutool.cache.impl.CacheObj;
 import cn.hutool.core.util.SerializeUtil;
 import com.ricky.entity.cache.CacheObject;
 import com.ricky.marker.Aggregate;
@@ -8,7 +7,9 @@ import com.ricky.marker.Identifier;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.time.Duration;
 
 /**
@@ -19,19 +20,21 @@ import java.time.Duration;
  * @desc
  */
 @Data
+@Component
 @EqualsAndHashCode(callSuper = true)
 public class RedisCacheObject<T extends Aggregate<ID>, ID extends Identifier> extends CacheObject<T, ID> {
 
+    @Resource
     private RedisTemplate<Object, Object> redisTemplate;
 
-    public RedisCacheObject(String appName, long cacheExpiresTime, RedisTemplate<Object, Object> redisTemplate) {
+    public RedisCacheObject(String appName, long cacheExpiresTime) {
         super(appName, cacheExpiresTime);
-        this.redisTemplate = redisTemplate;
     }
 
+    @Override
     public T find(ID id) {
         Object obj = redisTemplate.opsForHash().get(getAppName(), id);
-        if(obj == null) {
+        if (obj == null) {
             return null;
         }
 
@@ -41,11 +44,13 @@ public class RedisCacheObject<T extends Aggregate<ID>, ID extends Identifier> ex
         return aggregate;
     }
 
+    @Override
     public void save(ID id, T aggregate) {
         redisTemplate.opsForHash().put(getAppName(), id, SerializeUtil.serialize(aggregate));
         redisTemplate.expire(id, Duration.ofMillis(getCacheExpiresTime()));
     }
 
+    @Override
     public void remove(ID id) {
         redisTemplate.opsForHash().delete(getAppName(), id);
     }

@@ -15,5 +15,4 @@ public class QueryWrapper {
     private final Map<String, Object> searchMap = new HashMap<>();
 
 
-
 }

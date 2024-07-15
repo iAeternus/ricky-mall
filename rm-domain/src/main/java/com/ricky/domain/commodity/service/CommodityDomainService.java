@@ -13,4 +13,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface CommodityDomainService {
     void saveCommodity(Commodity commodity);
+
+    void modifyCommodity(Commodity commodity);
 }

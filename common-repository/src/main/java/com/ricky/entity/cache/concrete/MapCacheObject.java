@@ -6,9 +6,9 @@ import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.annotation.Id;
+import org.springframework.stereotype.Component;
 
-import java.time.Duration;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,14 +19,14 @@ import java.util.Map;
  * @desc
  */
 @Data
+@Component
 @EqualsAndHashCode(callSuper = true)
 public class MapCacheObject<T extends Aggregate<ID>, ID extends Identifier> extends CacheObject<T, ID> {
 
-    private Map<ID, T> cacheMap;
+    private Map<ID, T> cacheMap = new HashMap<>();
 
-    public MapCacheObject(String appName, long cacheExpiresTime, Map<ID, T> cacheMap) {
+    public MapCacheObject(String appName, long cacheExpiresTime) {
         super(appName, cacheExpiresTime);
-        this.cacheMap = cacheMap;
     }
 
     @Override
