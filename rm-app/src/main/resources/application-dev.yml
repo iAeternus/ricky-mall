@@ -1,12 +1,18 @@
-this:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    host: localhost
-    port: 3306
-    database: ricky-mall
-    username: root
-    password: 123456
-  jwt:
-    secret-key: 0TQTEifegF2/UagSya25OgI7yyKvVG/nHLNdl3ASA+0aETv7cE8IeUtAO5tkIUVoVtRH9ylI5p5BTrOn6jyn1kj/hErUjWVF8Huqa37XsLwFchCDgop03EB6sXsy/E4lXvtfBdx9CxwGWTIcGboFOS92K4zfuKNqT7HZqz51TMBUtrnWPyGijrcX+CuVh47MbHv+fpbk3IgRSHeeCJe6fO7U4L24EcCAjTlPjkhWG2ixQZnUrHcIjRdxCn5O+zg3sCVmd0dSixzPsKM08Z5ul7WXKkaJfYIUg+o+mQXDB2y/Kz+MH+D5ZLXq2Gg96iYma5bhJ3XgnGH6SdqWqLm1y7U4wCAT4sZTGzLylxkyF3c=
-    ttl: 7200000
-    token-name: token
+datasource:
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  host: localhost
+  port: 3306
+  database: ricky-mall
+  username: root
+  password: 123456
+
+jwt:
+  secret-key: 0TQTEifegF2/UagSya25OgI7yyKvVG/nHLNdl3ASA+0aETv7cE8IeUtAO5tkIUVoVtRH9ylI5p5BTrOn6jyn1kj/hErUjWVF8Huqa37XsLwFchCDgop03EB6sXsy/E4lXvtfBdx9CxwGWTIcGboFOS92K4zfuKNqT7HZqz51TMBUtrnWPyGijrcX+CuVh47MbHv+fpbk3IgRSHeeCJe6fO7U4L24EcCAjTlPjkhWG2ixQZnUrHcIjRdxCn5O+zg3sCVmd0dSixzPsKM08Z5ul7WXKkaJfYIUg+o+mQXDB2y/Kz+MH+D5ZLXq2Gg96iYma5bhJ3XgnGH6SdqWqLm1y7U4wCAT4sZTGzLylxkyF3c=
+  ttl: 7200000
+  token-name: token
+
+redis:
+  host: localhost
+  port: 6379
+  password: 123456
+  database: 1

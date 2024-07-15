@@ -2,6 +2,7 @@ package com.ricky.persistence.po;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ricky.marker.Identifier;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,8 +18,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class AttributePO extends BasePO {
 
-    @TableId
-    private Long id;
+    // @TableId
+    // private Long id;
     private Long commodityId; // 商品id
     private String key; // 商品属性键
     private String value; // 商品属性值

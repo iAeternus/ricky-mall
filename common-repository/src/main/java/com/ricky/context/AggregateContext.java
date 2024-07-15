@@ -7,6 +7,7 @@ import com.ricky.marker.Identifiable;
 import com.ricky.marker.Identifier;
 import com.ricky.utils.ReflectionUtils;
 import com.ricky.utils.SnapshotUtils;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,32 +20,33 @@ import javax.annotation.Resource;
  * @desc 聚合根上下文
  */
 @Service
+@DependsOn("cacheObjectDelegate")
 public class AggregateContext<T extends Aggregate<ID>, ID extends Identifier> {
 
     @Resource
-    private CacheObjectDelegate<T, ID> cacheObject;
+    private CacheObjectDelegate<T, ID> cacheObjectDelegate;
 
     public void attach(T aggregate) {
-        if (aggregate.getId() != null && cacheObject.find(aggregate.getId()) != null) {
+        if (aggregate.getId() != null && cacheObjectDelegate.find(aggregate.getId()) != null) {
             this.merge(aggregate);
         }
     }
 
     public void detach(T aggregate) {
         if (aggregate.getId() != null) {
-            cacheObject.remove(aggregate.getId());
+            cacheObjectDelegate.remove(aggregate.getId());
         }
     }
 
     public T find(ID id) {
-        return cacheObject.find(id);
+        return cacheObjectDelegate.find(id);
     }
 
     public AggregateDiff<T, ID> detectChanges(T aggregate) {
         if (aggregate.getId() == null) {
             return null;
         }
-        T snapshot = cacheObject.find(aggregate.getId());
+        T snapshot = cacheObjectDelegate.find(aggregate.getId());
         if (snapshot == null) {
             attach(aggregate);
         }
@@ -54,7 +56,7 @@ public class AggregateContext<T extends Aggregate<ID>, ID extends Identifier> {
     public void merge(T aggregate) {
         if (aggregate.getId() != null) {
             T snapshot = SnapshotUtils.snapshot(aggregate);
-            cacheObject.save(aggregate.getId(), snapshot);
+            cacheObjectDelegate.save(aggregate.getId(), snapshot);
         }
     }
 

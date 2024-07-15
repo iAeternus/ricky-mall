@@ -84,7 +84,7 @@ public class AggregateDiffTest {
     private final UserDataConverter userDataConverter = new UserDataConverter();
 
     @Test
-    public void diff() throws NoSuchFieldException, IllegalAccessException {
+    public void diff() {
         // Given
         // 前端传过来的对象
         ModifyUserCommand command = new ModifyUserCommand(1L, "ricky", 18);
@@ -108,7 +108,7 @@ public class AggregateDiffTest {
     }
 
     @Test
-    public void updateChangedOnly() throws IllegalAccessException, NoSuchFieldException {
+    public void updateChangedOnly() throws IllegalAccessException {
         // Given
         // 前端传过来的对象
         ModifyUserCommand command = new ModifyUserCommand(1L, "ricky", 18);

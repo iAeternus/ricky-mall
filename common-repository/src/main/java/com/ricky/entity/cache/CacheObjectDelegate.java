@@ -5,9 +5,11 @@ import com.ricky.entity.cache.concrete.RedisCacheObject;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
 import com.ricky.properties.CacheProperties;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,14 +21,16 @@ import java.util.Map;
  * @desc 缓存委派
  */
 @Service
+@RequiredArgsConstructor
 public class CacheObjectDelegate<T extends Aggregate<ID>, ID extends Identifier> extends CacheObject<T, ID> {
 
-    @Resource
-    private CacheProperties cacheProperties;
+    private String cacheType;
 
-    private final String cacheType;
+    private final CacheProperties cacheProperties;
+    private final RedisTemplate<Object, Object> redisTemplate;
 
-    public CacheObjectDelegate() {
+    @PostConstruct
+    public void afterInit() {
         String type = cacheProperties.getType();
         if (type == null) {
             throw new RuntimeException("未配置 cache.type, 请关注");
@@ -40,11 +44,13 @@ public class CacheObjectDelegate<T extends Aggregate<ID>, ID extends Identifier>
     private void initContextMap() {
         contextMap.put(CacheProperties.MAP, new MapCacheObject<>(
                 cacheProperties.getAppName(),
-                cacheProperties.getCacheExpiresTime()
+                cacheProperties.getCacheExpiresTime(),
+                new HashMap<>()
         ));
         contextMap.put(CacheProperties.REDIS, new RedisCacheObject<>(
                 cacheProperties.getAppName(),
-                cacheProperties.getCacheExpiresTime()
+                cacheProperties.getCacheExpiresTime(),
+                redisTemplate
         ));
     }
 

@@ -11,6 +11,8 @@ import com.ricky.persistence.po.BasePO;
 import com.ricky.repository.Repository;
 import com.ricky.support.RepositorySupport;
 import com.ricky.utils.ReflectionUtils;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,16 +25,34 @@ import javax.annotation.Resource;
  * @desc
  */
 @Service
-public class RepositoryImpl<T extends Aggregate<ID>, ID extends Identifier, PO extends BasePO> extends RepositorySupport<T, ID> implements Repository<T, ID> {
+// @RequiredArgsConstructor
+public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identifier, PO extends BasePO> extends RepositorySupport<T, ID> implements Repository<T, ID> {
 
-    @Resource
-    private DataConverter<T, ID, PO> dataConverter;
+    // @Resource
+    // private final DataConverter<T, ID, PO> dataConverter;
+
     @Resource
     private IMapper<PO> mapper;
 
+    /**
+     * 转换领域对象DO为持久化对象PO
+     *
+     * @param aggregate 领域对象DO
+     * @return 持久化对象PO
+     */
+    public abstract PO toPO(@NonNull T aggregate);
+
+    /**
+     * 转换持久化对象PO为领域对象DO
+     *
+     * @param po 持久化对象PO
+     * @return 领域对象DO
+     */
+    public abstract T toEntity(@NonNull PO po);
+
     @Override
     protected void onInsert(T aggregate) {
-        PO po = dataConverter.toPO(aggregate);
+        PO po = toPO(aggregate);
         mapper.insert(po);
         ReflectionUtils.writeField(Identifiable.ID, aggregate, po.getId());
     }
@@ -43,7 +63,7 @@ public class RepositoryImpl<T extends Aggregate<ID>, ID extends Identifier, PO e
         if(po == null) {
             throw new NotFoundException();
         }
-        return dataConverter.toEntity(po);
+        return toEntity(po);
     }
 
     @Override
@@ -52,7 +72,7 @@ public class RepositoryImpl<T extends Aggregate<ID>, ID extends Identifier, PO e
             if (!diff.isSelfModified()) {
                 diff.updateChangedOnly(aggregate);
             }
-            PO po = dataConverter.toPO(aggregate);
+            PO po = toPO(aggregate);
             mapper.updateById(po);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
@@ -61,7 +81,7 @@ public class RepositoryImpl<T extends Aggregate<ID>, ID extends Identifier, PO e
 
     @Override
     protected void onDelete(T aggregate) {
-        PO po = dataConverter.toPO(aggregate);
+        PO po = toPO(aggregate);
         mapper.deleteById(po);
     }
 }

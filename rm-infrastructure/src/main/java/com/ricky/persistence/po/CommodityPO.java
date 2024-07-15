@@ -10,6 +10,7 @@ import com.ricky.types.common.Money;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
@@ -21,13 +22,13 @@ import java.time.LocalDateTime;
  * @desc
  */
 @Data
-@Builder
+@SuperBuilder
 @TableName("commodity")
 @EqualsAndHashCode(callSuper = true)
 public class CommodityPO extends BasePO {
 
-    @TableId
-    private Long id;
+    // @TableId
+    // private Long id;
     private String name; // 商品名称
     private String description; // 商品描述
     @TableField(typeHandler = JacksonTypeHandler.class)

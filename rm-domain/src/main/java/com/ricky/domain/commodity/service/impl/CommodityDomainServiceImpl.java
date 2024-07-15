@@ -26,7 +26,7 @@ public class CommodityDomainServiceImpl implements CommodityDomainService {
 
     @Override
     public void modifyCommodity(Commodity commodity) {
-        // TODO
+        commodityRepository.saveCommodity(commodity);
     }
 
 }

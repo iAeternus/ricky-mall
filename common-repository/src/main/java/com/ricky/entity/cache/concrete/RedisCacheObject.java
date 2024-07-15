@@ -20,15 +20,14 @@ import java.time.Duration;
  * @desc
  */
 @Data
-@Component
 @EqualsAndHashCode(callSuper = true)
 public class RedisCacheObject<T extends Aggregate<ID>, ID extends Identifier> extends CacheObject<T, ID> {
 
-    @Resource
     private RedisTemplate<Object, Object> redisTemplate;
 
-    public RedisCacheObject(String appName, long cacheExpiresTime) {
+    public RedisCacheObject(String appName, long cacheExpiresTime, RedisTemplate<Object, Object> redisTemplate) {
         super(appName, cacheExpiresTime);
+        this.redisTemplate = redisTemplate;
     }
 
     @Override

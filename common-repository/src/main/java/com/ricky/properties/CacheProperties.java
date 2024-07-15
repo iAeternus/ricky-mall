@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "cache")
+@ConfigurationProperties(prefix = "aggregate-cache")
 public class CacheProperties {
 
     private String appName; // 缓存DDD聚合前缀id，防止redis存储对象的名字一致时，对数据进行覆盖，仅redis有效

@@ -17,8 +17,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class GalleryImagePO extends BasePO {
 
-    @TableId
-    private Long id;
+    // @TableId
+    // private Long id;
     private Long commodityId; // 商品id
     private String imageUrl; // 图片URL
 

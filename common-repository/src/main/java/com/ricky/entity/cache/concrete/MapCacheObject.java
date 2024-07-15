@@ -19,14 +19,14 @@ import java.util.Map;
  * @desc
  */
 @Data
-@Component
 @EqualsAndHashCode(callSuper = true)
 public class MapCacheObject<T extends Aggregate<ID>, ID extends Identifier> extends CacheObject<T, ID> {
 
-    private Map<ID, T> cacheMap = new HashMap<>();
+    private Map<ID, T> cacheMap;
 
-    public MapCacheObject(String appName, long cacheExpiresTime) {
+    public MapCacheObject(String appName, long cacheExpiresTime, Map<ID, T> cacheMap) {
         super(appName, cacheExpiresTime);
+        this.cacheMap = cacheMap;
     }
 
     @Override

@@ -2,9 +2,14 @@ package com.ricky.entity.cache;
 
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
+import com.ricky.properties.CacheProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * @author Ricky
@@ -14,17 +19,12 @@ import org.springframework.stereotype.Component;
  * @desc 缓存对象
  */
 @Data
-@Component
 @NoArgsConstructor
+@AllArgsConstructor
 public abstract class CacheObject<T extends Aggregate<ID>, ID extends Identifier> {
 
     private String appName;
     private long cacheExpiresTime;
-
-    public CacheObject(String appName, long cacheExpiresTime) {
-        this.appName = appName;
-        this.cacheExpiresTime = cacheExpiresTime;
-    }
 
     public abstract T find(ID id);
 
