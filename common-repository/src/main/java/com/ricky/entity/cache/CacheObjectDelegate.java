@@ -44,16 +44,15 @@ public class CacheObjectDelegate<T extends Aggregate<ID>, ID extends Identifier>
     private final Map<String, CacheObject<T, ID>> contextMap = new HashMap<>();
 
     private void initContextMap() {
-        contextMap.put(CacheProperties.MAP, new MapCacheObject<>(
-                cacheProperties.getAppName(),
-                cacheProperties.getCacheExpiresTime(),
-                new HashMap<>()
-        ));
-        contextMap.put(CacheProperties.REDIS, new RedisCacheObject<>(
-                cacheProperties.getAppName(),
-                cacheProperties.getCacheExpiresTime(),
-                redisTemplate
-        ));
+        String appName = cacheProperties.getAppName();
+        if(appName == null) {
+            throw new RuntimeException("未配置 cache.appName, 请关注");
+        }
+        long expiresTime = cacheProperties.getCacheExpiresTime();
+
+        // 具体的实现类
+        contextMap.put(CacheProperties.MAP, new MapCacheObject<>(appName, expiresTime, new HashMap<>()));
+        contextMap.put(CacheProperties.REDIS, new RedisCacheObject<>(appName, expiresTime, redisTemplate));
     }
 
     public CacheObject<T, ID> selectImpl(String type) {
