@@ -4,12 +4,13 @@ import com.ricky.entity.diff.AggregateDiff;
 import com.ricky.manager.AggregateManager;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
-import com.ricky.repository.Repository;
+import com.ricky.repository.IRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -20,11 +21,12 @@ import javax.validation.constraints.NotNull;
  * @desc
  */
 @Service
-public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Identifier> implements Repository<T, ID> {
+@RequiredArgsConstructor
+@DependsOn("aggregateManager")
+public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Identifier> implements IRepository<T, ID> {
 
-    @Resource
     @Getter(AccessLevel.PROTECTED)
-    private AggregateManager<T, ID> aggregateManager;
+    private final AggregateManager<T, ID> aggregateManager;
 
     /**
      * 这几个方法是继承的子类应该去实现的

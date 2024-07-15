@@ -7,6 +7,7 @@ import com.ricky.marker.Identifiable;
 import com.ricky.marker.Identifier;
 import com.ricky.utils.ReflectionUtils;
 import com.ricky.utils.SnapshotUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +21,11 @@ import javax.annotation.Resource;
  * @desc 聚合根上下文
  */
 @Service
+@RequiredArgsConstructor
 @DependsOn("cacheObjectDelegate")
 public class AggregateContext<T extends Aggregate<ID>, ID extends Identifier> {
 
-    @Resource
-    private CacheObjectDelegate<T, ID> cacheObjectDelegate;
+    private final CacheObjectDelegate<T, ID> cacheObjectDelegate;
 
     public void attach(T aggregate) {
         if (aggregate.getId() != null && cacheObjectDelegate.find(aggregate.getId()) != null) {

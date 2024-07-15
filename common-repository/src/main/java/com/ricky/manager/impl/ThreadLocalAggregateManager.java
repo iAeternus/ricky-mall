@@ -1,10 +1,13 @@
 package com.ricky.manager.impl;
 
 import com.ricky.context.AggregateContext;
+import com.ricky.entity.cache.CacheObjectDelegate;
 import com.ricky.entity.diff.AggregateDiff;
 import com.ricky.manager.AggregateManager;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,12 +18,13 @@ import org.springframework.stereotype.Service;
  * @desc 通过ThreadLocal避免多线程公用同一个Entity的情况
  */
 @Service
+@DependsOn("aggregateContext")
 public class ThreadLocalAggregateManager<T extends Aggregate<ID>, ID extends Identifier> implements AggregateManager<T, ID> {
 
     private final ThreadLocal<AggregateContext<T, ID>> context;
 
-    public ThreadLocalAggregateManager() {
-        this.context = ThreadLocal.withInitial(AggregateContext::new);
+    public ThreadLocalAggregateManager(CacheObjectDelegate<T, ID> cacheObjectDelegate) {
+        this.context = ThreadLocal.withInitial(() -> new AggregateContext<>(cacheObjectDelegate));
     }
 
     @Override

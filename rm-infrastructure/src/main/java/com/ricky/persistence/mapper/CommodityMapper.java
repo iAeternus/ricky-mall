@@ -12,5 +12,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @desc
  */
 @Mapper
-public interface CommodityMapper extends BaseMapper<CommodityPO> {
+public interface CommodityMapper extends IMapper<CommodityPO> {
 }

@@ -2,18 +2,20 @@ package com.ricky.repository.impl;
 
 import com.ricky.entity.diff.AggregateDiff;
 import com.ricky.exception.NotFoundException;
+import com.ricky.manager.AggregateManager;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifiable;
 import com.ricky.marker.Identifier;
-import com.ricky.persistence.converter.DataConverter;
+import com.ricky.persistence.converter.AggregateDataConverter;
 import com.ricky.persistence.mapper.IMapper;
 import com.ricky.persistence.po.BasePO;
-import com.ricky.repository.Repository;
+import com.ricky.repository.IRepository;
 import com.ricky.support.RepositorySupport;
 import com.ricky.utils.ReflectionUtils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 
@@ -24,31 +26,17 @@ import javax.annotation.Resource;
  * @className RepositoryImpl
  * @desc
  */
-@Service
-// @RequiredArgsConstructor
-public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identifier, PO extends BasePO> extends RepositorySupport<T, ID> implements Repository<T, ID> {
+@Repository
+@DependsOn("IMapper")
+public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identifier, PO extends BasePO>
+        extends RepositorySupport<T, ID> implements IRepository<T, ID>, AggregateDataConverter<T, ID, PO> {
 
-    // @Resource
-    // private final DataConverter<T, ID, PO> dataConverter;
+    private final IMapper<PO> mapper;
 
-    @Resource
-    private IMapper<PO> mapper;
-
-    /**
-     * 转换领域对象DO为持久化对象PO
-     *
-     * @param aggregate 领域对象DO
-     * @return 持久化对象PO
-     */
-    public abstract PO toPO(@NonNull T aggregate);
-
-    /**
-     * 转换持久化对象PO为领域对象DO
-     *
-     * @param po 持久化对象PO
-     * @return 领域对象DO
-     */
-    public abstract T toEntity(@NonNull PO po);
+    public RepositoryImpl(AggregateManager<T, ID> aggregateManager, IMapper<PO> mapper) {
+        super(aggregateManager);
+        this.mapper = mapper;
+    }
 
     @Override
     protected void onInsert(T aggregate) {
@@ -63,7 +51,7 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
         if(po == null) {
             throw new NotFoundException();
         }
-        return toEntity(po);
+        return toAggregate(po);
     }
 
     @Override
@@ -84,4 +72,5 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
         PO po = toPO(aggregate);
         mapper.deleteById(po);
     }
+
 }

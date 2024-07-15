@@ -5,6 +5,7 @@ import com.ricky.manager.impl.ThreadLocalAggregateManager;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
 import com.ricky.properties.CacheProperties;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +17,8 @@ import org.springframework.stereotype.Service;
  * @desc
  */
 @Service
+@DependsOn("aggregateContext")
 public interface AggregateManager<T extends Aggregate<ID>, ID extends Identifier> {
-
-    static <T extends Aggregate<ID>, ID extends Identifier> AggregateManager<T, ID> newInstance(CacheProperties cacheProperties, RedisTemplate<Object, Object> redisTemplate) {
-        return new ThreadLocalAggregateManager<>();
-    }
 
     void attach(T aggregate);
 

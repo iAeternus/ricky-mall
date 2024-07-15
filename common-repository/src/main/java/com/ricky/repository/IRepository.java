@@ -2,10 +2,12 @@ package com.ricky.repository;
 
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
+import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
 
-public interface Repository<T extends Aggregate<ID>, ID extends Identifier> {
+@Repository
+public interface IRepository<T extends Aggregate<ID>, ID extends Identifier> {
 
     /**
      * 将一个Aggregate附属到一个Repository，让它变为可追踪。

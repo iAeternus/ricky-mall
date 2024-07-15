@@ -6,6 +6,7 @@ import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
 import com.ricky.properties.CacheProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ import java.util.Map;
  */
 @Service
 @RequiredArgsConstructor
+@DependsOn({"cacheProperties", "redisTemplate"})
 public class CacheObjectDelegate<T extends Aggregate<ID>, ID extends Identifier> extends CacheObject<T, ID> {
 
     private String cacheType;
