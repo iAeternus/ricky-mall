@@ -3,7 +3,10 @@ package com.ricky.persistence.po;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
@@ -15,15 +18,18 @@ import java.time.LocalDateTime;
  * @desc persistence object(PO) 基类
  */
 @Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BasePO {
 
     @TableId
-    private Long id;
+    protected Long id;
 
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime; // 创建时间
+    protected LocalDateTime createTime; // 创建时间
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime; // 修改时间
+    protected LocalDateTime updateTime; // 修改时间
 
 }
