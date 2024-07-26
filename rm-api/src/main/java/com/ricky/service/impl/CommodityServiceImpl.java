@@ -5,6 +5,7 @@ import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.domain.commodity.service.CommodityDomainService;
 import com.ricky.dto.command.ModifyCommodityCommand;
 import com.ricky.dto.command.SaveCommodityCommand;
+import com.ricky.dto.response.GetCommodityByIdResponse;
 import com.ricky.service.CommodityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,11 @@ public class CommodityServiceImpl implements CommodityService {
         commodityDomainService.modifyCommodity(commodity);
     }
 
+    @Override
+    public GetCommodityByIdResponse getCommodityById(Long id) {
+        Commodity commodity = commodityDomainService.getById(id);
+        return commodityAssembler.toGetCommodityByIdResponse(commodity);
+    }
 
 
 }

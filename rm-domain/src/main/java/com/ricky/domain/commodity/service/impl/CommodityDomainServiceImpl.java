@@ -29,4 +29,9 @@ public class CommodityDomainServiceImpl implements CommodityDomainService {
         commodityRepository.saveCommodity(commodity);
     }
 
+    @Override
+    public Commodity getById(Long id) {
+        return commodityRepository.getById(id);
+    }
+
 }

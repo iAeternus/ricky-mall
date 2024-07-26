@@ -15,7 +15,6 @@ import lombok.Data;
 @Data
 public class SaveCommodityCommand implements Command {
 
-    private Long id;
     private String name; // 商品名称
     private String description; // 商品描述
     private Money price; // 商品价格

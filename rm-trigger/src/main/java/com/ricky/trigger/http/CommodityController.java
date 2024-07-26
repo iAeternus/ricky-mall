@@ -2,6 +2,7 @@ package com.ricky.trigger.http;
 
 import com.ricky.dto.command.ModifyCommodityCommand;
 import com.ricky.dto.command.SaveCommodityCommand;
+import com.ricky.dto.response.GetCommodityByIdResponse;
 import com.ricky.model.Result;
 import com.ricky.service.CommodityService;
 import io.swagger.annotations.Api;
@@ -36,6 +37,13 @@ public class CommodityController {
     public Result<Void> modifyCommodity(@RequestBody ModifyCommodityCommand command) {
         commodityService.modifyCommodity(command);
         return Result.ok();
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询商品")
+    public Result<GetCommodityByIdResponse> getCommodityById(@PathVariable Long id) {
+        GetCommodityByIdResponse response = commodityService.getCommodityById(id);
+        return Result.ok(response);
     }
 
 }

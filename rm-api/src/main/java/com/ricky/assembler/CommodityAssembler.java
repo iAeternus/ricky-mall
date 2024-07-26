@@ -3,6 +3,7 @@ package com.ricky.assembler;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.dto.command.ModifyCommodityCommand;
 import com.ricky.dto.command.SaveCommodityCommand;
+import com.ricky.dto.response.GetCommodityByIdResponse;
 import com.ricky.types.commodity.*;
 import com.ricky.types.common.Money;
 import com.ricky.types.common.Weight;
@@ -23,7 +24,6 @@ public class CommodityAssembler {
 
     public Commodity toCommodity(SaveCommodityCommand command) {
         return Commodity.builder()
-                .id(new CommodityId(command.getId()))
                 .name(new CommodityName(command.getName()))
                 .description(new ProductDescription(command.getDescription()))
                 .price(command.getPrice())
@@ -53,6 +53,37 @@ public class CommodityAssembler {
                 .brand(new Brand(command.getBrand()))
                 .shippingInformation(new ShippingInformation(new Weight(command.getWeight(), command.getWeightUnit())))
                 .supplierInformation(new SupplierInformation(command.getSupplierId()))
+                .build();
+    }
+
+    public GetCommodityByIdResponse toGetCommodityByIdResponse(Commodity commodity) {
+        return GetCommodityByIdResponse.builder()
+                .id(commodity.getId().getValue())
+                .name(commodity.getName().getValue())
+                .description(commodity.getDescription().getValue())
+                .price(commodity.getPrice())
+                .stock(commodity.getStock().getValue())
+                .commodityType(commodity.getType())
+                .mainImageUrl(commodity.getPictureInformation().getMainImageUrl())
+                .galleryImages(commodity.getPictureInformation().getGalleryImages())
+                .categoryId(commodity.getCategoryId().getValue())
+                .brand(commodity.getBrand().getName())
+                .attributes(commodity.getAttributes().getValue())
+                .originalPrice(commodity.getPromotionInformation().getOriginalPrice())
+                .discountPrice(commodity.getPromotionInformation().getDiscountPrice())
+                .promotionStartTime(commodity.getPromotionInformation().getStartTime())
+                .promotionEndTime(commodity.getPromotionInformation().getEndTime())
+                .relatedProducts(commodity.getRelatesInformation().getRelatedProducts())
+                .skuIds(commodity.getRelatesInformation().getSkuIds())
+                .soldCount(commodity.getSalesInformation().getSoldCount())
+                .createTime(commodity.getSalesInformation().getCreateTime())
+                .updateTime(commodity.getSalesInformation().getUpdateTime())
+                .weight(commodity.getShippingInformation().getWeight().getValue())
+                .weightUnit(commodity.getShippingInformation().getWeight().getUnit())
+                .supplierId(commodity.getSupplierInformation().getSupplierId())
+                .metaTitle(commodity.getSeo().getMetaTitle())
+                .metaKeywords(commodity.getSeo().getMetaKeywords())
+                .metaDescription(commodity.getSeo().getMetaDescription())
                 .build();
     }
 

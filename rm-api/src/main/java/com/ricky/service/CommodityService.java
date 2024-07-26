@@ -2,6 +2,7 @@ package com.ricky.service;
 
 import com.ricky.dto.command.ModifyCommodityCommand;
 import com.ricky.dto.command.SaveCommodityCommand;
+import com.ricky.dto.response.GetCommodityByIdResponse;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,4 +17,6 @@ public interface CommodityService {
     void saveCommodity(SaveCommodityCommand command);
 
     void modifyCommodity(ModifyCommodityCommand command);
+
+    GetCommodityByIdResponse getCommodityById(Long id);
 }

@@ -8,9 +8,11 @@ import com.ricky.repository.IRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -21,12 +23,12 @@ import javax.validation.constraints.NotNull;
  * @desc
  */
 @Service
-@RequiredArgsConstructor
 @DependsOn("aggregateManager")
 public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Identifier> implements IRepository<T, ID> {
 
+    @Autowired
     @Getter(AccessLevel.PROTECTED)
-    private final AggregateManager<T, ID> aggregateManager;
+    private AggregateManager<T, ID> aggregateManager;
 
     /**
      * 这几个方法是继承的子类应该去实现的

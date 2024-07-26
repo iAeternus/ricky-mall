@@ -8,9 +8,11 @@ import org.springframework.stereotype.Repository;
  * @version 1.0
  * @date 2024/7/13
  * @className CommodityRepository
- * @desc
+ * @desc 商品基本信息仓储接口
  */
 @Repository
 public interface CommodityRepository {
     void saveCommodity(Commodity commodity);
+
+    Commodity getById(Long id);
 }

@@ -5,6 +5,10 @@ import com.ricky.marker.Identifier;
 import com.ricky.persistence.po.BasePO;
 import lombok.NonNull;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Ricky
  * @version 1.0
@@ -28,6 +32,6 @@ public interface AggregateDataConverter<T extends Aggregate<ID>, ID extends Iden
      * @param po 持久化对象PO
      * @return 聚合根
      */
-    T toAggregate(@NonNull PO po);
+    T toAggregate(@NonNull PO po, Map<Class<?>, List<? extends BasePO>> relatedPOLists);
 
 }

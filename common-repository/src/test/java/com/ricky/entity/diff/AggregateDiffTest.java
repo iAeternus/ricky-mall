@@ -18,7 +18,7 @@ public class AggregateDiffTest {
 
     @Value
     static class UserId implements Identifier {
-        Long id;
+        Long value;
     }
 
     @Value

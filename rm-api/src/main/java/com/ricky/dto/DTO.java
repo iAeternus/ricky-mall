@@ -1,5 +1,7 @@
 package com.ricky.dto;
 
+import java.io.Serializable;
+
 /**
  * @author Ricky
  * @version 1.0
@@ -7,5 +9,5 @@ package com.ricky.dto;
  * @className DTO
  * @desc data transfer object 数据传输对象marker接口
  */
-public interface DTO {
+public interface DTO extends Serializable {
 }
