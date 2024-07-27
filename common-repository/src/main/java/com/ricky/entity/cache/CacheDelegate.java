@@ -1,16 +1,15 @@
 package com.ricky.entity.cache;
 
-import com.ricky.entity.cache.concrete.MapCacheObject;
-import com.ricky.entity.cache.concrete.RedisCacheObject;
+import com.ricky.entity.cache.concrete.MapCache;
+import com.ricky.entity.cache.concrete.RedisCache;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
 import com.ricky.properties.CacheProperties;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,18 +17,17 @@ import java.util.Map;
  * @author Ricky
  * @version 1.0
  * @date 2024/7/15
- * @className CacheObjectDelegate
+ * @className CacheDelegate
  * @desc 缓存委派
  */
 @Service
-@RequiredArgsConstructor
-@DependsOn({"cacheProperties", "redisTemplate"})
-public class CacheObjectDelegate<T extends Aggregate<ID>, ID extends Identifier> extends CacheObject<T, ID> {
+// @DependsOn("cacheProperties")
+public class CacheDelegate<T extends Aggregate<ID>, ID extends Identifier> extends Cache<T, ID> {
 
     private String cacheType;
 
-    private final CacheProperties cacheProperties;
-    private final RedisTemplate<Object, Object> redisTemplate;
+    @Resource
+    private CacheProperties cacheProperties;
 
     @PostConstruct
     public void afterInit() {
@@ -41,21 +39,19 @@ public class CacheObjectDelegate<T extends Aggregate<ID>, ID extends Identifier>
         initContextMap();
     }
 
-    private final Map<String, CacheObject<T, ID>> contextMap = new HashMap<>();
+    private final Map<String, Cache<T, ID>> contextMap = new HashMap<>();
 
     private void initContextMap() {
-        String appName = cacheProperties.getAppName();
-        if(appName == null) {
+        if(cacheProperties.getAppName() == null) {
             throw new RuntimeException("未配置 cache.appName, 请关注");
         }
-        long expiresTime = cacheProperties.getCacheExpiresTime();
 
         // 具体的实现类
-        contextMap.put(CacheProperties.MAP, new MapCacheObject<>(appName, expiresTime, new HashMap<>()));
-        contextMap.put(CacheProperties.REDIS, new RedisCacheObject<>(appName, expiresTime, redisTemplate));
+        contextMap.put(CacheProperties.MAP, new MapCache<>());
+        contextMap.put(CacheProperties.REDIS, new RedisCache<>());
     }
 
-    public CacheObject<T, ID> selectImpl(String type) {
+    public Cache<T, ID> selectImpl(String type) {
         if (!contextMap.containsKey(type)) {
             throw new RuntimeException("不支持的cache类型, cacheType=" + cacheType);
         }

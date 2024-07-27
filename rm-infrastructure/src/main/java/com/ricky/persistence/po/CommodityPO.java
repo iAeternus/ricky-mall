@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ricky.enums.impl.CommodityType;
 import com.ricky.enums.impl.WeightUnit;
+import com.ricky.handler.MoneyTypeHandler;
 import com.ricky.types.common.Money;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +15,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -23,18 +26,18 @@ import java.time.LocalDateTime;
  * @desc
  */
 @Data
-@SuperBuilder
+@Builder
 @AllArgsConstructor
 @TableName("commodity")
 @EqualsAndHashCode(callSuper = true)
 public class CommodityPO extends BasePO {
 
-    // @TableId
-    // private Long id;
+    @TableId
+    private Long id;
     private String name; // 商品名称
     private String description; // 商品描述
-    @TableField(typeHandler = JacksonTypeHandler.class)
-    private Money price; // 商品价格
+    private BigDecimal price; // 商品价格
+    private String currencyCode; // 货币类型
     private Integer stock; // 商品库存量
     private CommodityType commodityType; // 商品状态
     private String mainImageUrl; // 主图URL
@@ -44,10 +47,7 @@ public class CommodityPO extends BasePO {
     private String brand; // 品牌
 
     // 促销信息
-    @TableField(typeHandler = JacksonTypeHandler.class)
-    private Money originalPrice; // 原价
-    @TableField(typeHandler = JacksonTypeHandler.class)
-    private Money discountPrice; // 折扣价
+    private BigDecimal discountPrice; // 折扣价
     private LocalDateTime promotionStartTime; // 促销开始时间
     private LocalDateTime promotionEndTime; // 促销结束时间
 

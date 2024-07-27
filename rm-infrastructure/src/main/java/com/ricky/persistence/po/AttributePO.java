@@ -18,10 +18,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class AttributePO extends BasePO {
 
-    // @TableId
-    // private Long id;
+    @TableId
+    private Long id;
     private Long commodityId; // 商品id
-    private String key; // 商品属性键
-    private String value; // 商品属性值
+    private String attributeKey; // 商品属性键
+    private String attributeValue; // 商品属性值
 
 }

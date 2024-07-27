@@ -49,14 +49,14 @@ create table if not exists commodity
     id                   bigint auto_increment primary key,
     name                 varchar(32)   not null comment '商品名称',
     description          varchar(128)  not null comment '商品描述',
-    price                json          not null comment '商品价格',
+    price                decimal       not null comment '商品价格',
+    currency_code        varchar(6)    null comment '货币编码',
     stock                int           not null comment '商品库存量',
     commodity_type       tinyint       not null comment '商品状态',
     main_image_url       varchar(300)  not null comment '主图URL',
     category_id          bigint        not null comment '分类id',
     brand                varchar(32)   null comment '品牌',
-    original_price       json          null comment '原价',
-    discount_price       json          null comment '折扣价',
+    discount_price       decimal       null comment '折扣价',
     promotion_start_time datetime      null comment '促销开始时间',
     promotion_end_time   datetime      null comment '促销结束时间',
     sold_count           int default 0 not null comment '销售数量',
@@ -84,12 +84,12 @@ create table if not exists associated_commodity
 
 create table if not exists attributes
 (
-    id           bigint auto_increment primary key,
-    commodity_id bigint      not null comment '商品ID',
-    `key`        varchar(16) not null comment '商品属性键',
-    value        varchar(32) not null comment '商品属性值',
-    create_time  datetime    not null comment '创建时间',
-    update_time  datetime    not null comment '修改时间'
+    id              bigint auto_increment primary key,
+    commodity_id    bigint      not null comment '商品ID',
+    attribute_key   varchar(16) not null comment '商品属性键',
+    attribute_value varchar(32) not null comment '商品属性值',
+    create_time     datetime    not null comment '创建时间',
+    update_time     datetime    not null comment '修改时间'
 )
     comment '商品属性表';
 

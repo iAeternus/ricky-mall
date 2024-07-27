@@ -7,6 +7,7 @@ import com.ricky.persistence.po.AttributePO;
 import com.ricky.persistence.po.CommodityPO;
 import com.ricky.persistence.po.GalleryImagePO;
 import com.ricky.types.commodity.*;
+import com.ricky.types.common.Money;
 import com.ricky.types.common.Weight;
 import com.ricky.utils.CollUtils;
 import lombok.NonNull;
@@ -34,14 +35,14 @@ public class CommodityDataConverter implements DataConverter<Commodity, Commodit
                 .id(commodityId == null ? null : commodityId.getValue())
                 .name(entity.getName().getValue())
                 .description(entity.getDescription().getValue())
-                .price(entity.getPrice())
+                .price(entity.getPrice().getAmount())
+                .currencyCode(entity.getPrice().getCurrencyCode())
                 .stock(entity.getStock().getValue())
                 .commodityType(entity.getType())
                 .mainImageUrl(entity.getPictureInformation().getMainImageUrl())
                 .categoryId(entity.getCategoryId().getValue())
                 .brand(entity.getBrand().getName())
-                .originalPrice(promotionInformation == null ? null : promotionInformation.getOriginalPrice())
-                .discountPrice(promotionInformation == null ? null : promotionInformation.getDiscountPrice())
+                .discountPrice(promotionInformation == null ? null : promotionInformation.getDiscountPrice().getAmount())
                 .promotionStartTime(promotionInformation == null ? null : promotionInformation.getStartTime())
                 .promotionEndTime(promotionInformation == null ? null : promotionInformation.getEndTime())
                 .soldCount(salesInformation == null ? 0 : salesInformation.getSoldCount())
@@ -60,14 +61,13 @@ public class CommodityDataConverter implements DataConverter<Commodity, Commodit
                 .id(new CommodityId(po.getId()))
                 .name(new CommodityName(po.getName()))
                 .description(new ProductDescription(po.getDescription()))
-                .price(po.getPrice())
+                .price(new Money(po.getPrice(), po.getCurrencyCode()))
                 .stock(new Stock(po.getStock()))
                 .type(po.getCommodityType())
                 .categoryId(new CategoryId(po.getCategoryId()))
                 .brand(new Brand(po.getBrand()))
-                .promotionInformation(new PromotionInformation(
-                        po.getOriginalPrice(),
-                        po.getDiscountPrice(),
+                .promotionInformation(po.getDiscountPrice() == null ? null : new PromotionInformation(
+                        new Money(po.getDiscountPrice(), po.getCurrencyCode()),
                         po.getPromotionStartTime(),
                         po.getPromotionEndTime()
                 ))
@@ -95,7 +95,7 @@ public class CommodityDataConverter implements DataConverter<Commodity, Commodit
         ));
         commodity.setAttributes(new Attributes(
                 attributePOS.stream()
-                        .collect(Collectors.toMap(AttributePO::getKey, AttributePO::getValue))
+                        .collect(Collectors.toMap(AttributePO::getAttributeKey, AttributePO::getAttributeValue))
         ));
         commodity.setRelatesInformation(new RelatesInformation(
                 CollUtils.listConvert(associatedCommodityPOS, AssociatedCommodityPO::getRelatedCommodityId),

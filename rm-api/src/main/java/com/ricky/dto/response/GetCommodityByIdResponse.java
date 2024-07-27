@@ -38,7 +38,6 @@ public class GetCommodityByIdResponse implements Response {
     private Map<String, String> attributes; // 商品属性
 
     // 促销信息
-    private Money originalPrice; // 原价
     private Money discountPrice; // 折扣价
     private LocalDateTime promotionStartTime; // 促销开始时间
     private LocalDateTime promotionEndTime; // 促销结束时间

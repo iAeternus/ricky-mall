@@ -57,6 +57,7 @@ public class CommodityAssembler {
     }
 
     public GetCommodityByIdResponse toGetCommodityByIdResponse(Commodity commodity) {
+        PromotionInformation promotionInformation = commodity.getPromotionInformation();
         return GetCommodityByIdResponse.builder()
                 .id(commodity.getId().getValue())
                 .name(commodity.getName().getValue())
@@ -69,10 +70,9 @@ public class CommodityAssembler {
                 .categoryId(commodity.getCategoryId().getValue())
                 .brand(commodity.getBrand().getName())
                 .attributes(commodity.getAttributes().getValue())
-                .originalPrice(commodity.getPromotionInformation().getOriginalPrice())
-                .discountPrice(commodity.getPromotionInformation().getDiscountPrice())
-                .promotionStartTime(commodity.getPromotionInformation().getStartTime())
-                .promotionEndTime(commodity.getPromotionInformation().getEndTime())
+                .discountPrice(promotionInformation == null ? null : promotionInformation.getDiscountPrice())
+                .promotionStartTime(promotionInformation == null ? null : promotionInformation.getStartTime())
+                .promotionEndTime(promotionInformation == null ? null : promotionInformation.getEndTime())
                 .relatedProducts(commodity.getRelatesInformation().getRelatedProducts())
                 .skuIds(commodity.getRelatesInformation().getSkuIds())
                 .soldCount(commodity.getSalesInformation().getSoldCount())

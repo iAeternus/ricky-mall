@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
  * @desc
  */
 @Service
-@DependsOn("aggregateContext")
 public interface AggregateManager<T extends Aggregate<ID>, ID extends Identifier> {
 
     void attach(T aggregate);

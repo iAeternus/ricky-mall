@@ -1,14 +1,16 @@
 package com.ricky.manager.impl;
 
 import com.ricky.context.AggregateContext;
-import com.ricky.entity.cache.CacheObjectDelegate;
 import com.ricky.entity.diff.AggregateDiff;
 import com.ricky.manager.AggregateManager;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.function.Supplier;
 
 /**
  * @author Ricky
@@ -23,8 +25,11 @@ public class ThreadLocalAggregateManager<T extends Aggregate<ID>, ID extends Ide
 
     private final ThreadLocal<AggregateContext<T, ID>> context;
 
-    public ThreadLocalAggregateManager(CacheObjectDelegate<T, ID> cacheObjectDelegate) {
-        this.context = ThreadLocal.withInitial(() -> new AggregateContext<>(cacheObjectDelegate));
+    @Resource
+    private ApplicationContext applicationContext;
+
+    public ThreadLocalAggregateManager() {
+        this.context = ThreadLocal.withInitial((Supplier<AggregateContext>) () -> applicationContext.getBean(AggregateContext.class));
     }
 
     @Override

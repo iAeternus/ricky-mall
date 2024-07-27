@@ -3,6 +3,7 @@ package com.ricky.config;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.ricky.handler.MoneyTypeHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -27,6 +28,11 @@ public class MybatisPlusConfig {
         // 添加分页插件
         interceptor.addInnerInterceptor(paginationInnerInterceptor);
         return interceptor;
+    }
+
+    @Bean
+    public MoneyTypeHandler moneyTypeHandler() {
+        return new MoneyTypeHandler();
     }
 
 }

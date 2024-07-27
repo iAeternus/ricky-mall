@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.ricky.enums.impl.UserRole;
+import com.ricky.handler.MoneyTypeHandler;
 import com.ricky.types.common.Money;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,8 +22,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class UserPO extends BasePO {
 
-    // @TableId
-    // private Long id;
+    @TableId
+    private Long id;
     private String email;
     private String password;
     private String nickname;
@@ -32,7 +33,7 @@ public class UserPO extends BasePO {
     private UserRole role;
     private Long integral;
     private Integer level;
-    @TableField(typeHandler = JacksonTypeHandler.class)
+    @TableField(typeHandler = MoneyTypeHandler.class)
     private Money balance;
 
 }

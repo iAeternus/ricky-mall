@@ -13,6 +13,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, Commodity
     }
 
     @Override
-    public Commodity getById(Long id) {
+    public Commodity getById(Long id) { // TODO Money无法序列化
         return find(new CommodityId(id));
     }
 
@@ -60,21 +61,13 @@ public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, Commodity
     @Override
     protected Map<Class<?>, List<? extends BasePO>> selectRelatedObjects(CommodityPO po) {
         Map<Class<?>, List<? extends BasePO>> map = new HashMap<>();
-        map.put(GalleryImagePO.class, galleryImageMapper.selectList(new QueryWrapper<GalleryImagePO>()
-                .lambda()
+        map.put(GalleryImagePO.class, galleryImageMapper.selectList(new QueryWrapper<GalleryImagePO>().lambda()
                 .eq(GalleryImagePO::getCommodityId, po.getId())));
-        map.put(AttributePO.class, attributeMapper.selectList(new QueryWrapper<AttributePO>()
-                .lambda()
+        map.put(AttributePO.class, attributeMapper.selectList(new QueryWrapper<AttributePO>().lambda()
                 .eq(AttributePO::getCommodityId, po.getId())));
-        map.put(AssociatedCommodityMapper.class, associatedCommodityMapper.selectList(new QueryWrapper<AssociatedCommodityPO>()
-                .lambda()
+        map.put(AssociatedCommodityPO.class, associatedCommodityMapper.selectList(new QueryWrapper<AssociatedCommodityPO>().lambda()
                 .eq(AssociatedCommodityPO::getCommodityId, po.getId())));
         return map;
-    }
-
-    @Override
-    protected Long getIdValue(CommodityId commodityId) {
-        return commodityId.getValue();
     }
 
 }

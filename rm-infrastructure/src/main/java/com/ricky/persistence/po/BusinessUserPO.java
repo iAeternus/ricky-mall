@@ -18,8 +18,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class BusinessUserPO extends BasePO {
 
-    // @TableId
-    // private Long id;
+    @TableId
+    private Long id;
     private Long userId;
     private String storeName; // 店铺名称
     private String boss; // 老板名称

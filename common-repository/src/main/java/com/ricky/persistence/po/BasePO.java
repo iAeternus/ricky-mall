@@ -18,18 +18,26 @@ import java.time.LocalDateTime;
  * @desc persistence object(PO) 基类
  */
 @Data
-@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BasePO {
-
-    @TableId
-    protected Long id;
+public abstract class BasePO {
 
     @TableField(fill = FieldFill.INSERT)
     protected LocalDateTime createTime; // 创建时间
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     protected LocalDateTime updateTime; // 修改时间
+
+    /**
+     * 获取Long类型的ID
+     * @return ID
+     */
+    public abstract Long getId();
+
+    /**
+     * 设置Long类型的ID
+     * @param id 标识符
+     */
+    public abstract void setId(Long id);
 
 }

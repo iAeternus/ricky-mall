@@ -8,7 +8,6 @@ import com.ricky.marker.Identifier;
 import com.ricky.persistence.converter.AggregateDataConverter;
 import com.ricky.persistence.mapper.IMapper;
 import com.ricky.persistence.po.BasePO;
-import com.ricky.repository.IRepository;
 import com.ricky.support.RepositorySupport;
 import com.ricky.utils.ReflectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +22,14 @@ import java.util.Map;
  * @version 1.0
  * @date 2024/7/14
  * @className RepositoryImpl
- * @desc 持久层抽象实现类，实现了模板方法find/remove/save
+ * @desc 持久层抽象实现类，实现了find/remove/save中的模板方法
  */
 @Repository
-@DependsOn("IMapper")
+// @DependsOn("IMapper")
 public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identifier, PO extends BasePO>
-        extends RepositorySupport<T, ID> implements IRepository<T, ID>, AggregateDataConverter<T, ID, PO> {
+        extends RepositorySupport<T, ID> implements AggregateDataConverter<T, ID, PO> {
 
+    // 由于对mapper进行抽象化，这里需要通过byType方式注入，否则会与派生类冲突
     @Autowired
     private IMapper<PO> mapper;
 
@@ -40,34 +40,13 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
         ReflectionUtils.writeField(Identifiable.ID, aggregate, po.getId());
     }
 
-    // protected abstract Map<Class<?>, ? extends IMapper<?>> acquireRelatedMappers();
-
-    // private Map<Class<?>, List<? extends BasePO>> selectRelatedObjects(PO po) {
-    //     Map<Class<?>, List<? extends BasePO>> map = new HashMap<>();
-    //     Map<Class<?>, ? extends IMapper<?>> relatedMappers = acquireRelatedMappers();
-    //     Set<Class<?>> classes = relatedMappers.keySet();
-    //     for (Class<?> clazz : classes) {
-    //         List<? extends BasePO> relatedObjects = relatedMappers.get(clazz).selectList(
-    //                 new QueryWrapper<>().lambda().eq()
-    //         );
-    //         if(CollUtil.isEmpty(relatedObjects)) {
-    //             relatedObjects = Collections.emptyList();
-    //         }
-    //         map.put(clazz, relatedObjects);
-    //     }
-    //     return map;
-    // }
-
     protected abstract Map<Class<?>, List<? extends BasePO>> selectRelatedObjects(PO po);
-
-    protected abstract Long getIdValue(ID id);
 
     @Override
     protected T onSelect(ID id) {
-        PO po = mapper.selectById(getIdValue(id));
-        // PO po = selectPOById(id);
+        PO po = mapper.selectById(id.getValue());
         if (po == null) {
-            throw new NotFoundException();
+            throw new NotFoundException("aggregate not found");
         }
         return toAggregate(po, selectRelatedObjects(po));
     }

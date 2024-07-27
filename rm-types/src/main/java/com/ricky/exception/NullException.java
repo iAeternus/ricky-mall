@@ -32,7 +32,7 @@ public class NullException extends BaseException {
     }
 
     public static <T> void isNull(Collection<T> collection, String message) {
-        if (CollUtil.isEmpty(collection)) {
+        if (collection == null) {
             throw new NullException(message);
         }
     }

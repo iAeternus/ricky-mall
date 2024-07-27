@@ -19,18 +19,15 @@ import java.time.LocalDateTime;
 @Builder
 public class PromotionInformation implements ValueObject {
 
-    Money originalPrice; // 原价
     Money discountPrice; // 折扣价
     LocalDateTime startTime; // 促销开始时间
     LocalDateTime endTime; // 促销结束时间
 
-    public PromotionInformation(Money originalPrice, Money discountPrice, LocalDateTime startTime, LocalDateTime endTime) {
-        NullException.isNull(originalPrice, "原价不能为空");
+    public PromotionInformation(Money discountPrice, LocalDateTime startTime, LocalDateTime endTime) {
         NullException.isNull(discountPrice, "折扣价不能为空");
         NullException.isNull(startTime, "促销开始时间不能为空");
         NullException.isNull(endTime, "促销结束时间不能为空");
 
-        this.originalPrice = originalPrice;
         this.discountPrice = discountPrice;
         this.startTime = startTime;
         this.endTime = endTime;

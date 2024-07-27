@@ -3,6 +3,7 @@ package com.ricky.types.common;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ricky.exception.NullException;
+import com.ricky.marker.ValueObject;
 import lombok.Builder;
 import lombok.Value;
 
@@ -15,14 +16,14 @@ import java.util.Objects;
 
 /**
  * @author Ricky
- * @version 1.0
- * @date 2024/7/13
+ * @version 2.0 新增了若干构造函数
+ * @date 2024/7/27
  * @className Money
- * @desc 金额 TODO
+ * @desc 金额
  */
 @Value
 @Builder
-public class Money implements Serializable {
+public class Money implements ValueObject, Serializable {
 
     BigDecimal amount;
     Currency currency;
@@ -31,6 +32,8 @@ public class Money implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final String DEFAULT_CURRENCY_CODE = "CNY";
+
+    public static final Money ZERO = new Money(BigDecimal.ZERO, Currency.getInstance(DEFAULT_CURRENCY_CODE));
 
     @JsonCreator
     public Money(
@@ -43,12 +46,24 @@ public class Money implements Serializable {
         this.currency = currency;
     }
 
+    public Money(BigDecimal amount, String currencyCode) {
+        this(amount, Currency.getInstance(currencyCode));
+    }
+
     public Money(double amount, Currency currency) {
         this(BigDecimal.valueOf(amount), currency);
     }
 
+    public Money(double amount, String currencyCode) {
+        this(BigDecimal.valueOf(amount), Currency.getInstance(currencyCode));
+    }
+
     public Money(long amount, Currency currency) {
         this(BigDecimal.valueOf(amount), currency);
+    }
+
+    public Money(long amount, String currencyCode) {
+        this(BigDecimal.valueOf(amount), Currency.getInstance(currencyCode));
     }
 
     public Money(BigDecimal amount) {
@@ -63,8 +78,16 @@ public class Money implements Serializable {
         this(BigDecimal.valueOf(amount), Currency.getInstance(DEFAULT_CURRENCY_CODE));
     }
 
+    public BigDecimal getAmount(int newScale, RoundingMode roundingMode) {
+        return amount.setScale(newScale, roundingMode);
+    }
+
     public BigDecimal getAmount() {
-        return amount.setScale(2, RoundingMode.HALF_UP);
+        return getAmount(2, RoundingMode.HALF_UP);
+    }
+
+    public String getCurrencyCode() {
+        return currency.getCurrencyCode();
     }
 
     /**
@@ -115,6 +138,9 @@ public class Money implements Serializable {
     }
 
     public int compareTo(Money money) {
+        if(!this.currency.equals(money.currency)) {
+            throw new IllegalArgumentException("Currencies must be the same for compare");
+        }
         return this.amount.compareTo(money.amount);
     }
 

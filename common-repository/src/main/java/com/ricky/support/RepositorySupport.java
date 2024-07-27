@@ -1,14 +1,12 @@
 package com.ricky.support;
 
+import com.ricky.context.AggregateContext;
 import com.ricky.entity.diff.AggregateDiff;
-import com.ricky.manager.AggregateManager;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
 import com.ricky.repository.IRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +21,12 @@ import javax.validation.constraints.NotNull;
  * @desc
  */
 @Service
-@DependsOn("aggregateManager")
+// @DependsOn("aggregateContext")
 public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Identifier> implements IRepository<T, ID> {
 
-    @Autowired
+    @Resource
     @Getter(AccessLevel.PROTECTED)
-    private AggregateManager<T, ID> aggregateManager;
+    private AggregateContext<T, ID> aggregateContext;
 
     /**
      * 这几个方法是继承的子类应该去实现的
@@ -43,12 +41,12 @@ public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Iden
 
     @Override
     public void attach(T aggregate) {
-        aggregateManager.attach(aggregate);
+        aggregateContext.attach(aggregate);
     }
 
     @Override
     public void detach(T aggregate) {
-        aggregateManager.detach(aggregate);
+        aggregateContext.detach(aggregate);
     }
 
     @Override
@@ -79,7 +77,7 @@ public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Iden
         }
 
         // 做Diff
-        AggregateDiff<T, ID> diff = aggregateManager.detectChanges(aggregate);
+        AggregateDiff<T, ID> diff = aggregateContext.detectChanges(aggregate);
         if (diff.isEmpty()) {
             return;
         }
@@ -88,7 +86,7 @@ public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Iden
         this.onUpdate(aggregate, diff);
 
         // 最终将DB带来的变化更新回AggregateManager
-        aggregateManager.merge(aggregate);
+        aggregateContext.merge(aggregate);
     }
 
 }

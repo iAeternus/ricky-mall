@@ -4,6 +4,7 @@ import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
 import com.ricky.persistence.po.BasePO;
 import lombok.NonNull;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @className AggregateDataConverter
  * @desc
  */
+@Service
 public interface AggregateDataConverter<T extends Aggregate<ID>, ID extends Identifier, PO extends BasePO> {
 
     /**
