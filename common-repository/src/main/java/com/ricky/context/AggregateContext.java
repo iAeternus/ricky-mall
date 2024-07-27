@@ -7,7 +7,6 @@ import com.ricky.marker.Identifiable;
 import com.ricky.marker.Identifier;
 import com.ricky.utils.ReflectionUtils;
 import com.ricky.utils.SnapshotUtils;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

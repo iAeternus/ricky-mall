@@ -5,7 +5,6 @@ import com.ricky.entity.cache.concrete.RedisCache;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
 import com.ricky.properties.CacheProperties;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -41,7 +40,7 @@ public class CacheDelegate<T extends Aggregate<ID>, ID extends Identifier> exten
     private final Map<String, Cache<T, ID>> contextMap = new HashMap<>();
 
     private void initContextMap() {
-        if(cacheProperties.getAppName() == null) {
+        if (cacheProperties.getAppName() == null) {
             throw new RuntimeException("未配置 cache.appName, 请关注");
         }
 

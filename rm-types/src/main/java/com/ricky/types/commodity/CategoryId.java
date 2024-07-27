@@ -1,8 +1,8 @@
 package com.ricky.types.commodity;
 
 import com.ricky.exception.NullException;
-import lombok.Value;
 import com.ricky.marker.Identifier;
+import lombok.Value;
 
 /**
  * @author Ricky

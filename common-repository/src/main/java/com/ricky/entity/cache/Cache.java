@@ -3,9 +3,7 @@ package com.ricky.entity.cache;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
 import com.ricky.properties.CacheProperties;
-import lombok.*;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.stereotype.Component;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

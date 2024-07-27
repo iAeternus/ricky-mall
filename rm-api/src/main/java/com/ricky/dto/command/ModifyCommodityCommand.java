@@ -1,11 +1,8 @@
 package com.ricky.dto.command;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.ricky.enums.impl.WeightUnit;
 import com.ricky.types.common.Money;
 import lombok.Data;
-import org.springframework.stereotype.Service;
 
 /**
  * @author Ricky

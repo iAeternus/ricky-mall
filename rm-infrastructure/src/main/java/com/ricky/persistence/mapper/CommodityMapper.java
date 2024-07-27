@@ -1,6 +1,5 @@
 package com.ricky.persistence.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ricky.persistence.po.CommodityPO;
 import org.apache.ibatis.annotations.Mapper;
 

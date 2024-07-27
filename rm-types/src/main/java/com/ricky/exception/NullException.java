@@ -1,6 +1,5 @@
 package com.ricky.exception;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ricky.constants.ExceptionCodeConstant;
 

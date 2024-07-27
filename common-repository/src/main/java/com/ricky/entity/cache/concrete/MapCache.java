@@ -4,8 +4,6 @@ import cn.hutool.core.util.SerializeUtil;
 import com.ricky.entity.cache.Cache;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
-import lombok.EqualsAndHashCode;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

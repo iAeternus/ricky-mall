@@ -2,11 +2,9 @@ package com.ricky.persistence.po;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
@@ -30,12 +28,14 @@ public abstract class BasePO {
 
     /**
      * 获取Long类型的ID
+     *
      * @return ID
      */
     public abstract Long getId();
 
     /**
      * 设置Long类型的ID
+     *
      * @param id 标识符
      */
     public abstract void setId(Long id);

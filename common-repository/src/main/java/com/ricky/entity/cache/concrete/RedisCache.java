@@ -4,11 +4,7 @@ import cn.hutool.core.util.SerializeUtil;
 import com.ricky.entity.cache.Cache;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
-import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

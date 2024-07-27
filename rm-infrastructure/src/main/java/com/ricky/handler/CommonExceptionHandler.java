@@ -5,7 +5,6 @@ import com.ricky.exception.BadRequestException;
 import com.ricky.exception.BaseException;
 import com.ricky.exception.DbException;
 import com.ricky.model.Result;
-import com.ricky.utils.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
@@ -17,7 +16,6 @@ import org.springframework.web.util.NestedServletException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.BindException;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -86,7 +84,8 @@ public class CommonExceptionHandler {
      * 注意经过全局异常处理器处理过的异常会在控制台打印两条信息
      * 第一条为基本信息
      * 第二条为本方法的详细信息
-     * @param request 请求对象，获取请求相关信息
+     *
+     * @param request   请求对象，获取请求相关信息
      * @param exception 异常对象，获取错误堆栈信息
      */
     private void logDetail(HttpServletRequest request, Exception exception) {
@@ -107,6 +106,7 @@ public class CommonExceptionHandler {
 
     /**
      * 统一异常响应
+     *
      * @param e 异常对象
      * @return 返回统一异常响应
      */

@@ -11,7 +11,6 @@ import com.ricky.persistence.po.BasePO;
 import com.ricky.support.RepositorySupport;
 import com.ricky.utils.ReflectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

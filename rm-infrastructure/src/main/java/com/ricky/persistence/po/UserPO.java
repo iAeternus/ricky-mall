@@ -1,12 +1,8 @@
 package com.ricky.persistence.po;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.ricky.enums.impl.UserRole;
-import com.ricky.handler.MoneyTypeHandler;
-import com.ricky.types.common.Money;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -14,6 +14,7 @@ public interface Identifier extends Serializable {
 
     /**
      * 获取ID的值
+     *
      * @return ID的值
      */
     Long getValue();

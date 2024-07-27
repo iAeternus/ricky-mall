@@ -7,7 +7,6 @@ import com.ricky.marker.Identifier;
 import com.ricky.repository.IRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
