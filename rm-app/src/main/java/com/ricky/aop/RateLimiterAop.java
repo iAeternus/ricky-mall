@@ -40,11 +40,6 @@ public class RateLimiterAop {
             Method method = getMethod(jp);
             log.warn("方法 {}.{} 请求已被限流，超过限流配置[{}/秒]", method.getDeclaringClass().getCanonicalName(), method.getName(), permitsPerSecond);
             return Result.error(ResponseCode.RATE_LIMITER.getCode(), ResponseCode.RATE_LIMITER.getDescription());
-            // return ResponseEntity.ok();
-            // return Response.builder()
-            //         .code(Constants.ResponseCode.RATE_LIMITER.getCode())
-            //         .info(Constants.ResponseCode.RATE_LIMITER.getInfo())
-            //         .build();
         }
         return jp.proceed();
     }

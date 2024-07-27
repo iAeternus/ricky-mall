@@ -110,8 +110,9 @@ public class CommonExceptionHandler {
      * @param e 异常对象
      * @return 返回统一异常响应
      */
-    private ResponseEntity<Result<Object>> processResponse(BaseException e) {
-        return ResponseEntity.status(e.getCode()).body(Result.error(e));
+    private Result<Object> processResponse(BaseException e) {
+        return Result.error(e.getCode(), e.getMessage());
+        // return ResponseEntity.status(e.getCode()).body(Result.error(e));
     }
 
 }
