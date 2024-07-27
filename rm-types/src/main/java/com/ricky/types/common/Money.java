@@ -26,8 +26,6 @@ import java.util.Objects;
 public class Money implements ValueObject, Serializable {
 
     BigDecimal amount;
-
-    // @Getter(AccessLevel.PRIVATE)
     Currency currency;
 
     @Serial
@@ -37,8 +35,7 @@ public class Money implements ValueObject, Serializable {
 
     public static final Money ZERO = new Money(BigDecimal.ZERO, Currency.getInstance(DEFAULT_CURRENCY_CODE));
 
-    @JsonCreator
-    public Money(@JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") Currency currency) {
+    public Money(BigDecimal amount, Currency currency) {
         NullException.isNull(amount, "amount cannot be null");
         NullException.isNull(currency, "currency cannot be null");
 

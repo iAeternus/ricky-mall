@@ -1,6 +1,7 @@
 package com.ricky.utils;
 
 import cn.hutool.core.collection.CollUtil;
+import com.ricky.persistence.po.BasePO;
 
 import java.util.Collection;
 import java.util.Collections;

@@ -28,7 +28,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, CommodityId, CommodityPO> implements CommodityRepository {
 
-    private final CommodityDataConverter commodityDataConverter;
+    // private final CommodityDataConverter commodityDataConverter;
     private final AssociatedCommodityMapper associatedCommodityMapper;
     private final AttributeMapper attributeMapper;
     private final GalleryImageMapper galleryImageMapper;
@@ -39,23 +39,23 @@ public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, Commodity
     }
 
     @Override
-    public Commodity getById(Long id) { // TODO Money无法序列化
+    public Commodity getById(Long id) {
         return find(new CommodityId(id));
     }
 
-    @Override
-    public CommodityPO toPO(@NonNull Commodity aggregate) {
-        return commodityDataConverter.toPO(aggregate);
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public Commodity toAggregate(@NonNull CommodityPO po, Map<Class<?>, List<? extends BasePO>> relatedPOLists) {
-        return commodityDataConverter.toEntity(po,
-                (List<GalleryImagePO>) relatedPOLists.get(GalleryImagePO.class),
-                (List<AttributePO>) relatedPOLists.get(AttributePO.class),
-                (List<AssociatedCommodityPO>) relatedPOLists.get(AssociatedCommodityPO.class));
-    }
+    // @Override
+    // public CommodityPO toPO(@NonNull Commodity aggregate) {
+    //     return commodityDataConverter.toPO(aggregate);
+    // }
+    //
+    // @Override
+    // @SuppressWarnings("unchecked")
+    // public Commodity toAggregate(@NonNull CommodityPO po, Map<Class<?>, List<? extends BasePO>> relatedPOLists) {
+    //     return commodityDataConverter.toEntity(po,
+    //             (List<GalleryImagePO>) relatedPOLists.get(GalleryImagePO.class),
+    //             (List<AttributePO>) relatedPOLists.get(AttributePO.class),
+    //             (List<AssociatedCommodityPO>) relatedPOLists.get(AssociatedCommodityPO.class));
+    // }
 
     @Override
     protected Map<Class<?>, List<? extends BasePO>> selectRelatedObjects(CommodityPO po) {

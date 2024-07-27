@@ -25,15 +25,17 @@ import java.util.Map;
  */
 @Repository
 public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identifier, PO extends BasePO>
-        extends RepositorySupport<T, ID> implements AggregateDataConverter<T, ID, PO> {
+        extends RepositorySupport<T, ID> /*implements AggregateDataConverter<T, ID, PO>*/ {
 
     // 由于对mapper进行抽象化，这里需要通过byType方式注入，否则会与派生类冲突
     @Autowired
     private IMapper<PO> mapper;
+    @Autowired
+    private AggregateDataConverter<T, ID, PO> dataConverter;
 
     @Override
     protected void onInsert(T aggregate) {
-        PO po = toPO(aggregate);
+        PO po = dataConverter.toPO(aggregate);
         mapper.insert(po);
         ReflectionUtils.writeField(Identifiable.ID, aggregate, po.getId());
     }
@@ -46,7 +48,7 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
         if (po == null) {
             throw new NotFoundException("aggregate not found");
         }
-        return toAggregate(po, selectRelatedObjects(po));
+        return dataConverter.toAggregate(po, selectRelatedObjects(po));
     }
 
     @Override
@@ -55,7 +57,7 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
             if (!diff.isSelfModified()) {
                 diff.updateChangedOnly(aggregate);
             }
-            PO po = toPO(aggregate);
+            PO po = dataConverter.toPO(aggregate);
             mapper.updateById(po);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
@@ -64,7 +66,7 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
 
     @Override
     protected void onDelete(T aggregate) {
-        PO po = toPO(aggregate);
+        PO po = dataConverter.toPO(aggregate);
         mapper.deleteById(po);
     }
 
