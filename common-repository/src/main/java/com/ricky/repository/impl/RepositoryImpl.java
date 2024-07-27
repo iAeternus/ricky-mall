@@ -25,7 +25,6 @@ import java.util.Map;
  * @desc 持久层抽象实现类，实现了find/remove/save中的模板方法
  */
 @Repository
-// @DependsOn("IMapper")
 public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identifier, PO extends BasePO>
         extends RepositorySupport<T, ID> implements AggregateDataConverter<T, ID, PO> {
 

@@ -77,7 +77,7 @@ public class User implements Aggregate<UserId> {
      */
     public void increaseBalance(Money money) {
         BigDecimal rate = BigDecimal.valueOf(0.14); // TODO 这里要调用防腐层获取汇率
-        balance = balance.add(money.getCurrency().equals(balance.getCurrency()) ?
+        balance = balance.add(Money.isSameCurrency(money, balance) ?
                 money : ExchangeRate.exchangeTo(rate, money, balance.getCurrency()));
     }
 
@@ -91,7 +91,7 @@ public class User implements Aggregate<UserId> {
             throw new ForbiddenException(MessageConstant.BALANCE_NOT_ENOUGH);
         }
         BigDecimal rate = BigDecimal.valueOf(0.14); // TODO 这里要调用防腐层获取汇率
-        balance = balance.subtract(money.getCurrency().equals(balance.getCurrency()) ?
+        balance = balance.subtract(Money.isSameCurrency(money, balance) ?
                 money : ExchangeRate.exchangeTo(rate, money, balance.getCurrency()));
     }
 

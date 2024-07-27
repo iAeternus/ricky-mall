@@ -19,7 +19,6 @@ import javax.annotation.Resource;
  */
 @Getter
 @Service
-// @DependsOn("cacheProperties")
 public abstract class Cache<T extends Aggregate<ID>, ID extends Identifier> {
 
     @Resource

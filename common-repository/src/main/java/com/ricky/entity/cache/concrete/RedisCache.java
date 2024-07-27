@@ -22,7 +22,6 @@ import java.time.Duration;
  * @desc
  */
 @Service
-// @DependsOn("redisTemplate")
 public class RedisCache<T extends Aggregate<ID>, ID extends Identifier> extends Cache<T, ID> {
 
     @Resource

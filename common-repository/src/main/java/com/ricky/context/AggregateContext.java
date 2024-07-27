@@ -20,7 +20,6 @@ import javax.annotation.Resource;
  * @desc 聚合根上下文
  */
 @Service
-// @DependsOn("cacheDelegate")
 public class AggregateContext<T extends Aggregate<ID>, ID extends Identifier> {
 
     @Resource

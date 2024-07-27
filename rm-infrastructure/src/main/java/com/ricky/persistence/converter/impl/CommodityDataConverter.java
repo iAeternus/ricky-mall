@@ -36,7 +36,7 @@ public class CommodityDataConverter implements DataConverter<Commodity, Commodit
                 .name(entity.getName().getValue())
                 .description(entity.getDescription().getValue())
                 .price(entity.getPrice().getAmount())
-                .currencyCode(entity.getPrice().getCurrencyCode())
+                .currencyCode(entity.getPrice().currencyCode())
                 .stock(entity.getStock().getValue())
                 .commodityType(entity.getType())
                 .mainImageUrl(entity.getPictureInformation().getMainImageUrl())

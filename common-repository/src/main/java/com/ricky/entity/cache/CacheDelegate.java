@@ -21,7 +21,6 @@ import java.util.Map;
  * @desc 缓存委派
  */
 @Service
-// @DependsOn("cacheProperties")
 public class CacheDelegate<T extends Aggregate<ID>, ID extends Identifier> extends Cache<T, ID> {
 
     private String cacheType;

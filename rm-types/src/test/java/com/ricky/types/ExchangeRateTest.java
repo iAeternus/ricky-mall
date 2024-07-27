@@ -31,7 +31,7 @@ public class ExchangeRateTest {
 
         // Then
         assertThat(result.getAmount()).isEqualTo(BigDecimal.valueOf(140.07));
-        assertThat(result.getCurrency()).isEqualTo(usd);
+        assertThat(result.currencyCode()).isEqualTo("USD");
     }
 
 }

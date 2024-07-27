@@ -10,6 +10,8 @@ import com.ricky.types.common.Money;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.math.BigDecimal;
+
 /**
  * @author Ricky
  * @version 1.0
@@ -33,7 +35,7 @@ public class UserPO extends BasePO {
     private UserRole role;
     private Long integral;
     private Integer level;
-    @TableField(typeHandler = MoneyTypeHandler.class)
-    private Money balance;
+    private BigDecimal balance;
+    private String currencyCode;
 
 }

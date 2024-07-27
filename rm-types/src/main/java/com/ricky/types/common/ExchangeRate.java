@@ -34,7 +34,7 @@ public class ExchangeRate implements ValueObject {
      */
     public Money exchangeTo(Money fromMoney) {
         notNull(fromMoney);
-        isTrue(this.from.equals(fromMoney.getCurrency()));
+        isTrue(Money.isSameCurrency(fromMoney, from));
         BigDecimal targetAmount = fromMoney.getAmount().multiply(rate);
         return new Money(targetAmount, to);
     }
@@ -42,8 +42,7 @@ public class ExchangeRate implements ValueObject {
     public static Money exchangeTo(BigDecimal rate, Money from, Currency to) {
         notNull(from);
         notNull(to);
-        isTrue(from.getCurrency().equals(to));
-        ExchangeRate exchangeRate = new ExchangeRate(rate, from.getCurrency(), to);
+        isTrue(Money.isSameCurrency(from, to));
         return new Money(from.getAmount().multiply(rate));
     }
 

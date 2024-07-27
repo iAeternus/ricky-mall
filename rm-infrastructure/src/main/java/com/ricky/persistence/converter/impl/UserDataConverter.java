@@ -3,6 +3,7 @@ package com.ricky.persistence.converter.impl;
 import com.ricky.domain.user.model.aggregate.User;
 import com.ricky.persistence.converter.DataConverter;
 import com.ricky.persistence.po.UserPO;
+import com.ricky.types.common.Money;
 import com.ricky.types.user.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,8 @@ public class UserDataConverter implements DataConverter<User, UserId, UserPO> {
         userPO.setRole(entity.getRole());
         userPO.setIntegral(entity.getIntegral().getValue());
         userPO.setLevel(entity.getLevel().getValue());
-        userPO.setBalance(entity.getBalance());
+        userPO.setBalance(entity.getBalance().getAmount());
+        userPO.setCurrencyCode(entity.getBalance().currencyCode());
         return userPO;
     }
 
@@ -49,7 +51,7 @@ public class UserDataConverter implements DataConverter<User, UserId, UserPO> {
         user.setRole(po.getRole());
         user.setIntegral(new Integral(po.getIntegral()));
         user.setLevel(new Level(po.getLevel()));
-        user.setBalance(po.getBalance());
+        user.setBalance(new Money(po.getBalance(), po.getCurrencyCode()));
         return user;
     }
 

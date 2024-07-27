@@ -21,7 +21,6 @@ import javax.validation.constraints.NotNull;
  * @desc
  */
 @Service
-// @DependsOn("aggregateContext")
 public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Identifier> implements IRepository<T, ID> {
 
     @Resource

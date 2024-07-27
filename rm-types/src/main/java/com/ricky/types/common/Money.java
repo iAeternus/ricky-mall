@@ -26,6 +26,8 @@ import java.util.Objects;
 public class Money implements ValueObject, Serializable {
 
     BigDecimal amount;
+
+    // @Getter(AccessLevel.PRIVATE)
     Currency currency;
 
     @Serial
@@ -36,9 +38,7 @@ public class Money implements ValueObject, Serializable {
     public static final Money ZERO = new Money(BigDecimal.ZERO, Currency.getInstance(DEFAULT_CURRENCY_CODE));
 
     @JsonCreator
-    public Money(
-            @JsonProperty("amount") BigDecimal amount,
-            @JsonProperty("currency") Currency currency) {
+    public Money(@JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") Currency currency) {
         NullException.isNull(amount, "amount cannot be null");
         NullException.isNull(currency, "currency cannot be null");
 
@@ -46,7 +46,8 @@ public class Money implements ValueObject, Serializable {
         this.currency = currency;
     }
 
-    public Money(BigDecimal amount, String currencyCode) {
+    @JsonCreator
+    public Money(@JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currencyCode) {
         this(amount, Currency.getInstance(currencyCode));
     }
 
@@ -86,8 +87,16 @@ public class Money implements ValueObject, Serializable {
         return getAmount(2, RoundingMode.HALF_UP);
     }
 
-    public String getCurrencyCode() {
+    public String currencyCode() {
         return currency.getCurrencyCode();
+    }
+
+    public static boolean isSameCurrency(Money m1, Money m2) {
+        return m1.currency.equals(m2.currency);
+    }
+
+    public static boolean isSameCurrency(Money money, Currency currency) {
+        return currency.equals(money.currency);
     }
 
     /**
@@ -138,7 +147,7 @@ public class Money implements ValueObject, Serializable {
     }
 
     public int compareTo(Money money) {
-        if(!this.currency.equals(money.currency)) {
+        if (!this.currency.equals(money.currency)) {
             throw new IllegalArgumentException("Currencies must be the same for compare");
         }
         return this.amount.compareTo(money.amount);
