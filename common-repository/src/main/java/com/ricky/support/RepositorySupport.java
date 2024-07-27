@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 
@@ -36,6 +37,13 @@ public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Iden
     protected abstract void onUpdate(T aggregate, AggregateDiff<T, ID> diff);
 
     protected abstract void onDelete(T aggregate);
+
+    protected abstract Class<?> targetClass();
+
+    @PostConstruct
+    private void initAggregateContext() {
+        aggregateContext.setTargetClass(targetClass());
+    }
 
     @Override
     public void attach(T aggregate) {

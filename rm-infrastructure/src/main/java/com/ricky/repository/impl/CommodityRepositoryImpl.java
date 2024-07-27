@@ -69,4 +69,9 @@ public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, Commodity
         return map;
     }
 
+    @Override
+    protected Class<?> targetClass() {
+        return Commodity.class;
+    }
+
 }

@@ -7,6 +7,8 @@ import com.ricky.marker.Identifiable;
 import com.ricky.marker.Identifier;
 import com.ricky.utils.ReflectionUtils;
 import com.ricky.utils.SnapshotUtils;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,6 +22,9 @@ import javax.annotation.Resource;
  */
 @Service
 public class AggregateContext<T extends Aggregate<ID>, ID extends Identifier> {
+
+    @Setter
+    private Class<?> targetClass;
 
     @Resource
     private CacheDelegate<T, ID> cacheDelegate;

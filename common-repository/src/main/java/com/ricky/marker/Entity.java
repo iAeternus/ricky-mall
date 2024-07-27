@@ -1,5 +1,7 @@
 package com.ricky.marker;
 
+import java.io.Serializable;
+
 /**
  * @author Ricky
  * @version 2.0
@@ -7,6 +9,6 @@ package com.ricky.marker;
  * @className Entity
  * @desc 实体类的Marker接口
  */
-public interface Entity<ID extends Identifier> extends Identifiable<ID> {
+public interface Entity<ID extends Identifier> extends Identifiable<ID>, Serializable {
 
 }

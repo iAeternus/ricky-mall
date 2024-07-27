@@ -30,13 +30,15 @@ public class CommodityDataConverter implements AggregateDataConverter<Commodity,
         CommodityId commodityId = entity.getId();
         PromotionInformation promotionInformation = entity.getPromotionInformation();
         SalesInformation salesInformation = entity.getSalesInformation();
+        Stock stock = entity.getStock();
+        SEO seo = entity.getSeo();
         return CommodityPO.builder()
                 .id(commodityId == null ? null : commodityId.getValue())
                 .name(entity.getName().getValue())
                 .description(entity.getDescription().getValue())
                 .price(entity.getPrice().getAmount())
                 .currencyCode(entity.getPrice().currencyCode())
-                .stock(entity.getStock().getValue())
+                .stock(stock == null ? null : entity.getStock().getValue())
                 .commodityType(entity.getType())
                 .mainImageUrl(entity.getPictureInformation().getMainImageUrl())
                 .categoryId(entity.getCategoryId().getValue())
@@ -48,9 +50,9 @@ public class CommodityDataConverter implements AggregateDataConverter<Commodity,
                 .weight(entity.getShippingInformation().getWeight().getValue())
                 .weightUnit(entity.getShippingInformation().getWeight().getUnit())
                 .supplierId(entity.getSupplierInformation().getSupplierId())
-                .metaTitle(entity.getSeo().getMetaTitle())
-                .metaKeywords(entity.getSeo().getMetaKeywords())
-                .metaDescription(entity.getSeo().getMetaDescription())
+                .metaTitle(seo == null ? null : seo.getMetaTitle())
+                .metaKeywords(seo == null ? null : seo.getMetaKeywords())
+                .metaDescription(seo == null ? null : seo.getMetaDescription())
                 .build();
     }
 

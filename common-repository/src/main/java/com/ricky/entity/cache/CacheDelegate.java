@@ -26,6 +26,10 @@ public class CacheDelegate<T extends Aggregate<ID>, ID extends Identifier> exten
 
     @Resource
     private CacheProperties cacheProperties;
+    @Resource
+    private MapCache<T, ID> mapCache;
+    @Resource
+    private RedisCache<T, ID> redisCache;
 
     @PostConstruct
     public void afterInit() {
@@ -45,8 +49,8 @@ public class CacheDelegate<T extends Aggregate<ID>, ID extends Identifier> exten
         }
 
         // 具体的实现类
-        contextMap.put(CacheProperties.MAP, new MapCache<>());
-        contextMap.put(CacheProperties.REDIS, new RedisCache<>());
+        contextMap.put(CacheProperties.MAP, mapCache);
+        contextMap.put(CacheProperties.REDIS, redisCache);
     }
 
     public Cache<T, ID> selectImpl(String type) {

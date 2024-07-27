@@ -1,5 +1,7 @@
 package com.ricky.marker;
 
+import java.io.Serializable;
+
 /**
  * @author Ricky
  * @version 1.0
@@ -7,5 +9,5 @@ package com.ricky.marker;
  * @className ValueObject
  * @desc
  */
-public interface ValueObject {
+public interface ValueObject extends Serializable {
 }

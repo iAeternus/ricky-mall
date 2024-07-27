@@ -43,7 +43,7 @@ public class CommodityAssembler {
                 .id(new CommodityId(command.getId()))
                 .name(new CommodityName(command.getName()))
                 .description(new ProductDescription(command.getDescription()))
-                .price(command.getPrice())
+                .price((command.getPrice()))
                 .pictureInformation(new PictureInformation(command.getMainImageUrl(), null))
                 .categoryId(new CategoryId(command.getCategoryId()))
                 .brand(new Brand(command.getBrand()))
