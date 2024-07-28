@@ -2,7 +2,6 @@ package com.ricky.support;
 
 import com.ricky.context.AggregateContext;
 import com.ricky.domain.diff.entity.AggregateDifference;
-import com.ricky.domain.diff.enums.DifferenceType;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
 import com.ricky.repository.IRepository;

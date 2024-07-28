@@ -63,7 +63,7 @@ public class AggregateDiff<T extends Aggregate<ID>, ID extends Identifier> {
     public AggregateDiff<T, ID> diff(T working, T base) {
         AggregateDiff<T, ID> aggregateDiff = new AggregateDiff<>();
         DiffNode diff = ObjectDifferBuilder.buildDefault().compare(working, base);
-        if(!diff.hasChanges()) {
+        if (!diff.hasChanges()) {
             // return EMPTY; // TODO
         }
         aggregateDiff.setState(diff.getState());
@@ -95,7 +95,7 @@ public class AggregateDiff<T extends Aggregate<ID>, ID extends Identifier> {
     public void update(@NotNull T base, DiffNode.State state) throws IllegalAccessException {
         Field[] fields = base.getClass().getDeclaredFields();
         AggregateDiff<T, ID> aggregateDiff = filter(state);
-        if(CollUtil.isEmpty(aggregateDiff.getDiffs())) {
+        if (CollUtil.isEmpty(aggregateDiff.getDiffs())) {
             return;
         }
         for (Field field : fields) {

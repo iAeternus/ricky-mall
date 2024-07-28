@@ -1,6 +1,5 @@
 package com.ricky.dto.command;
 
-import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.domain.commodity.model.entity.Attribute;
 import com.ricky.domain.commodity.model.entity.Image;
 import com.ricky.domain.commodity.model.entity.Supplier;

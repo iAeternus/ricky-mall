@@ -1,19 +1,16 @@
 package com.ricky.dto.response;
 
-import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.domain.commodity.model.entity.Attribute;
 import com.ricky.domain.commodity.model.entity.Image;
 import com.ricky.domain.commodity.model.entity.Supplier;
 import com.ricky.enums.impl.CommodityType;
 import com.ricky.enums.impl.WeightUnit;
-import com.ricky.types.commodity.CommodityId;
 import com.ricky.types.common.Money;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Ricky

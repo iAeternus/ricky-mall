@@ -8,7 +8,6 @@ import com.ricky.marker.Identifiable;
 import com.ricky.marker.Identifier;
 import com.ricky.utils.ReflectionUtils;
 import com.ricky.utils.SnapshotUtils;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -43,11 +42,11 @@ public class AggregateContext<T extends Aggregate<ID>, ID extends Identifier> {
     }
 
     public AggregateDifference<T, ID> difference(T aggregate) {
-        if(aggregate.getId() == null) {
+        if (aggregate.getId() == null) {
             return null;
         }
         T snapshot = cache.find(aggregate.getId());
-        if(snapshot == null) {
+        if (snapshot == null) {
             attach(aggregate);
         }
         return DifferenceUtils.different(snapshot, aggregate);

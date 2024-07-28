@@ -1,12 +1,10 @@
 package com.ricky.domain.diff.entity;
 
-import com.ricky.domain.diff.entity.concrete.AggregateFieldDifference;
 import com.ricky.domain.diff.enums.DifferenceType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.lang.reflect.Type;
 

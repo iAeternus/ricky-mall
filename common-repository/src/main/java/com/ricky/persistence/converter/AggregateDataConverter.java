@@ -6,7 +6,6 @@ import com.ricky.persistence.po.BasePO;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -39,8 +38,9 @@ public interface AggregateDataConverter<T extends Aggregate<ID>, ID extends Iden
 
     /**
      * 设置聚合根ID
+     *
      * @param aggregate 聚合根
-     * @param id 标识符
+     * @param id        标识符
      */
     void setAggregateId(@NonNull T aggregate, @NonNull Serializable id);
 

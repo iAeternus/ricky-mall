@@ -2,10 +2,8 @@ package com.ricky.domain.commodity.model.entity;
 
 import com.ricky.exception.NullException;
 import com.ricky.marker.Entity;
-import com.ricky.marker.ValueObject;
 import com.ricky.types.commodity.SupplierId;
 import lombok.Data;
-import lombok.Value;
 
 /**
  * @author Ricky

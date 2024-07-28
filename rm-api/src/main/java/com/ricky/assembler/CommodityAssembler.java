@@ -1,8 +1,6 @@
 package com.ricky.assembler;
 
 import com.ricky.domain.commodity.model.aggregate.Commodity;
-import com.ricky.dto.response.Response;
-import com.ricky.types.commodity.Promotion;
 import com.ricky.dto.command.ModifyCommodityCommand;
 import com.ricky.dto.command.SaveCommodityCommand;
 import com.ricky.dto.response.GetCommodityByIdResponse;
@@ -10,8 +8,6 @@ import com.ricky.types.commodity.*;
 import com.ricky.types.common.Weight;
 import com.ricky.utils.CollUtils;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author Ricky

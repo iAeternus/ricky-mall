@@ -18,7 +18,6 @@ import com.ricky.utils.CollUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -84,7 +83,7 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
 
         // 筛选出关联对象的字段差异
         List<FieldDifference> fieldDifferences = difference.filtrateRelated();
-        if(CollUtil.isEmpty(fieldDifferences)) {
+        if (CollUtil.isEmpty(fieldDifferences)) {
             throw new RuntimeException("not found in cache");
         }
 
@@ -95,13 +94,13 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
         Map<String, DataConverter<Entity<Identifier>, Identifier, BasePO>> relatedDataConverters = relatedEntityDataConverter();
 
         for (FieldDifference fieldDifference : fieldDifferences) {
-            if(!(fieldDifference instanceof CollectionFieldDifference collectionFieldDifference)) {
+            if (!(fieldDifference instanceof CollectionFieldDifference collectionFieldDifference)) {
                 continue;
             }
 
             String fieldName = fieldDifference.getName();
             DataConverter<Entity<Identifier>, Identifier, BasePO> relatedDataConverter = relatedDataConverters.get(fieldName);
-            if(relatedDataConverter == null) {
+            if (relatedDataConverter == null) {
                 throw new RuntimeException("Incorrect data converter key, key=" + fieldName);
             }
 
@@ -130,7 +129,7 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
     @Override
     protected void doDelete(T aggregate) {
         ID id = aggregate.getId();
-        if(id == null) {
+        if (id == null) {
             return;
         }
         mapper.deleteById(id.getValue());

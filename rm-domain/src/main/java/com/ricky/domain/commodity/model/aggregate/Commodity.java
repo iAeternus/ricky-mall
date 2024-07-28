@@ -1,12 +1,13 @@
 package com.ricky.domain.commodity.model.aggregate;
 
 import com.ricky.constants.MessageConstant;
-import com.ricky.domain.commodity.model.entity.*;
+import com.ricky.domain.commodity.model.entity.Attribute;
+import com.ricky.domain.commodity.model.entity.Image;
+import com.ricky.domain.commodity.model.entity.Supplier;
 import com.ricky.enums.impl.CommodityType;
 import com.ricky.exception.InsufficientStockException;
 import com.ricky.marker.Aggregate;
 import com.ricky.types.commodity.*;
-import com.ricky.domain.commodity.model.entity.Image;
 import com.ricky.types.common.Money;
 import com.ricky.types.common.Weight;
 import lombok.AllArgsConstructor;

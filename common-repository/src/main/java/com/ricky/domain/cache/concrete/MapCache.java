@@ -1,6 +1,5 @@
 package com.ricky.domain.cache.concrete;
 
-import cn.hutool.core.util.SerializeUtil;
 import com.ricky.domain.cache.Cache;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;

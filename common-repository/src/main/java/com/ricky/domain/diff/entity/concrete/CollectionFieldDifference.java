@@ -1,10 +1,9 @@
 package com.ricky.domain.diff.entity.concrete;
 
-import com.ricky.domain.diff.enums.DifferenceType;
 import com.ricky.domain.diff.entity.FieldDifference;
+import com.ricky.domain.diff.enums.DifferenceType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

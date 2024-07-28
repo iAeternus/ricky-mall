@@ -3,7 +3,6 @@ package com.ricky.repository.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.domain.commodity.repsitory.CommodityRepository;
-import com.ricky.domain.diff.entity.AggregateDifference;
 import com.ricky.enums.impl.CommodityType;
 import com.ricky.marker.Entity;
 import com.ricky.marker.Identifier;

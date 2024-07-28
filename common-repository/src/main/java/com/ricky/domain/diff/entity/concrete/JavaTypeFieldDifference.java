@@ -2,7 +2,6 @@ package com.ricky.domain.diff.entity.concrete;
 
 import com.ricky.domain.diff.entity.FieldDifference;
 import com.ricky.domain.diff.enums.DifferenceType;
-import lombok.Data;
 
 import java.lang.reflect.Type;
 

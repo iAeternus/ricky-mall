@@ -1,6 +1,5 @@
 package com.ricky.domain.diff.utils;
 
-import com.ricky.domain.diff.AggregateDiff;
 import com.ricky.domain.diff.entity.AggregateDifference;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
@@ -8,8 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Value;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * @author Ricky

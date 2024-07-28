@@ -102,7 +102,7 @@ public class AggregateDifference<T extends Aggregate<ID>, ID extends Identifier>
                 .filter(fieldName -> {
                     FieldDifference fieldDifference = fieldDifferences.get(fieldName);
                     // 筛选出被修改的
-                    if(fieldDifference.getDifferenceType() != DifferenceType.MODIFIED) {
+                    if (fieldDifference.getDifferenceType() != DifferenceType.MODIFIED) {
                         return false;
                     }
                     // 筛选出关联对象

@@ -2,9 +2,9 @@ package com.ricky.domain.batch;
 
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
- 
+
 import java.util.List;
- 
+
 /**
  * 自定义方法SQL注入器
  */

@@ -3,7 +3,6 @@ package com.ricky.domain.commodity.model.entity;
 import com.ricky.exception.NullException;
 import com.ricky.marker.Entity;
 import com.ricky.types.commodity.AttributeId;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**

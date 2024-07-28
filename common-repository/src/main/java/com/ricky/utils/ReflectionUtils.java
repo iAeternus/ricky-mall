@@ -5,7 +5,6 @@ import com.ricky.marker.Identifier;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.lang.reflect.Field;
 
 /**

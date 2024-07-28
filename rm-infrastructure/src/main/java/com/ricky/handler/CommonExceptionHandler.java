@@ -6,7 +6,6 @@ import com.ricky.exception.BaseException;
 import com.ricky.exception.DbException;
 import com.ricky.model.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

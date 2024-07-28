@@ -1,7 +1,5 @@
 package com.ricky.marker;
 
-import java.io.Serializable;
-
 /**
  * @author Ricky
  * @version 2.0

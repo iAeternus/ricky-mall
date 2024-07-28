@@ -49,17 +49,17 @@ public class SnapshotUtils {
             throw new RuntimeException(e);
         } finally {
             try {
-                if(objectInputStream != null) {
+                if (objectInputStream != null) {
                     objectOutputStream.close();
                 }
-                if(byteArrayOutputStream != null) {
+                if (byteArrayOutputStream != null) {
                     byteArrayOutputStream.close();
                 }
 
-                if(objectInputStream != null) {
+                if (objectInputStream != null) {
                     objectInputStream.close();
                 }
-                if(byteArrayInputStream != null) {
+                if (byteArrayInputStream != null) {
                     byteArrayInputStream.close();
                 }
             } catch (IOException ignored) {

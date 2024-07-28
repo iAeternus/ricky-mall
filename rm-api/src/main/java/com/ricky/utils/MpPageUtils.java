@@ -5,7 +5,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.ricky.dto.response.PageResponse;
 import com.ricky.utils.model.PageQuery;
 
 import java.util.Collections;
@@ -32,8 +32,8 @@ public class MpPageUtils {
      * @param convertor 对象转换的逻辑
      * @return 返回分页结果DTO
      */
-    public static <PO, VO> PageDTO<VO> toPageDTO(Page<PO> page, Function<PO, VO> convertor) {
-        PageDTO<VO> pageDTO = new PageDTO<>();
+    public static <PO, VO> PageResponse<VO> toPageDTO(Page<PO> page, Function<PO, VO> convertor) {
+        PageResponse<VO> pageDTO = new PageResponse<>();
         // 获取总条数
         pageDTO.setTotal(page.getTotal());
         // 获取总页数
@@ -56,7 +56,7 @@ public class MpPageUtils {
      * @param clazz 目标VO的字节码
      * @return 分页查询结果
      */
-    public static <PO, VO> PageDTO<VO> toPageDTO(Page<PO> page, Class<VO> clazz) {
+    public static <PO, VO> PageResponse<VO> toPageDTO(Page<PO> page, Class<VO> clazz) {
         return MpPageUtils.toPageDTO(page, po -> BeanUtil.copyProperties(po, clazz));
     }
 
@@ -68,8 +68,8 @@ public class MpPageUtils {
      * @return 返回封装好的mp的Page对象
      */
     public static <T> Page<T> toMpPage(PageQuery query, OrderItem... items) {
-        // 构建分页条件
-        Page<T> page = Page.of(query.getPageNo(), query.getPageSize());
+        // 构建分页条件，mp新版本需要改动
+        Page<T> page = new Page<>(query.getPageNo(), query.getPageSize());
         // 排序条件
         if (StrUtil.isNotBlank(query.getSortBy())) {
             // 不为空

@@ -1,7 +1,9 @@
 package com.ricky.persistence.converter.impl;
 
 import com.ricky.domain.commodity.model.aggregate.Commodity;
-import com.ricky.domain.commodity.model.entity.*;
+import com.ricky.domain.commodity.model.entity.Attribute;
+import com.ricky.domain.commodity.model.entity.Image;
+import com.ricky.domain.commodity.model.entity.Supplier;
 import com.ricky.persistence.converter.AggregateDataConverter;
 import com.ricky.persistence.po.*;
 import com.ricky.types.commodity.*;

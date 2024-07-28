@@ -1,7 +1,7 @@
 package com.ricky.domain.diff.entity.concrete;
 
-import com.ricky.domain.diff.enums.DifferenceType;
 import com.ricky.domain.diff.entity.FieldDifference;
+import com.ricky.domain.diff.enums.DifferenceType;
 import com.ricky.marker.Identifier;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
