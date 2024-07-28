@@ -3,13 +3,12 @@ package com.ricky.repository.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.domain.commodity.repsitory.CommodityRepository;
+import com.ricky.domain.diff.entity.AggregateDifference;
+import com.ricky.enums.impl.CommodityType;
 import com.ricky.persistence.converter.impl.CommodityDataConverter;
-import com.ricky.persistence.mapper.AssociatedCommodityMapper;
-import com.ricky.persistence.mapper.AttributeMapper;
-import com.ricky.persistence.mapper.GalleryImageMapper;
+import com.ricky.persistence.mapper.*;
 import com.ricky.persistence.po.*;
 import com.ricky.types.commodity.CommodityId;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -28,13 +27,17 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, CommodityId, CommodityPO> implements CommodityRepository {
 
-    // private final CommodityDataConverter commodityDataConverter;
-    private final AssociatedCommodityMapper associatedCommodityMapper;
+    private final CommodityDataConverter commodityDataConverter;
+    private final CommodityMapper commodityMapper;
+    private final RelatedCommodityMapper relatedCommodityMapper;
     private final AttributeMapper attributeMapper;
-    private final GalleryImageMapper galleryImageMapper;
+    private final CommodityImageMapper commodityImageMapper;
+    private final SupplierMapper supplierMapper;
 
     @Override
     public void saveCommodity(Commodity commodity) {
+        // 新增的商品默认未上架
+        commodity.setType(CommodityType.NOT_LISTED);
         save(commodity);
     }
 
@@ -42,6 +45,18 @@ public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, Commodity
     public Commodity getById(Long id) {
         return find(new CommodityId(id));
     }
+
+
+    // @Override
+    // protected void doUpdate(Commodity aggregate, AggregateDifference<Commodity, CommodityId> difference) {
+    //     if (difference.isSelfModified(aggregate.getClass())) {
+    //         CommodityPO commodityPO = commodityDataConverter.toPO(aggregate);
+    //         commodityMapper.updateById(commodityPO);
+    //     }
+    //
+    //
+    // }
+
 
     // @Override
     // public CommodityPO toPO(@NonNull Commodity aggregate) {
@@ -54,24 +69,21 @@ public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, Commodity
     //     return commodityDataConverter.toEntity(po,
     //             (List<GalleryImagePO>) relatedPOLists.get(GalleryImagePO.class),
     //             (List<AttributePO>) relatedPOLists.get(AttributePO.class),
-    //             (List<AssociatedCommodityPO>) relatedPOLists.get(AssociatedCommodityPO.class));
+    //             (List<RelatedCommodityPO>) relatedPOLists.get(RelatedCommodityPO.class));
     // }
 
     @Override
-    protected Map<Class<?>, List<? extends BasePO>> selectRelatedObjects(CommodityPO po) {
-        Map<Class<?>, List<? extends BasePO>> map = new HashMap<>();
-        map.put(GalleryImagePO.class, galleryImageMapper.selectList(new QueryWrapper<GalleryImagePO>().lambda()
-                .eq(GalleryImagePO::getCommodityId, po.getId())));
-        map.put(AttributePO.class, attributeMapper.selectList(new QueryWrapper<AttributePO>().lambda()
+    protected Map<String, List<? extends BasePO>> selectRelatedLists(CommodityPO po) {
+        Map<String, List<? extends BasePO>> map = new HashMap<>();
+        map.put(Commodity.RELATED_IMAGES, commodityImageMapper.selectList(new QueryWrapper<CommodityImagePO>().lambda()
+                .eq(CommodityImagePO::getCommodityId, po.getId())));
+        map.put(Commodity.RELATED_ATTRIBUTES, attributeMapper.selectList(new QueryWrapper<AttributePO>().lambda()
                 .eq(AttributePO::getCommodityId, po.getId())));
-        map.put(AssociatedCommodityPO.class, associatedCommodityMapper.selectList(new QueryWrapper<AssociatedCommodityPO>().lambda()
-                .eq(AssociatedCommodityPO::getCommodityId, po.getId())));
+        map.put(Commodity.RELATED_SUPPLIERS, supplierMapper.selectList(new QueryWrapper<SupplierPO>().lambda()
+                .eq(SupplierPO::getCommodityId, po.getId())));
+        map.put(Commodity.RELATED_COMMODITY_IDS, relatedCommodityMapper.selectList(new QueryWrapper<RelatedCommodityPO>().lambda()
+                .eq(RelatedCommodityPO::getCommodityId, po.getId())));
         return map;
-    }
-
-    @Override
-    protected Class<?> targetClass() {
-        return Commodity.class;
     }
 
 }

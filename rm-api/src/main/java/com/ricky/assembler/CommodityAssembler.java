@@ -1,12 +1,17 @@
 package com.ricky.assembler;
 
 import com.ricky.domain.commodity.model.aggregate.Commodity;
+import com.ricky.dto.response.Response;
+import com.ricky.types.commodity.Promotion;
 import com.ricky.dto.command.ModifyCommodityCommand;
 import com.ricky.dto.command.SaveCommodityCommand;
 import com.ricky.dto.response.GetCommodityByIdResponse;
 import com.ricky.types.commodity.*;
 import com.ricky.types.common.Weight;
+import com.ricky.utils.CollUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Ricky
@@ -24,17 +29,14 @@ public class CommodityAssembler {
                 .description(new ProductDescription(command.getDescription()))
                 .price(command.getPrice())
                 .stock(new Stock(command.getStock()))
-                .type(command.getCommodityType())
-                .pictureInformation(new PictureInformation(command.getMainImageUrl(), null))
+                .weight(new Weight(command.getWeight(), command.getWeightUnit()))
                 .categoryId(new CategoryId(command.getCategoryId()))
-                .brand(new Brand(command.getBrand()))
-                .shippingInformation(new ShippingInformation(new Weight(command.getWeight(), command.getWeightUnit())))
-                .supplierInformation(new SupplierInformation(command.getSupplierId()))
-                .seo(new SEO(
-                        command.getMetaTitle(),
-                        command.getMetaKeywords(),
-                        command.getMetaDescription()
-                ))
+                .brand(new Brand(command.getBrandName()))
+                .seo(new SEO(command.getMetaTitle(), command.getMetaKeywords(), command.getMetaDescription()))
+                .images(command.getImages())
+                .attributes(command.getAttributes())
+                .suppliers(command.getSuppliers())
+                .relatedCommodityIds(CollUtils.listConvert(command.getRelatedCommodityIds(), CommodityId::new))
                 .build();
     }
 
@@ -43,43 +45,50 @@ public class CommodityAssembler {
                 .id(new CommodityId(command.getId()))
                 .name(new CommodityName(command.getName()))
                 .description(new ProductDescription(command.getDescription()))
-                .price((command.getPrice()))
-                .pictureInformation(new PictureInformation(command.getMainImageUrl(), null))
+                .price(command.getPrice())
+                .weight(new Weight(command.getWeight(), command.getWeightUnit()))
                 .categoryId(new CategoryId(command.getCategoryId()))
-                .brand(new Brand(command.getBrand()))
-                .shippingInformation(new ShippingInformation(new Weight(command.getWeight(), command.getWeightUnit())))
-                .supplierInformation(new SupplierInformation(command.getSupplierId()))
+                .brand(new Brand(command.getName()))
+                .seo(new SEO(command.getMetaTitle(), command.getMetaKeywords(), command.getMetaDescription()))
+                .images(command.getImages())
+                .attributes(command.getAttributes())
+                .suppliers(command.getSuppliers())
+                .relatedCommodityIds(CollUtils.listConvert(command.getRelatedCommodityIds(), CommodityId::new))
                 .build();
     }
 
+    // private List<Commodity> mapCommodityList(List<Long> commodityIds) {
+    //     return commodityIds.stream()
+    //             .map(commodityId -> new Commodity(new CommodityId(commodityId)))
+    //             .toList();
+    // }
+
     public GetCommodityByIdResponse toGetCommodityByIdResponse(Commodity commodity) {
-        PromotionInformation promotionInformation = commodity.getPromotionInformation();
+        Promotion promotion = commodity.getPromotion();
         return GetCommodityByIdResponse.builder()
                 .id(commodity.getId().getValue())
                 .name(commodity.getName().getValue())
                 .description(commodity.getDescription().getValue())
                 .price(commodity.getPrice())
                 .stock(commodity.getStock().getValue())
+                .weight(commodity.getWeight().getValue())
+                .weightUnit(commodity.getWeight().getUnit())
                 .commodityType(commodity.getType())
-                .mainImageUrl(commodity.getPictureInformation().getMainImageUrl())
-                .galleryImages(commodity.getPictureInformation().getGalleryImages())
                 .categoryId(commodity.getCategoryId().getValue())
-                .brand(commodity.getBrand().getName())
-                .attributes(commodity.getAttributes().getValue())
-                .discountPrice(promotionInformation == null ? null : promotionInformation.getDiscountPrice())
-                .promotionStartTime(promotionInformation == null ? null : promotionInformation.getStartTime())
-                .promotionEndTime(promotionInformation == null ? null : promotionInformation.getEndTime())
-                .relatedProducts(commodity.getRelatesInformation().getRelatedProducts())
-                .skuIds(commodity.getRelatesInformation().getSkuIds())
+                .brandName(commodity.getBrand().getName())
+                .discountPrice(promotion == null ? null : promotion.getDiscountPrice())
+                .promotionStartTime(promotion == null ? null : promotion.getStartTime())
+                .promotionEndTime(promotion == null ? null : promotion.getEndTime())
                 .soldCount(commodity.getSalesInformation().getSoldCount())
                 .createTime(commodity.getSalesInformation().getCreateTime())
                 .updateTime(commodity.getSalesInformation().getUpdateTime())
-                .weight(commodity.getShippingInformation().getWeight().getValue())
-                .weightUnit(commodity.getShippingInformation().getWeight().getUnit())
-                .supplierId(commodity.getSupplierInformation().getSupplierId())
                 .metaTitle(commodity.getSeo().getMetaTitle())
                 .metaKeywords(commodity.getSeo().getMetaKeywords())
                 .metaDescription(commodity.getSeo().getMetaDescription())
+                .images(commodity.getImages())
+                .attributes(commodity.getAttributes())
+                .suppliers(commodity.getSuppliers())
+                .relatedCommodities(CollUtils.listConvert(commodity.getRelatedCommodityIds(), CommodityId::getValue))
                 .build();
     }
 

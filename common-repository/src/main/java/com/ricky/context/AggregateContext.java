@@ -1,13 +1,13 @@
 package com.ricky.context;
 
-import com.ricky.entity.cache.CacheDelegate;
-import com.ricky.entity.diff.AggregateDiff;
+import com.ricky.domain.cache.CacheDelegate;
+import com.ricky.domain.diff.entity.AggregateDifference;
+import com.ricky.domain.diff.utils.DifferenceUtils;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifiable;
 import com.ricky.marker.Identifier;
 import com.ricky.utils.ReflectionUtils;
 import com.ricky.utils.SnapshotUtils;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 
@@ -23,43 +23,49 @@ import javax.annotation.Resource;
 @Service
 public class AggregateContext<T extends Aggregate<ID>, ID extends Identifier> {
 
-    @Setter
-    private Class<?> targetClass;
-
     @Resource
-    private CacheDelegate<T, ID> cacheDelegate;
+    private CacheDelegate<T, ID> cache;
 
     public void attach(T aggregate) {
-        if (aggregate.getId() != null && cacheDelegate.find(aggregate.getId()) != null) {
+        if (aggregate.getId() != null) {
             this.merge(aggregate);
         }
     }
 
     public void detach(T aggregate) {
         if (aggregate.getId() != null) {
-            cacheDelegate.remove(aggregate.getId());
+            cache.remove(aggregate.getId());
         }
     }
 
     public T find(ID id) {
-        return cacheDelegate.find(id);
+        return cache.find(id);
     }
 
-    public AggregateDiff<T, ID> detectChanges(T aggregate) {
-        if (aggregate.getId() == null) {
+    public AggregateDifference<T, ID> difference(T aggregate) {
+        if(aggregate.getId() == null) {
             return null;
         }
-        T snapshot = cacheDelegate.find(aggregate.getId());
-        if (snapshot == null) {
+        T snapshot = cache.find(aggregate.getId());
+        if(snapshot == null) {
             attach(aggregate);
         }
-        return AggregateDiff.<T, ID>newInstance().diff(snapshot, aggregate);
+        return DifferenceUtils.different(snapshot, aggregate);
+
+        // if (aggregate.getId() == null) {
+        //     return null;
+        // }
+        // T snapshot = cacheDelegate.find(aggregate.getId());
+        // if (snapshot == null) {
+        //     attach(aggregate);
+        // }
+        // return AggregateDiff.<T, ID>newInstance().diff(snapshot, aggregate);
     }
 
     public void merge(T aggregate) {
         if (aggregate.getId() != null) {
             T snapshot = SnapshotUtils.snapshot(aggregate);
-            cacheDelegate.save(aggregate.getId(), snapshot);
+            cache.save(aggregate.getId(), snapshot);
         }
     }
 

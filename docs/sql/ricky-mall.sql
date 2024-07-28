@@ -50,20 +50,18 @@ create table if not exists commodity
     id                   bigint auto_increment primary key,
     name                 varchar(32)   not null comment '商品名称',
     description          varchar(128)  not null comment '商品描述',
-    price                decimal       not null comment '商品价格',
+    price                double        not null comment '商品价格',
     currency_code        varchar(6)    null comment '货币编码',
     stock                int           not null comment '商品库存量',
+    weight               double        not null comment '商品重量值',
+    weight_unit          varchar(4)    not null comment '商品重量单位',
     commodity_type       tinyint       not null comment '商品状态',
-    main_image_url       varchar(300)  not null comment '主图URL',
     category_id          bigint        not null comment '分类id',
-    brand                varchar(32)   null comment '品牌',
+    brand_name           varchar(32)   null comment '品牌',
     discount_price       decimal       null comment '折扣价',
     promotion_start_time datetime      null comment '促销开始时间',
     promotion_end_time   datetime      null comment '促销结束时间',
     sold_count           int default 0 not null comment '销售数量',
-    weight               double        not null comment '商品重量值',
-    weight_unit          varchar(4)    not null comment '商品重量单位',
-    supplier_id          bigint        not null comment '供应商ID',
     meta_title           varchar(32)   null comment 'SEO标题',
     meta_keywords        varchar(12)   null comment 'SEO关键词',
     meta_description     varchar(128)  null comment 'SEO描述',
@@ -72,12 +70,11 @@ create table if not exists commodity
 )
     comment '商品表';
 
-create table if not exists associated_commodity
+create table if not exists related_commodity
 (
     id                   bigint auto_increment primary key,
     commodity_id         bigint   not null comment '商品id',
     related_commodity_id bigint   not null comment '相关商品ID',
-    sku_id               int      null comment '对应的SKU ID',
     create_time          datetime not null comment '创建时间',
     update_time          datetime not null comment '修改时间'
 )
@@ -94,15 +91,29 @@ create table if not exists attributes
 )
     comment '商品属性表';
 
-create table if not exists gallery_image
+create table if not exists commodity_image
 (
-    id           bigint auto_increment primary key,
-    commodity_id bigint       not null comment '商品ID',
-    image_url    varchar(300) not null comment '图片URL',
-    create_time  datetime     not null comment '创建时间',
-    update_time  datetime     not null comment '修改时间'
+    id            bigint auto_increment primary key,
+    commodity_id  bigint       not null comment '商品ID',
+    name          varchar(32)  null comment '图片名',
+    image_url     varchar(300) not null comment '图片URL',
+    size_in_bytes bigint       null comment '图片大小，以字节为单位',
+    create_time   datetime     not null comment '创建时间',
+    update_time   datetime     not null comment '修改时间'
 )
     comment '商品图片表';
+
+create table if not exists supplier
+(
+    id           bigint auto_increment primary key,
+    commodity_id bigint      not null comment '商品id',
+    name         varchar(32) not null comment '供应商名称',
+    contact      varchar(32) not null comment '联系方式',
+    address      varchar(64) not null comment '地址',
+    create_time  datetime    not null comment '创建时间',
+    update_time  datetime    not null comment '修改时间'
+)
+    comment '供应商表';
 
 
 

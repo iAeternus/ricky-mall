@@ -3,6 +3,7 @@ package com.ricky.config;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.ricky.domain.batch.CustomizedSqlInjector;
 import com.ricky.handler.MoneyTypeHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
@@ -33,6 +34,11 @@ public class MybatisPlusConfig {
     @Bean
     public MoneyTypeHandler moneyTypeHandler() {
         return new MoneyTypeHandler();
+    }
+
+    @Bean
+    public CustomizedSqlInjector customizedSqlInjector() {
+        return new CustomizedSqlInjector();
     }
 
 }

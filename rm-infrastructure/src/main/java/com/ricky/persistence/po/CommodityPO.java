@@ -33,29 +33,15 @@ public class CommodityPO extends BasePO {
     private BigDecimal price; // 商品价格
     private String currencyCode; // 货币类型
     private Integer stock; // 商品库存量
+    private Double weight; // 商品重量值
+    private WeightUnit weightUnit; // 商品重量单位
     private CommodityType commodityType; // 商品状态
-    private String mainImageUrl; // 主图URL
-
-    // 分类与属性
     private Long categoryId; // 分类id
-    private String brand; // 品牌
-
-    // 促销信息
+    private String brandName; // 品牌名
     private BigDecimal discountPrice; // 折扣价
     private LocalDateTime promotionStartTime; // 促销开始时间
     private LocalDateTime promotionEndTime; // 促销结束时间
-
-    // 销售信息
     private Integer soldCount; // 销售数量
-
-    // 发货信息
-    private Double weight; // 商品重量值
-    private WeightUnit weightUnit; // 商品重量单位
-
-    // 供应商信息
-    private Long supplierId; // 供应商ID
-
-    // SEO信息
     private String metaTitle; // SEO标题
     private String metaKeywords; // SEO关键词
     private String metaDescription; // SEO描述

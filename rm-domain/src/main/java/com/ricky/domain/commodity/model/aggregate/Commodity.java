@@ -1,17 +1,20 @@
 package com.ricky.domain.commodity.model.aggregate;
 
 import com.ricky.constants.MessageConstant;
+import com.ricky.domain.commodity.model.entity.*;
 import com.ricky.enums.impl.CommodityType;
 import com.ricky.exception.InsufficientStockException;
 import com.ricky.marker.Aggregate;
 import com.ricky.types.commodity.*;
+import com.ricky.domain.commodity.model.entity.Image;
 import com.ricky.types.common.Money;
+import com.ricky.types.common.Weight;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -32,22 +35,27 @@ public class Commodity implements Aggregate<CommodityId> {
     private ProductDescription description; // 商品描述
     private Money price; // 商品价格
     private Stock stock; // 商品库存量
+    private Weight weight; // 商品重量
     private CommodityType type; // 商品状态
-    private PictureInformation pictureInformation; // 图片信息
-
-    // 分类与属性
     private CategoryId categoryId; // 分类ID
     private Brand brand; // 品牌
-    private Attributes attributes; // 商品属性键值对
-
-    // 各种信息
-    private PromotionInformation promotionInformation; // 促销信息
-    private RelatesInformation relatesInformation; // 关联信息
+    private Promotion promotion; // 促销信息
     private SalesInformation salesInformation; // 销售信息
-    private ShippingInformation shippingInformation; // 发货信息
-    private SupplierInformation supplierInformation; // 供应商信息
-
     private SEO seo; // SEO信息
+
+    private List<Image> images; // 商品图片
+    private List<Attribute> attributes; // 商品属性集合
+    private List<Supplier> suppliers; // 供应商集合
+    private List<CommodityId> relatedCommodityIds; // 关联商品集合
+
+    public static final String RELATED_IMAGES = "images";
+    public static final String RELATED_ATTRIBUTES = "attributes";
+    public static final String RELATED_SUPPLIERS = "suppliers";
+    public static final String RELATED_COMMODITY_IDS = "relatedCommodityIds";
+
+    public Commodity(CommodityId id) {
+        this.id = id;
+    }
 
     /**
      * 更新商品价格

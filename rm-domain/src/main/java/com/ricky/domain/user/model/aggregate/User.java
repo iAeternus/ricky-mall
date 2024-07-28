@@ -32,6 +32,8 @@ public class User implements Aggregate<UserId> {
     private Level level = Level.ZERO; // 等级
     private Money balance = new Money(0); // 余额 TODO 改成自定义的Money
 
+    // TODO 作为商家有商家信息，作为企业用户有企业信息，普通用户这几项就为null
+
     /**
      * 设置为企业用户
      */

@@ -1,8 +1,8 @@
 package com.ricky.persistence.converter.impl;
 
 import com.ricky.domain.commodity.model.aggregate.Commodity;
+import com.ricky.domain.commodity.model.entity.*;
 import com.ricky.persistence.converter.AggregateDataConverter;
-import com.ricky.persistence.converter.DataConverter;
 import com.ricky.persistence.po.*;
 import com.ricky.types.commodity.*;
 import com.ricky.types.common.Money;
@@ -11,9 +11,10 @@ import com.ricky.utils.CollUtils;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author Ricky
@@ -28,7 +29,7 @@ public class CommodityDataConverter implements AggregateDataConverter<Commodity,
     @Override
     public CommodityPO toPO(@NonNull Commodity entity) {
         CommodityId commodityId = entity.getId();
-        PromotionInformation promotionInformation = entity.getPromotionInformation();
+        Promotion promotion = entity.getPromotion();
         SalesInformation salesInformation = entity.getSalesInformation();
         Stock stock = entity.getStock();
         SEO seo = entity.getSeo();
@@ -39,17 +40,15 @@ public class CommodityDataConverter implements AggregateDataConverter<Commodity,
                 .price(entity.getPrice().getAmount())
                 .currencyCode(entity.getPrice().currencyCode())
                 .stock(stock == null ? null : entity.getStock().getValue())
+                .weight(entity.getWeight().getValue())
+                .weightUnit(entity.getWeight().getUnit())
                 .commodityType(entity.getType())
-                .mainImageUrl(entity.getPictureInformation().getMainImageUrl())
                 .categoryId(entity.getCategoryId().getValue())
-                .brand(entity.getBrand().getName())
-                .discountPrice(promotionInformation == null ? null : promotionInformation.getDiscountPrice().getAmount())
-                .promotionStartTime(promotionInformation == null ? null : promotionInformation.getStartTime())
-                .promotionEndTime(promotionInformation == null ? null : promotionInformation.getEndTime())
+                .brandName(entity.getBrand().getName())
+                .discountPrice(promotion == null ? null : promotion.getDiscountPrice().getAmount())
+                .promotionStartTime(promotion == null ? null : promotion.getStartTime())
+                .promotionEndTime(promotion == null ? null : promotion.getEndTime())
                 .soldCount(salesInformation == null ? 0 : salesInformation.getSoldCount())
-                .weight(entity.getShippingInformation().getWeight().getValue())
-                .weightUnit(entity.getShippingInformation().getWeight().getUnit())
-                .supplierId(entity.getSupplierInformation().getSupplierId())
                 .metaTitle(seo == null ? null : seo.getMetaTitle())
                 .metaKeywords(seo == null ? null : seo.getMetaKeywords())
                 .metaDescription(seo == null ? null : seo.getMetaDescription())
@@ -58,59 +57,25 @@ public class CommodityDataConverter implements AggregateDataConverter<Commodity,
 
     @Override
     @SuppressWarnings("unchecked")
-    public Commodity toAggregate(@NonNull CommodityPO po, Map<Class<?>, List<? extends BasePO>> relatedPOLists) {
-        List<GalleryImagePO> galleryImagePOS = (List<GalleryImagePO>) relatedPOLists.get(GalleryImagePO.class);
-        List<AttributePO> attributePOS = (List<AttributePO>) relatedPOLists.get(AttributePO.class);
-        List<AssociatedCommodityPO> associatedCommodityPOS = (List<AssociatedCommodityPO>) relatedPOLists.get(AssociatedCommodityPO.class);
-        return Commodity.builder()
-                .id(new CommodityId(po.getId()))
-                .name(new CommodityName(po.getName()))
-                .description(new ProductDescription(po.getDescription()))
-                .price(new Money(po.getPrice(), po.getCurrencyCode()))
-                .stock(new Stock(po.getStock()))
-                .type(po.getCommodityType())
-                .pictureInformation(new PictureInformation(
-                        po.getMainImageUrl(),
-                        CollUtils.listConvert(galleryImagePOS, GalleryImagePO::getImageUrl)
-                ))
-                .categoryId(new CategoryId(po.getCategoryId()))
-                .brand(new Brand(po.getBrand()))
-                .attributes(new Attributes(
-                        attributePOS.stream()
-                                .collect(Collectors.toMap(AttributePO::getAttributeKey, AttributePO::getAttributeValue))
-                ))
-                .promotionInformation(po.getDiscountPrice() == null ? null : new PromotionInformation(
-                        new Money(po.getDiscountPrice(), po.getCurrencyCode()),
-                        po.getPromotionStartTime(),
-                        po.getPromotionEndTime()
-                ))
-                .relatesInformation(new RelatesInformation(
-                        CollUtils.listConvert(associatedCommodityPOS, AssociatedCommodityPO::getRelatedCommodityId),
-                        CollUtils.listConvert(associatedCommodityPOS, AssociatedCommodityPO::getSkuId)
-                ))
-                .salesInformation(new SalesInformation(
-                        po.getSoldCount(),
-                        po.getCreateTime(),
-                        po.getUpdateTime()
-                ))
-                .shippingInformation(new ShippingInformation(new Weight(po.getWeight(), po.getWeightUnit())))
-                .supplierInformation(new SupplierInformation(po.getSupplierId()))
-                .seo(new SEO(po.getMetaTitle(), po.getMetaKeywords(), po.getMetaDescription()))
-                .build();
-    }
+    public Commodity toAggregate(@NonNull CommodityPO po, Map<String, List<? extends BasePO>> relatedPOLists) {
+        List<CommodityImagePO> commodityImagePOS = (List<CommodityImagePO>) relatedPOLists.get(Commodity.RELATED_IMAGES);
+        List<AttributePO> attributePOS = (List<AttributePO>) relatedPOLists.get(Commodity.RELATED_ATTRIBUTES);
+        List<SupplierPO> supplierPOS = (List<SupplierPO>) relatedPOLists.get(Commodity.RELATED_SUPPLIERS);
+        List<RelatedCommodityPO> relatedCommodityPOS = (List<RelatedCommodityPO>) relatedPOLists.get(Commodity.RELATED_COMMODITY_IDS);
 
-    // @Override
-    public Commodity toEntity(@NonNull CommodityPO po) {
+        BigDecimal discountPrice = po.getDiscountPrice();
+
         return Commodity.builder()
                 .id(new CommodityId(po.getId()))
                 .name(new CommodityName(po.getName()))
                 .description(new ProductDescription(po.getDescription()))
                 .price(new Money(po.getPrice(), po.getCurrencyCode()))
                 .stock(new Stock(po.getStock()))
+                .weight(new Weight(po.getWeight(), po.getWeightUnit()))
                 .type(po.getCommodityType())
                 .categoryId(new CategoryId(po.getCategoryId()))
-                .brand(new Brand(po.getBrand()))
-                .promotionInformation(po.getDiscountPrice() == null ? null : new PromotionInformation(
+                .brand(new Brand(po.getBrandName()))
+                .promotion(discountPrice == null ? null : new Promotion(
                         new Money(po.getDiscountPrice(), po.getCurrencyCode()),
                         po.getPromotionStartTime(),
                         po.getPromotionEndTime()
@@ -120,32 +85,30 @@ public class CommodityDataConverter implements AggregateDataConverter<Commodity,
                         po.getCreateTime(),
                         po.getUpdateTime()
                 ))
-                .shippingInformation(new ShippingInformation(new Weight(po.getWeight(), po.getWeightUnit())))
-                .supplierInformation(new SupplierInformation(po.getSupplierId()))
                 .seo(new SEO(po.getMetaTitle(), po.getMetaKeywords(), po.getMetaDescription()))
+                .images(CollUtils.listConvert(commodityImagePOS, imagePO -> new Image(
+                        imagePO.getName(),
+                        imagePO.getImageUrl(),
+                        imagePO.getSizeInBytes()
+                )))
+                .attributes(CollUtils.listConvert(attributePOS, attributePO -> new Attribute(
+                        new AttributeId(attributePO.getId()),
+                        attributePO.getAttributeKey(),
+                        attributePO.getAttributeValue()
+                )))
+                .suppliers(CollUtils.listConvert(supplierPOS, supplierPO -> new Supplier(
+                        new SupplierId(supplierPO.getId()),
+                        supplierPO.getName(),
+                        supplierPO.getContact(),
+                        supplierPO.getAddress()
+                )))
+                .relatedCommodityIds(CollUtils.listConvert(relatedCommodityPOS, relatedCommodityPO -> new CommodityId(relatedCommodityPO.getId())))
                 .build();
     }
 
-    public Commodity toEntity(
-            @NonNull CommodityPO po,
-            @NonNull List<GalleryImagePO> galleryImagePOS,
-            @NonNull List<AttributePO> attributePOS,
-            @NonNull List<AssociatedCommodityPO> associatedCommodityPOS
-    ) {
-        Commodity commodity = toEntity(po);
-        commodity.setPictureInformation(new PictureInformation(
-                po.getMainImageUrl(),
-                CollUtils.listConvert(galleryImagePOS, GalleryImagePO::getImageUrl)
-        ));
-        commodity.setAttributes(new Attributes(
-                attributePOS.stream()
-                        .collect(Collectors.toMap(AttributePO::getAttributeKey, AttributePO::getAttributeValue))
-        ));
-        commodity.setRelatesInformation(new RelatesInformation(
-                CollUtils.listConvert(associatedCommodityPOS, AssociatedCommodityPO::getRelatedCommodityId),
-                CollUtils.listConvert(associatedCommodityPOS, AssociatedCommodityPO::getSkuId)
-        ));
-        return commodity;
+    @Override
+    public void setAggregateId(@NonNull Commodity aggregate, @NonNull Serializable id) {
+        aggregate.setId(new CommodityId((Long) id));
     }
 
 }

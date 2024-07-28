@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -27,14 +28,14 @@ public abstract class BasePO {
     protected LocalDateTime updateTime; // 修改时间
 
     /**
-     * 获取Long类型的ID
+     * 获取ID
      *
-     * @return ID
+     * @return 返回ID
      */
-    public abstract Long getId();
+    public abstract Serializable getId();
 
     /**
-     * 设置Long类型的ID
+     * 设置ID
      *
      * @param id 标识符
      */

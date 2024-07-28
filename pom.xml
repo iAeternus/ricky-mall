@@ -40,7 +40,7 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>3.5.3.1</version>
+                <version>3.4.0</version>
             </dependency>
             <!-- # 多数据源路由配置
                  # mysql 5.x driver-class-name: com.mysql.jdbc.Driver    mysql-connector-java 5.1.34

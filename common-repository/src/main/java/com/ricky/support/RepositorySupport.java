@@ -1,7 +1,8 @@
 package com.ricky.support;
 
 import com.ricky.context.AggregateContext;
-import com.ricky.entity.diff.AggregateDiff;
+import com.ricky.domain.diff.entity.AggregateDifference;
+import com.ricky.domain.diff.enums.DifferenceType;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
 import com.ricky.repository.IRepository;
@@ -9,7 +10,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 
@@ -30,26 +30,29 @@ public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Iden
     /**
      * 这几个方法是继承的子类应该去实现的
      */
-    protected abstract void onInsert(T aggregate);
+    protected abstract void doInsert(T aggregate);
 
-    protected abstract T onSelect(ID id);
+    protected abstract T doSelect(ID id);
 
-    protected abstract void onUpdate(T aggregate, AggregateDiff<T, ID> diff);
+    protected abstract void doUpdate(T aggregate, AggregateDifference<T, ID> difference);
 
-    protected abstract void onDelete(T aggregate);
+    protected abstract void doDelete(T aggregate);
 
-    protected abstract Class<?> targetClass();
-
-    @PostConstruct
-    private void initAggregateContext() {
-        aggregateContext.setTargetClass(targetClass());
-    }
-
+    /**
+     * 添加聚合根追踪
+     *
+     * @param aggregate 聚合根
+     */
     @Override
     public void attach(T aggregate) {
         aggregateContext.attach(aggregate);
     }
 
+    /**
+     * 解除聚合根追踪
+     *
+     * @param aggregate 聚合根
+     */
     @Override
     public void detach(T aggregate) {
         aggregateContext.detach(aggregate);
@@ -57,7 +60,12 @@ public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Iden
 
     @Override
     public T find(@NotNull ID id) {
-        T aggregate = this.onSelect(id);
+        T snapshot = aggregateContext.find(id);
+        if (snapshot != null) {
+            return snapshot;
+        }
+
+        T aggregate = this.doSelect(id);
         if (aggregate != null) {
             // 这里的就是让查询出来的对象能够被追踪。
             // 如果自己实现了一个定制查询接口，要记得单独调用attach。
@@ -68,7 +76,7 @@ public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Iden
 
     @Override
     public void remove(@NotNull T aggregate) {
-        this.onDelete(aggregate);
+        this.doDelete(aggregate);
         // 删除停止追踪
         this.detach(aggregate);
     }
@@ -77,22 +85,28 @@ public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Iden
     public void save(@NotNull T aggregate) {
         // 如果没有ID，直接插入
         if (aggregate.getId() == null) {
-            this.onInsert(aggregate);
+            this.doInsert(aggregate);
             this.attach(aggregate);
             return;
         }
 
-        // 做Diff
-        AggregateDiff<T, ID> diff = aggregateContext.detectChanges(aggregate);
-        if (diff.isEmpty()) {
+        // 对比差异
+        AggregateDifference<T, ID> aggregateDifference = this.aggregateContext.difference(aggregate);
+        if (aggregateDifference.isEmpty()) {
             return;
         }
+        // 调用update
+        this.doUpdate(aggregate, aggregateDifference);
+        // 最终将DB带来的变化更新回AggregateContext
+        this.aggregateContext.merge(aggregate);
 
-        // 调用UPDATE
-        this.onUpdate(aggregate, diff);
-
-        // 最终将DB带来的变化更新回AggregateManager
-        aggregateContext.merge(aggregate);
+        // AggregateDifference<T, ID> aggregateDifference = this.aggregateContext.difference(aggregate);
+        // if (aggregateDifference.getDifferenceType().isInsert()) {
+        //     this.doInsert(aggregate);
+        // } else {
+        //     this.doUpdate(aggregate, aggregateDifference);
+        // }
+        // this.aggregateContext.merge(aggregate);
     }
 
 }
