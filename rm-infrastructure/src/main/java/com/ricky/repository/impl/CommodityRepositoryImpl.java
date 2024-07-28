@@ -5,6 +5,9 @@ import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.domain.commodity.repsitory.CommodityRepository;
 import com.ricky.domain.diff.entity.AggregateDifference;
 import com.ricky.enums.impl.CommodityType;
+import com.ricky.marker.Entity;
+import com.ricky.marker.Identifier;
+import com.ricky.persistence.converter.DataConverter;
 import com.ricky.persistence.converter.impl.CommodityDataConverter;
 import com.ricky.persistence.mapper.*;
 import com.ricky.persistence.po.*;
@@ -84,6 +87,11 @@ public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, Commodity
         map.put(Commodity.RELATED_COMMODITY_IDS, relatedCommodityMapper.selectList(new QueryWrapper<RelatedCommodityPO>().lambda()
                 .eq(RelatedCommodityPO::getCommodityId, po.getId())));
         return map;
+    }
+
+    @Override
+    protected Map<String, DataConverter<Entity<Identifier>, Identifier, BasePO>> relatedEntityDataConverter() {
+        return null; // TODO
     }
 
 }
