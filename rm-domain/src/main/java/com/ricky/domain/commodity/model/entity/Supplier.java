@@ -3,6 +3,7 @@ package com.ricky.domain.commodity.model.entity;
 import com.ricky.exception.NullException;
 import com.ricky.marker.Entity;
 import com.ricky.types.commodity.SupplierId;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -13,6 +14,7 @@ import lombok.Data;
  * @desc 供应商信息
  */
 @Data
+@Builder
 public class Supplier implements Entity<SupplierId> {
 
     private SupplierId id; // 供应商ID

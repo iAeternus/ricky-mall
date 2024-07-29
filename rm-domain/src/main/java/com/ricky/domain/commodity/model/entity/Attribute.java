@@ -3,6 +3,7 @@ package com.ricky.domain.commodity.model.entity;
 import com.ricky.exception.NullException;
 import com.ricky.marker.Entity;
 import com.ricky.types.commodity.AttributeId;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -13,6 +14,7 @@ import lombok.Data;
  * @desc 商品属性，如颜色：红色，尺寸：XL
  */
 @Data
+@Builder
 public class Attribute implements Entity<AttributeId> {
 
     private AttributeId id;

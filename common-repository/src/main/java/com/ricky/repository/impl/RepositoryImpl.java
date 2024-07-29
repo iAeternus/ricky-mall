@@ -17,6 +17,7 @@ import com.ricky.support.RepositorySupport;
 import com.ricky.utils.CollUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -29,8 +30,7 @@ import java.util.Map;
  * @desc 持久层抽象实现类，实现了find/remove/save中的模板方法
  */
 @Repository
-public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identifier, PO extends BasePO>
-        extends RepositorySupport<T, ID> /*implements AggregateDataConverter<T, ID, PO>*/ {
+public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identifier, PO extends BasePO> extends RepositorySupport<T, ID> {
 
     // 抽象化，这里需要通过byType方式注入，否则会与派生类冲突
     @Autowired
@@ -39,13 +39,43 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
     private AggregateDataConverter<T, ID, PO> dataConverter;
 
     @Override
-    protected void doInsert(T aggregate) {
+    @Transactional
+    public void doInsert(T aggregate) {
         PO po = dataConverter.toPO(aggregate);
         mapper.insert(po);
         dataConverter.setAggregateId(aggregate, po.getId());
+
+        // 获取关联对象的mapper
+        Map<String, IMapper<BasePO>> relatedMappers = gainRelatedMappers();
+
+        // 获取需要插入的关联对象列表的集合
+        Map<String, List<BasePO>> relatedPOLists = dataConverter.toRelatedPOLists(aggregate);
+        relatedPOLists.forEach((fieldName, relatedObjects) -> {
+            if(CollUtils.isEmpty(relatedObjects)) {
+                return;
+            }
+
+            // 获取对应的mapper
+            IMapper<BasePO> relatedMapper = relatedMappers.get(fieldName);
+            if (relatedMapper == null) {
+                throw new RuntimeException("Incorrect key of related mapper, key=" + fieldName);
+            }
+
+            relatedMapper.insertBatch(relatedObjects);
+        });
     }
 
-    protected abstract Map<String, List<? extends BasePO>> selectRelatedLists(PO po);
+    /**
+     * 查询所有关联对象列表，需要派生类实现
+     *
+     * @param po 一般提供外键id
+     * @return 返回Map，键-聚合根中的关联对象字段名，值-关联对象列表
+     */
+    protected abstract <P extends BasePO> Map<String, List<P>> selectRelatedLists(PO po);
+
+    protected abstract <M extends IMapper<P>, P extends BasePO> Map<String, M> gainRelatedMappers();
+
+    // private <P extends BasePO> Map<String, List<P>> relatedLists;
 
     @Override
     protected T doSelect(ID id) {
@@ -56,26 +86,20 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
         return dataConverter.toAggregate(po, selectRelatedLists(po));
     }
 
-    protected abstract Map<String, DataConverter<Entity<Identifier>, Identifier, BasePO>> relatedEntityDataConverter();
+    /**
+     * 获取所有关联实体数据转换器，需要派生类实现
+     *
+     * @param <E> 实体
+     * @param <I> 实体标识符
+     * @param <P> PO持久化对象
+     * @return 返回Map，键-聚合根中的关联对象字段名，值-数据转换器
+     */
+    protected abstract <E extends Entity<I>, I extends Identifier, P extends BasePO> Map<String, DataConverter<E, I, P>> gainRelatedEntityDataConverters();
 
     @Override
+    @Transactional
     @SuppressWarnings("unchecked")
-    protected void doUpdate(T aggregate, AggregateDifference<T, ID> difference) {
-        // TODO 大致实现了，但是存在问题，必须先插入才能修改，具体是判断是否插入还是修改的时候存在问题
-        // difference.update(aggregate);
-        // PO po = dataConverter.toPO(aggregate);
-        // mapper.updateById(po);
-
-        // try {
-        //     if (!difference.isSelfModified()) {
-        //         difference.updateChangedOnly(aggregate);
-        //     }
-        //     PO po = dataConverter.toPO(aggregate);
-        //     mapper.updateById(po);
-        // } catch (IllegalAccessException e) {
-        //     throw new RuntimeException(e);
-        // }
-
+    public void doUpdate(T aggregate, AggregateDifference<T, ID> difference) {
         PO po = dataConverter.toPO(aggregate);
         if (difference.isSelfModified(aggregate.getClass())) {
             mapper.updateById(po);
@@ -87,36 +111,45 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
             throw new RuntimeException("not found in cache");
         }
 
-        // 各个关联对象的初始值
-        Map<String, List<? extends BasePO>> relatedLists = selectRelatedLists(po);
-
         // 获取关联对象的数据转换器
-        Map<String, DataConverter<Entity<Identifier>, Identifier, BasePO>> relatedDataConverters = relatedEntityDataConverter();
+        Map<String, DataConverter<Entity<Identifier>, Identifier, BasePO>> relatedEntityDataConverters = gainRelatedEntityDataConverters();
+        // 获取关联对象的mapper
+        Map<String, IMapper<BasePO>> relatedMappers = gainRelatedMappers();
 
+        // 处理关联对象
         for (FieldDifference fieldDifference : fieldDifferences) {
             if (!(fieldDifference instanceof CollectionFieldDifference collectionFieldDifference)) {
                 continue;
             }
 
             String fieldName = fieldDifference.getName();
-            DataConverter<Entity<Identifier>, Identifier, BasePO> relatedDataConverter = relatedDataConverters.get(fieldName);
+
+            // 获取对应的的数据转换器
+            DataConverter<Entity<Identifier>, Identifier, BasePO> relatedDataConverter = relatedEntityDataConverters.get(fieldName);
             if (relatedDataConverter == null) {
-                throw new RuntimeException("Incorrect data converter key, key=" + fieldName);
+                throw new RuntimeException("Incorrect key of related data converter, key=" + fieldName);
+            }
+
+            // 获取对应的mapper
+            IMapper<BasePO> relatedMapper = relatedMappers.get(fieldName);
+            if (relatedMapper == null) {
+                throw new RuntimeException("Incorrect key of related mapper, key=" + fieldName);
             }
 
             List<FieldDifference> elementDifferences = collectionFieldDifference.getElementDifference();
-            if (DifferenceType.ADDED == collectionFieldDifference.getDifferenceType()) {
-                mapper.insertBatch((List<PO>) CollUtils.listConvert(elementDifferences, elementDifference -> {
+            FieldDifference first = elementDifferences.get(0);
+            if (DifferenceType.ADDED == first.getDifferenceType()) {
+                relatedMapper.insertBatch(CollUtils.listConvert(elementDifferences, elementDifference -> {
                     Object tracValue = elementDifference.getTracValue();
                     return relatedDataConverter.toPO((Entity<Identifier>) tracValue);
                 }));
-            } else if (DifferenceType.REMOVED == fieldDifference.getDifferenceType()) {
-                mapper.deleteBatchIds(CollUtils.listConvert(elementDifferences, elementDifference -> {
+            } else if (DifferenceType.REMOVED == first.getDifferenceType()) {
+                relatedMapper.deleteBatchIds(CollUtils.listConvert(elementDifferences, elementDifference -> {
                     Object snapshotValue = elementDifference.getSnapshotValue();
                     return ((Entity<Identifier>) snapshotValue).getId().getValue();
                 }));
-            } else if (DifferenceType.MODIFIED == fieldDifference.getDifferenceType()) {
-                mapper.updateBatch((List<PO>) CollUtils.listConvert(elementDifferences, elementDifference -> {
+            } else if (DifferenceType.MODIFIED == first.getDifferenceType()) {
+                relatedMapper.updateBatch(CollUtils.listConvert(elementDifferences, elementDifference -> {
                     Object tracValue = elementDifference.getTracValue(); // TODO 检查
                     return relatedDataConverter.toPO((Entity<Identifier>) tracValue);
                 }));

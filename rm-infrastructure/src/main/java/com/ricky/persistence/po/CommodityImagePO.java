@@ -2,6 +2,7 @@ package com.ricky.persistence.po;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,6 +14,7 @@ import lombok.EqualsAndHashCode;
  * @desc
  */
 @Data
+@Builder
 @TableName("commodity_image")
 @EqualsAndHashCode(callSuper = true)
 public class CommodityImagePO extends BasePO {

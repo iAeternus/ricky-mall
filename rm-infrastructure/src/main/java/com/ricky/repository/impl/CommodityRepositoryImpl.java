@@ -7,7 +7,10 @@ import com.ricky.enums.impl.CommodityType;
 import com.ricky.marker.Entity;
 import com.ricky.marker.Identifier;
 import com.ricky.persistence.converter.DataConverter;
-import com.ricky.persistence.converter.impl.CommodityDataConverter;
+import com.ricky.persistence.converter.impl.AttributeDataConverter;
+import com.ricky.persistence.converter.impl.CommodityImageDataConverter;
+import com.ricky.persistence.converter.impl.RelatedCommodityDataConverter;
+import com.ricky.persistence.converter.impl.SupplierDataConverter;
 import com.ricky.persistence.mapper.*;
 import com.ricky.persistence.po.*;
 import com.ricky.types.commodity.CommodityId;
@@ -29,12 +32,15 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, CommodityId, CommodityPO> implements CommodityRepository {
 
-    private final CommodityDataConverter commodityDataConverter;
-    private final CommodityMapper commodityMapper;
     private final RelatedCommodityMapper relatedCommodityMapper;
     private final AttributeMapper attributeMapper;
     private final CommodityImageMapper commodityImageMapper;
     private final SupplierMapper supplierMapper;
+
+    private final RelatedCommodityDataConverter relatedCommodityDataConverter;
+    private final AttributeDataConverter attributeDataConverter;
+    private final CommodityImageDataConverter commodityImageDataConverter;
+    private final SupplierDataConverter supplierDataConverter;
 
     @Override
     public void saveCommodity(Commodity commodity) {
@@ -48,49 +54,41 @@ public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, Commodity
         return find(new CommodityId(id));
     }
 
-
-    // @Override
-    // protected void doUpdate(Commodity aggregate, AggregateDifference<Commodity, CommodityId> difference) {
-    //     if (difference.isSelfModified(aggregate.getClass())) {
-    //         CommodityPO commodityPO = commodityDataConverter.toPO(aggregate);
-    //         commodityMapper.updateById(commodityPO);
-    //     }
-    //
-    //
-    // }
-
-
-    // @Override
-    // public CommodityPO toPO(@NonNull Commodity aggregate) {
-    //     return commodityDataConverter.toPO(aggregate);
-    // }
-    //
-    // @Override
-    // @SuppressWarnings("unchecked")
-    // public Commodity toAggregate(@NonNull CommodityPO po, Map<Class<?>, List<? extends BasePO>> relatedPOLists) {
-    //     return commodityDataConverter.toEntity(po,
-    //             (List<GalleryImagePO>) relatedPOLists.get(GalleryImagePO.class),
-    //             (List<AttributePO>) relatedPOLists.get(AttributePO.class),
-    //             (List<RelatedCommodityPO>) relatedPOLists.get(RelatedCommodityPO.class));
-    // }
-
     @Override
-    protected Map<String, List<? extends BasePO>> selectRelatedLists(CommodityPO po) {
-        Map<String, List<? extends BasePO>> map = new HashMap<>();
-        map.put(Commodity.RELATED_IMAGES, commodityImageMapper.selectList(new QueryWrapper<CommodityImagePO>().lambda()
+    @SuppressWarnings("unchecked")
+    protected <P extends BasePO> Map<String, List<P>> selectRelatedLists(CommodityPO po) {
+        Map<String, List<P>> map = new HashMap<>();
+        map.put(Commodity.RELATED_IMAGES, (List<P>) commodityImageMapper.selectList(new QueryWrapper<CommodityImagePO>().lambda()
                 .eq(CommodityImagePO::getCommodityId, po.getId())));
-        map.put(Commodity.RELATED_ATTRIBUTES, attributeMapper.selectList(new QueryWrapper<AttributePO>().lambda()
+        map.put(Commodity.RELATED_ATTRIBUTES, (List<P>) attributeMapper.selectList(new QueryWrapper<AttributePO>().lambda()
                 .eq(AttributePO::getCommodityId, po.getId())));
-        map.put(Commodity.RELATED_SUPPLIERS, supplierMapper.selectList(new QueryWrapper<SupplierPO>().lambda()
+        map.put(Commodity.RELATED_SUPPLIERS, (List<P>) supplierMapper.selectList(new QueryWrapper<SupplierPO>().lambda()
                 .eq(SupplierPO::getCommodityId, po.getId())));
-        map.put(Commodity.RELATED_COMMODITY_IDS, relatedCommodityMapper.selectList(new QueryWrapper<RelatedCommodityPO>().lambda()
+        map.put(Commodity.RELATED_COMMODITIES, (List<P>) relatedCommodityMapper.selectList(new QueryWrapper<RelatedCommodityPO>().lambda()
                 .eq(RelatedCommodityPO::getCommodityId, po.getId())));
         return map;
     }
 
     @Override
-    protected Map<String, DataConverter<Entity<Identifier>, Identifier, BasePO>> relatedEntityDataConverter() {
-        return null; // TODO
+    @SuppressWarnings("unchecked")
+    protected <M extends IMapper<P>, P extends BasePO> Map<String, M> gainRelatedMappers() {
+        Map<String, M> map = new HashMap<>();
+        map.put(Commodity.RELATED_IMAGES, (M) commodityImageMapper);
+        map.put(Commodity.RELATED_ATTRIBUTES, (M) attributeMapper);
+        map.put(Commodity.RELATED_SUPPLIERS, (M) supplierMapper);
+        map.put(Commodity.RELATED_COMMODITIES, (M) relatedCommodityMapper);
+        return map;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    protected <E extends Entity<I>, I extends Identifier, P extends BasePO> Map<String, DataConverter<E, I, P>> gainRelatedEntityDataConverters() {
+        Map<String, DataConverter<E, I, P>> map = new HashMap<>();
+        map.put(Commodity.RELATED_IMAGES, (DataConverter<E, I, P>) commodityImageDataConverter);
+        map.put(Commodity.RELATED_ATTRIBUTES, (DataConverter<E, I, P>) attributeDataConverter);
+        map.put(Commodity.RELATED_SUPPLIERS, (DataConverter<E, I, P>) supplierDataConverter);
+        map.put(Commodity.RELATED_COMMODITIES, (DataConverter<E, I, P>) relatedCommodityDataConverter);
+        return map;
     }
 
 }

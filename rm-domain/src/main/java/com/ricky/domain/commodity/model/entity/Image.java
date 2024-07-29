@@ -3,7 +3,10 @@ package com.ricky.domain.commodity.model.entity;
 import com.ricky.exception.NullException;
 import com.ricky.marker.Entity;
 import com.ricky.types.commodity.ImageId;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
@@ -15,6 +18,9 @@ import java.util.Objects;
  * @desc 图片
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Image implements Entity<ImageId> {
 
     private ImageId id;

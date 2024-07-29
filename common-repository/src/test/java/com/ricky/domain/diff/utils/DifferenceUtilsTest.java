@@ -8,6 +8,11 @@ import lombok.Data;
 import lombok.Value;
 import org.junit.Test;
 
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * @author Ricky
  * @version 1.0
@@ -39,6 +44,7 @@ public class DifferenceUtilsTest {
         private Password password;
         private Integer balance;
         private Integer age;
+        private List<Password> passwords;
     }
 
     @Data
@@ -102,6 +108,24 @@ public class DifferenceUtilsTest {
 
         // Then
         System.out.println(different);
+    }
+
+    @Test
+    public void compareCollectionType() {
+
+    }
+
+    @Test
+    public void testStream() {
+        // Given
+        List<Integer> l1 = List.of(1, 2, 3, 4, 5);
+        List<Integer> l2 = List.of(4, 5, 6, 7, 8);
+
+        // When
+        List<Integer> list = Stream.concat(l1.stream(), l2.stream()).distinct().toList();
+
+        // Then
+        list.forEach(System.out::println);
     }
 
 }

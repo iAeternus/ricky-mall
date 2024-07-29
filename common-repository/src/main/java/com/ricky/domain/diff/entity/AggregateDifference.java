@@ -112,26 +112,6 @@ public class AggregateDifference<T extends Aggregate<ID>, ID extends Identifier>
                 .toList();
     }
 
-    public void update(T aggregate) {
-        Class<?> aggregateClass = aggregate.getClass();
-        fieldDifferences.forEach((fieldName, fieldDifference) -> {
-            if (!needToUpdate(fieldDifference.getDifferenceType())) {
-                return;
-            }
-            try {
-                Field field = aggregateClass.getDeclaredField(fieldName);
-                field.setAccessible(true);
-                field.set(aggregate, fieldDifference.getSnapshotValue());
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
-
-    private boolean needToUpdate(DifferenceType differenceType) {
-        return DifferenceType.REMOVED == differenceType;
-    }
-
     public boolean isEmpty() {
         if (fieldDifferences.isEmpty()) {
             return true;
@@ -143,6 +123,10 @@ public class AggregateDifference<T extends Aggregate<ID>, ID extends Identifier>
             }
         }
         return true;
+    }
+
+    private boolean needToUpdate(DifferenceType differenceType) {
+        return DifferenceType.REMOVED == differenceType;
     }
 
     private boolean isUntouched(@NotNull FieldDifference fieldDifference) {

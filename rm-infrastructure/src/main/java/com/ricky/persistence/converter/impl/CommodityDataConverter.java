@@ -1,9 +1,6 @@
 package com.ricky.persistence.converter.impl;
 
 import com.ricky.domain.commodity.model.aggregate.Commodity;
-import com.ricky.domain.commodity.model.entity.Attribute;
-import com.ricky.domain.commodity.model.entity.Image;
-import com.ricky.domain.commodity.model.entity.Supplier;
 import com.ricky.persistence.converter.AggregateDataConverter;
 import com.ricky.persistence.po.*;
 import com.ricky.types.commodity.*;
@@ -11,10 +8,12 @@ import com.ricky.types.common.Money;
 import com.ricky.types.common.Weight;
 import com.ricky.utils.CollUtils;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +25,13 @@ import java.util.Map;
  * @desc
  */
 @Service
+@RequiredArgsConstructor
 public class CommodityDataConverter implements AggregateDataConverter<Commodity, CommodityId, CommodityPO> {
+
+    private final RelatedCommodityDataConverter relatedCommodityDataConverter;
+    private final SupplierDataConverter supplierDataConverter;
+    private final AttributeDataConverter attributeDataConverter;
+    private final CommodityImageDataConverter commodityImageDataConverter;
 
     @Override
     public CommodityPO toPO(@NonNull Commodity entity) {
@@ -59,11 +64,32 @@ public class CommodityDataConverter implements AggregateDataConverter<Commodity,
 
     @Override
     @SuppressWarnings("unchecked")
-    public Commodity toAggregate(@NonNull CommodityPO po, Map<String, List<? extends BasePO>> relatedPOLists) {
+    public <P extends BasePO> Map<String, List<P>> toRelatedPOLists(@NonNull Commodity aggregate) {
+        Map<String, List<P>> map = new HashMap<>();
+        List<CommodityImagePO> commodityImagePOS = CollUtils.listConvert(aggregate.getImages(), commodityImageDataConverter::toPO);
+        List<AttributePO> attributePOS = CollUtils.listConvert(aggregate.getAttributes(), attributeDataConverter::toPO);
+        List<SupplierPO> supplierPOS = CollUtils.listConvert(aggregate.getSuppliers(), supplierDataConverter::toPO);
+        List<RelatedCommodityPO> relatedCommodityPOS = CollUtils.listConvert(aggregate.getRelatedCommodities(), relatedCommodityDataConverter::toPO);
+
+        commodityImagePOS.forEach(commodityImagePO -> commodityImagePO.setCommodityId(aggregate.getId().getValue()));
+        attributePOS.forEach(commodityImagePO -> commodityImagePO.setCommodityId(aggregate.getId().getValue()));
+        supplierPOS.forEach(commodityImagePO -> commodityImagePO.setCommodityId(aggregate.getId().getValue()));
+        relatedCommodityPOS.forEach(commodityImagePO -> commodityImagePO.setCommodityId(aggregate.getId().getValue()));
+
+        map.put(Commodity.RELATED_IMAGES, (List<P>) commodityImagePOS);
+        map.put(Commodity.RELATED_ATTRIBUTES, (List<P>) attributePOS);
+        map.put(Commodity.RELATED_SUPPLIERS, (List<P>) supplierPOS);
+        map.put(Commodity.RELATED_COMMODITIES, (List<P>) relatedCommodityPOS);
+        return map;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <P extends BasePO> Commodity toAggregate(@NonNull CommodityPO po, Map<String, List<P>> relatedPOLists) {
         List<CommodityImagePO> commodityImagePOS = (List<CommodityImagePO>) relatedPOLists.get(Commodity.RELATED_IMAGES);
         List<AttributePO> attributePOS = (List<AttributePO>) relatedPOLists.get(Commodity.RELATED_ATTRIBUTES);
         List<SupplierPO> supplierPOS = (List<SupplierPO>) relatedPOLists.get(Commodity.RELATED_SUPPLIERS);
-        List<RelatedCommodityPO> relatedCommodityPOS = (List<RelatedCommodityPO>) relatedPOLists.get(Commodity.RELATED_COMMODITY_IDS);
+        List<RelatedCommodityPO> relatedCommodityPOS = (List<RelatedCommodityPO>) relatedPOLists.get(Commodity.RELATED_COMMODITIES);
 
         BigDecimal discountPrice = po.getDiscountPrice();
 
@@ -88,23 +114,10 @@ public class CommodityDataConverter implements AggregateDataConverter<Commodity,
                         po.getUpdateTime()
                 ))
                 .seo(new SEO(po.getMetaTitle(), po.getMetaKeywords(), po.getMetaDescription()))
-                .images(CollUtils.listConvert(commodityImagePOS, imagePO -> new Image(
-                        imagePO.getName(),
-                        imagePO.getImageUrl(),
-                        imagePO.getSizeInBytes()
-                )))
-                .attributes(CollUtils.listConvert(attributePOS, attributePO -> new Attribute(
-                        new AttributeId(attributePO.getId()),
-                        attributePO.getAttributeKey(),
-                        attributePO.getAttributeValue()
-                )))
-                .suppliers(CollUtils.listConvert(supplierPOS, supplierPO -> new Supplier(
-                        new SupplierId(supplierPO.getId()),
-                        supplierPO.getName(),
-                        supplierPO.getContact(),
-                        supplierPO.getAddress()
-                )))
-                .relatedCommodityIds(CollUtils.listConvert(relatedCommodityPOS, relatedCommodityPO -> new CommodityId(relatedCommodityPO.getId())))
+                .images(CollUtils.listConvert(commodityImagePOS, commodityImageDataConverter::toEntity))
+                .attributes(CollUtils.listConvert(attributePOS, attributeDataConverter::toEntity))
+                .suppliers(CollUtils.listConvert(supplierPOS, supplierDataConverter::toEntity))
+                .relatedCommodities(CollUtils.listConvert(relatedCommodityPOS, relatedCommodityDataConverter::toEntity))
                 .build();
     }
 

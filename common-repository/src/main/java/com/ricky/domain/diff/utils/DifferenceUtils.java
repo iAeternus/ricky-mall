@@ -327,7 +327,7 @@ public class DifferenceUtils {
      * REMOVED表示snapshot存在aggregate不存在的对象
      * MODIFIED表示存在属性变更的对象
      *
-     * @param snapshotValues 快照对线
+     * @param snapshotValues 快照对象
      * @param entityValues   聚合根对象
      * @return 返回差异
      */

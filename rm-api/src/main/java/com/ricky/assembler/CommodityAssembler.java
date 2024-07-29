@@ -1,6 +1,7 @@
 package com.ricky.assembler;
 
 import com.ricky.domain.commodity.model.aggregate.Commodity;
+import com.ricky.domain.commodity.model.entity.RelatedCommodity;
 import com.ricky.dto.command.ModifyCommodityCommand;
 import com.ricky.dto.command.SaveCommodityCommand;
 import com.ricky.dto.response.GetCommodityByIdResponse;
@@ -32,7 +33,7 @@ public class CommodityAssembler {
                 .images(command.getImages())
                 .attributes(command.getAttributes())
                 .suppliers(command.getSuppliers())
-                .relatedCommodityIds(CollUtils.listConvert(command.getRelatedCommodityIds(), CommodityId::new))
+                .relatedCommodities(command.getRelatedCommodities())
                 .build();
     }
 
@@ -49,7 +50,7 @@ public class CommodityAssembler {
                 .images(command.getImages())
                 .attributes(command.getAttributes())
                 .suppliers(command.getSuppliers())
-                .relatedCommodityIds(CollUtils.listConvert(command.getRelatedCommodityIds(), CommodityId::new))
+                .relatedCommodities(command.getRelatedCommodities())
                 .build();
     }
 
@@ -84,7 +85,7 @@ public class CommodityAssembler {
                 .images(commodity.getImages())
                 .attributes(commodity.getAttributes())
                 .suppliers(commodity.getSuppliers())
-                .relatedCommodities(CollUtils.listConvert(commodity.getRelatedCommodityIds(), CommodityId::getValue))
+                .relatedCommodities(CollUtils.listConvert(commodity.getRelatedCommodities(), RelatedCommodity::getRelatedCommodityId))
                 .build();
     }
 

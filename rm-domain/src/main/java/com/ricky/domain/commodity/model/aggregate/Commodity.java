@@ -3,6 +3,7 @@ package com.ricky.domain.commodity.model.aggregate;
 import com.ricky.constants.MessageConstant;
 import com.ricky.domain.commodity.model.entity.Attribute;
 import com.ricky.domain.commodity.model.entity.Image;
+import com.ricky.domain.commodity.model.entity.RelatedCommodity;
 import com.ricky.domain.commodity.model.entity.Supplier;
 import com.ricky.enums.impl.CommodityType;
 import com.ricky.exception.InsufficientStockException;
@@ -47,12 +48,12 @@ public class Commodity implements Aggregate<CommodityId> {
     private List<Image> images; // 商品图片
     private List<Attribute> attributes; // 商品属性集合
     private List<Supplier> suppliers; // 供应商集合
-    private List<CommodityId> relatedCommodityIds; // 关联商品集合
+    private List<RelatedCommodity> relatedCommodities; // 关联商品集合
 
     public static final String RELATED_IMAGES = "images";
     public static final String RELATED_ATTRIBUTES = "attributes";
     public static final String RELATED_SUPPLIERS = "suppliers";
-    public static final String RELATED_COMMODITY_IDS = "relatedCommodityIds";
+    public static final String RELATED_COMMODITIES = "relatedCommodities";
 
     public Commodity(CommodityId id) {
         this.id = id;

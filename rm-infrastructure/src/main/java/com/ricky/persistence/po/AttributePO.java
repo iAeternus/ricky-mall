@@ -2,6 +2,7 @@ package com.ricky.persistence.po;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,6 +14,7 @@ import lombok.EqualsAndHashCode;
  * @desc 属性键值对PO实体
  */
 @Data
+@Builder
 @TableName("attributes")
 @EqualsAndHashCode(callSuper = true)
 public class AttributePO extends BasePO {
