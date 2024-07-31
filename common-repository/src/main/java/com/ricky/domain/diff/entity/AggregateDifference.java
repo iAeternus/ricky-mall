@@ -75,7 +75,6 @@ public class AggregateDifference<T extends Aggregate<ID>, ID extends Identifier>
 
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
-            Type fieldType = field.getGenericType();
             String fieldName = field.getName();
             FieldDifference fieldDifference = fieldDifferences.get(fieldName);
 
@@ -113,20 +112,7 @@ public class AggregateDifference<T extends Aggregate<ID>, ID extends Identifier>
     }
 
     public boolean isEmpty() {
-        if (fieldDifferences.isEmpty()) {
-            return true;
-        }
-        Set<String> fieldNames = fieldDifferences.keySet();
-        for (String fieldName : fieldNames) {
-            if (!isUntouched(fieldDifferences.get(fieldName))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean needToUpdate(DifferenceType differenceType) {
-        return DifferenceType.REMOVED == differenceType;
+        return fieldDifferences.isEmpty() || differenceType == DifferenceType.UNTOUCHED;
     }
 
     private boolean isUntouched(@NotNull FieldDifference fieldDifference) {

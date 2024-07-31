@@ -1,5 +1,6 @@
 package com.ricky.domain.commodity.model.entity;
 
+import com.ricky.exception.NullException;
 import com.ricky.marker.Entity;
 import com.ricky.types.commodity.RelatedCommodityId;
 import lombok.AllArgsConstructor;
@@ -15,14 +16,15 @@ import lombok.Data;
  */
 @Data
 @Builder
-@AllArgsConstructor
 public class RelatedCommodity implements Entity<RelatedCommodityId> {
 
     private RelatedCommodityId id;
     private Long relatedCommodityId; // 关联商品id
 
-    public RelatedCommodity(Long relatedCommodityId) {
+    public RelatedCommodity(RelatedCommodityId id, Long relatedCommodityId) {
+        NullException.isNull(id, "id不能为空");
+        NullException.isNull(relatedCommodityId, "关联商品id不能为空");
+        this.id = id;
         this.relatedCommodityId = relatedCommodityId;
     }
-
 }

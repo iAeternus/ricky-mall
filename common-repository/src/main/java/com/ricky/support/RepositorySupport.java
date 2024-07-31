@@ -2,6 +2,7 @@ package com.ricky.support;
 
 import com.ricky.context.AggregateContext;
 import com.ricky.domain.diff.entity.AggregateDifference;
+import com.ricky.domain.diff.utils.DifferenceUtils;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
 import com.ricky.repository.IRepository;
@@ -90,12 +91,19 @@ public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Iden
         }
 
         // 对比差异
-        AggregateDifference<T, ID> aggregateDifference = this.aggregateContext.difference(aggregate);
-        if (aggregateDifference.isEmpty()) {
+        T t = this.find(aggregate.getId());
+        AggregateDifference<T, ID> difference = DifferenceUtils.different(t, aggregate);
+        if(difference == null || difference.isEmpty()) {
             return;
         }
+
+        // AggregateDifference<T, ID> aggregateDifference = this.aggregateContext.difference(aggregate);
+        // if (aggregateDifference.isEmpty()) {
+        //     return;
+        // }
+
         // 调用update
-        this.doUpdate(aggregate, aggregateDifference);
+        this.doUpdate(aggregate, difference);
         // 最终将DB带来的变化更新回AggregateContext
         this.aggregateContext.merge(aggregate);
 

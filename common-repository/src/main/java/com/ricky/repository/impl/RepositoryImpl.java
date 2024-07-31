@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Ricky
@@ -51,7 +52,7 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
         // 获取需要插入的关联对象列表的集合
         Map<String, List<BasePO>> relatedPOLists = dataConverter.toRelatedPOLists(aggregate);
         relatedPOLists.forEach((fieldName, relatedObjects) -> {
-            if(CollUtils.isEmpty(relatedObjects)) {
+            if (CollUtils.isEmpty(relatedObjects)) {
                 return;
             }
 
@@ -96,9 +97,10 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
      */
     protected abstract <E extends Entity<I>, I extends Identifier, P extends BasePO> Map<String, DataConverter<E, I, P>> gainRelatedEntityDataConverters();
 
+    protected abstract <I extends Identifier> void setForeignKey(Aggregate<ID> aggregate, Entity<I> entity);
+
     @Override
     @Transactional
-    @SuppressWarnings("unchecked")
     public void doUpdate(T aggregate, AggregateDifference<T, ID> difference) {
         PO po = dataConverter.toPO(aggregate);
         if (difference.isSelfModified(aggregate.getClass())) {
@@ -127,35 +129,48 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
             // 获取对应的的数据转换器
             DataConverter<Entity<Identifier>, Identifier, BasePO> relatedDataConverter = relatedEntityDataConverters.get(fieldName);
             if (relatedDataConverter == null) {
-                throw new RuntimeException("Incorrect key of related data converter, key=" + fieldName);
+                throw new RuntimeException("Incorrect key of related data converters, key=" + fieldName);
             }
 
             // 获取对应的mapper
             IMapper<BasePO> relatedMapper = relatedMappers.get(fieldName);
             if (relatedMapper == null) {
-                throw new RuntimeException("Incorrect key of related mapper, key=" + fieldName);
+                throw new RuntimeException("Incorrect key of related mappers, key=" + fieldName);
             }
 
             List<FieldDifference> elementDifferences = collectionFieldDifference.getElementDifference();
-            FieldDifference first = elementDifferences.get(0);
-            if (DifferenceType.ADDED == first.getDifferenceType()) {
-                relatedMapper.insertBatch(CollUtils.listConvert(elementDifferences, elementDifference -> {
-                    Object tracValue = elementDifference.getTracValue();
-                    return relatedDataConverter.toPO((Entity<Identifier>) tracValue);
-                }));
-            } else if (DifferenceType.REMOVED == first.getDifferenceType()) {
-                relatedMapper.deleteBatchIds(CollUtils.listConvert(elementDifferences, elementDifference -> {
-                    Object snapshotValue = elementDifference.getSnapshotValue();
-                    return ((Entity<Identifier>) snapshotValue).getId().getValue();
-                }));
-            } else if (DifferenceType.MODIFIED == first.getDifferenceType()) {
-                relatedMapper.updateBatch(CollUtils.listConvert(elementDifferences, elementDifference -> {
-                    Object tracValue = elementDifference.getTracValue(); // TODO 检查
-                    return relatedDataConverter.toPO((Entity<Identifier>) tracValue);
-                }));
-            } else {
-                throw new RuntimeException("Incorrect difference type, type=" + fieldDifference.getDifferenceType());
-            }
+
+            elementDifferences.stream()
+                    .collect(Collectors.groupingBy(FieldDifference::getDifferenceType))
+                    .forEach((differenceType, differences) ->
+                            handleRelatedEntity(aggregate, fieldDifference, differences, relatedMapper, relatedDataConverter));
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T extends Aggregate<ID>, ID extends Identifier> void handleRelatedEntity(T aggregate, FieldDifference fieldDifference, List<FieldDifference> elementDifferences,
+                                                                                             IMapper<BasePO> relatedMapper, DataConverter<Entity<Identifier>, Identifier, BasePO> relatedDataConverter) {
+        DifferenceType differenceType = elementDifferences.get(0).getDifferenceType();
+        if (DifferenceType.ADDED == differenceType) {
+            relatedMapper.insertBatch(CollUtils.listConvert(elementDifferences, elementDifference -> {
+                Object tracValue = elementDifference.getTracValue();
+                Entity<Identifier> entity = (Entity<Identifier>) tracValue;
+                // // 新值要设置外键
+                // entity.setId(aggregate.getId());
+                return relatedDataConverter.toPO(entity); // TODO 查看前端传值 Image
+            }));
+        } else if (DifferenceType.REMOVED == differenceType) {
+            relatedMapper.deleteBatchIds(CollUtils.listConvert(elementDifferences, elementDifference -> {
+                Object snapshotValue = elementDifference.getSnapshotValue();
+                return ((Entity<Identifier>) snapshotValue).getId().getValue();
+            }));
+        } else if (DifferenceType.MODIFIED == differenceType) {
+            relatedMapper.updateBatch(CollUtils.listConvert(elementDifferences, elementDifference -> {
+                Object tracValue = elementDifference.getTracValue(); // TODO 检查
+                return relatedDataConverter.toPO((Entity<Identifier>) tracValue);
+            }));
+        } else {
+            throw new RuntimeException("Incorrect difference type, type=" + fieldDifference.getType());
         }
     }
 

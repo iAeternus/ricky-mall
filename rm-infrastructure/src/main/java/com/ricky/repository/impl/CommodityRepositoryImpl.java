@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.domain.commodity.repsitory.CommodityRepository;
 import com.ricky.enums.impl.CommodityType;
+import com.ricky.marker.Aggregate;
 import com.ricky.marker.Entity;
 import com.ricky.marker.Identifier;
 import com.ricky.persistence.converter.DataConverter;
@@ -90,5 +91,11 @@ public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, Commodity
         map.put(Commodity.RELATED_COMMODITIES, (DataConverter<E, I, P>) relatedCommodityDataConverter);
         return map;
     }
+
+    @Override
+    protected <I extends Identifier> void setForeignKey(Aggregate<CommodityId> aggregate, Entity<I> entity) {
+
+    }
+
 
 }
