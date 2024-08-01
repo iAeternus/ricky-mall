@@ -2,15 +2,14 @@ package com.ricky.domain.diff.utils;
 
 import com.ricky.domain.diff.entity.AggregateDifference;
 import com.ricky.marker.Aggregate;
+import com.ricky.marker.Entity;
 import com.ricky.marker.Identifier;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Value;
+import com.ricky.utils.DifferenceUtils;
+import lombok.*;
 import org.junit.Test;
 
+import java.io.Serializable;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -37,14 +36,29 @@ public class DifferenceUtilsTest {
         String value;
     }
 
+    @Value
+    static class ItemId implements Identifier {
+        String value;
+    }
+
     @Data
+    @AllArgsConstructor
+    static class Item implements Entity<ItemId> {
+        private ItemId id;
+        private String name;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     static class User implements Aggregate<UserId> {
         private UserId id;
         private Username username;
         private Password password;
         private Integer balance;
         private Integer age;
-        private List<Password> passwords;
+        private List<Item> items;
     }
 
     @Data
@@ -112,7 +126,41 @@ public class DifferenceUtilsTest {
 
     @Test
     public void compareCollectionType() {
+        // Given
+        User user1 = User.builder()
+                .id(new UserId(1L))
+                .username(new Username("ricky"))
+                .password(new Password("123"))
+                .balance(1000)
+                .age(20)
+                .items(List.of(
+                        new Item(new ItemId("i-1"), "aaa"),
+                        new Item(new ItemId("i-2"), "bbb"),
+                        new Item(new ItemId("i-3"), "ccc"),
+                        new Item(new ItemId("i-4"), "ddd")
+                ))
+                .build();
 
+        User user2 = User.builder()
+                .id(new UserId(1L))
+                .username(new Username("ricky666"))
+                .password(new Password("123"))
+                .balance(1000)
+                .age(20)
+                .items(List.of(
+                        // remove
+                        new Item(new ItemId("i-2"), "bbb1"), // update
+                        new Item(new ItemId("i-3"), "ccc"),
+                        new Item(new ItemId("i-4"), "ddd"),
+                        new Item(null, "eee") // insert
+                ))
+                .build();
+
+        // When
+        AggregateDifference<User, UserId> different = DifferenceUtils.different(user1, user2);
+
+        // Then
+        System.out.println(different);
     }
 
     @Test

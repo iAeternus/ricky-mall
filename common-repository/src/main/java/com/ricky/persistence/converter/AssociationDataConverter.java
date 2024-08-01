@@ -21,7 +21,7 @@ public interface AssociationDataConverter<E extends Entity<ID>, ID extends Ident
     /**
      * 转换领域对象DO为持久化对象PO
      *
-     * @param entity 领域对象DO
+     * @param entity     领域对象DO
      * @param foreignKey 关联对象所需要的外键
      * @return 持久化对象PO
      */

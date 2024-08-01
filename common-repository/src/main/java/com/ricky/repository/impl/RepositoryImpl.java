@@ -1,6 +1,5 @@
 package com.ricky.repository.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import com.ricky.domain.diff.entity.AggregateDifference;
 import com.ricky.domain.diff.entity.FieldDifference;
 import com.ricky.domain.diff.entity.concrete.CollectionFieldDifference;
@@ -107,7 +106,7 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
 
         // 筛选出关联对象的字段差异
         List<FieldDifference> fieldDifferences = difference.filtrateRelated();
-        if (CollUtil.isEmpty(fieldDifferences)) {
+        if (CollUtils.isEmpty(fieldDifferences)) {
             return;
         }
 
@@ -155,10 +154,11 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
                 Entity<Identifier> entity = (Entity<Identifier>) tracValue;
                 return relatedDataConverter.convert(entity, aggregate.getId().getValue()); // 设置外键
             }));
-            case REMOVED -> relatedMapper.deleteBatchIds(CollUtils.listConvert(elementDifferences, elementDifference -> {
-                Object snapshotValue = elementDifference.getSnapshotValue();
-                return ((Entity<Identifier>) snapshotValue).getId().getValue();
-            }));
+            case REMOVED ->
+                    relatedMapper.deleteBatchIds(CollUtils.listConvert(elementDifferences, elementDifference -> {
+                        Object snapshotValue = elementDifference.getSnapshotValue();
+                        return ((Entity<Identifier>) snapshotValue).getId().getValue();
+                    }));
             case MODIFIED -> relatedMapper.updateBatch(CollUtils.listConvert(elementDifferences, elementDifference -> {
                 Object tracValue = elementDifference.getTracValue(); // TODO 检查
                 return relatedDataConverter.toPO((Entity<Identifier>) tracValue);

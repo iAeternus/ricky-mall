@@ -1,8 +1,6 @@
 package com.ricky.context;
 
 import com.ricky.domain.cache.CacheDelegate;
-import com.ricky.domain.diff.entity.AggregateDifference;
-import com.ricky.domain.diff.utils.DifferenceUtils;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifiable;
 import com.ricky.marker.Identifier;

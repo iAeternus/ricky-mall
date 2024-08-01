@@ -5,6 +5,7 @@ import cn.hutool.core.collection.CollUtil;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -21,6 +22,10 @@ public class CollUtils {
 
     public static boolean isEmpty(Collection<?> collection) {
         return CollUtil.isEmpty(collection);
+    }
+
+    public static boolean isEmpty(Map<?, ?> map) {
+        return CollUtil.isEmpty(map);
     }
 
     public static boolean isNotEmpty(Collection<?> collection) {

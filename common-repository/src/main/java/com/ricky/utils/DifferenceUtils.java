@@ -1,4 +1,4 @@
-package com.ricky.domain.diff.utils;
+package com.ricky.utils;
 
 import cn.hutool.core.collection.CollUtil;
 import com.ricky.domain.diff.entity.AggregateDifference;
@@ -10,7 +10,6 @@ import com.ricky.domain.diff.enums.DifferenceType;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Entity;
 import com.ricky.marker.Identifier;
-import com.ricky.utils.ReflectionUtils;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 

@@ -2,10 +2,10 @@ package com.ricky.support;
 
 import com.ricky.context.AggregateContext;
 import com.ricky.domain.diff.entity.AggregateDifference;
-import com.ricky.domain.diff.utils.DifferenceUtils;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
 import com.ricky.repository.IRepository;
+import com.ricky.utils.DifferenceUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
@@ -93,7 +93,7 @@ public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Iden
         // 对比差异
         T t = this.find(aggregate.getId());
         AggregateDifference<T, ID> difference = DifferenceUtils.different(t, aggregate);
-        if(difference == null || difference.isEmpty()) {
+        if (difference == null || difference.isEmpty()) {
             return;
         }
 

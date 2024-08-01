@@ -49,6 +49,7 @@ public class ReflectionUtils {
 
     /**
      * 判断字段是否为常量（static final）
+     *
      * @param field 字段
      * @return 如果是常量则返回true，否则返回false
      */

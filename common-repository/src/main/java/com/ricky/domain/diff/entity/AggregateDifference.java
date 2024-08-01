@@ -4,12 +4,15 @@ import cn.hutool.core.collection.CollUtil;
 import com.ricky.domain.diff.enums.DifferenceType;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Identifier;
+import com.ricky.utils.CollUtils;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Ricky
@@ -52,23 +55,6 @@ public class AggregateDifference<T extends Aggregate<ID>, ID extends Identifier>
      * @return 若聚合根被修改则返回true，否则返回false
      */
     public boolean isSelfModified(Class<?> clazz) {
-        // if(CollUtil.isEmpty(fieldDifferences)) {
-        //     return true;
-        // }
-        //
-        // Set<String> fieldNames = fieldDifferences.keySet();
-        // for (String fieldName : fieldNames) {
-        //     FieldDifference fieldDifference = fieldDifferences.get(fieldName);
-        //     if (isUntouched(fieldDifference)) {
-        //         continue;
-        //     }
-        //     String typeName = fieldDifference.getType().getTypeName();
-        //     if(List.class.getName().equals(typeName)) {
-        //         return true;
-        //     }
-        // }
-        // return false;
-
         if (CollUtil.isEmpty(fieldDifferences)) {
             return false;
         }
@@ -93,7 +79,7 @@ public class AggregateDifference<T extends Aggregate<ID>, ID extends Identifier>
      * 筛选出关联对象的字段差异
      */
     public List<FieldDifference> filtrateRelated() {
-        if (CollUtil.isEmpty(fieldDifferences)) {
+        if (CollUtils.isEmpty(fieldDifferences)) {
             return Collections.emptyList();
         }
 
@@ -119,6 +105,14 @@ public class AggregateDifference<T extends Aggregate<ID>, ID extends Identifier>
         return DifferenceType.UNTOUCHED == fieldDifference.getDifferenceType();
     }
 
+    /**
+     * 判断是否为关联对象
+     * 由于diff不允许处理Map类型，这里仅对List进行判断
+     * 即一对多的关系
+     *
+     * @param obj 对象
+     * @return 若是关联对象则返回true，否则返回false
+     */
     private boolean isRelated(Object obj) {
         return obj instanceof List;
     }

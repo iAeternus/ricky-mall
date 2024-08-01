@@ -43,8 +43,4 @@ public enum DifferenceType {
         return null;
     }
 
-    public boolean isInsert() {
-        return ADDED.equals(this);
-    }
-
 }
