@@ -20,7 +20,6 @@ public class ImageId implements Identifier {
 
     @JsonCreator
     public ImageId(@JsonProperty("value") Long value) {
-        NullException.isNull(value, "图片id不能为空");
         this.value = value;
     }
 

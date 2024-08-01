@@ -2,6 +2,7 @@ package com.ricky.persistence.converter.impl;
 
 import com.ricky.domain.commodity.model.entity.RelatedCommodity;
 import com.ricky.marker.Entity;
+import com.ricky.persistence.converter.AssociationDataConverter;
 import com.ricky.persistence.converter.DataConverter;
 import com.ricky.persistence.po.BasePO;
 import com.ricky.persistence.po.RelatedCommodityPO;
@@ -9,6 +10,8 @@ import com.ricky.types.commodity.CommodityId;
 import com.ricky.types.commodity.RelatedCommodityId;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
 
 /**
  * @author Ricky
@@ -18,7 +21,7 @@ import org.springframework.stereotype.Service;
  * @desc
  */
 @Service
-public class RelatedCommodityDataConverter implements DataConverter<RelatedCommodity, RelatedCommodityId, RelatedCommodityPO> {
+public class RelatedCommodityDataConverter implements AssociationDataConverter<RelatedCommodity, RelatedCommodityId, RelatedCommodityPO> {
     @Override
     public RelatedCommodityPO toPO(@NonNull RelatedCommodity entity) {
         return RelatedCommodityPO.builder()
@@ -32,5 +35,12 @@ public class RelatedCommodityDataConverter implements DataConverter<RelatedCommo
                 .id(new RelatedCommodityId(po.getId()))
                 .relatedCommodityId(po.getCommodityId())
                 .build();
+    }
+
+    @Override
+    public RelatedCommodityPO convert(@NonNull RelatedCommodity entity, Serializable foreignKey) {
+        RelatedCommodityPO po = toPO(entity);
+        po.setCommodityId((Long) foreignKey);
+        return po;
     }
 }

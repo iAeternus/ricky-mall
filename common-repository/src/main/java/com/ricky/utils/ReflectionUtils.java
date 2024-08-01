@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 /**
  * @author Ricky
@@ -44,6 +45,15 @@ public class ReflectionUtils {
 
     public static String getFieldName(Field field) {
         return field.getName();
+    }
+
+    /**
+     * 判断字段是否为常量（static final）
+     * @param field 字段
+     * @return 如果是常量则返回true，否则返回false
+     */
+    public static boolean isConstant(Field field) {
+        return Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers());
     }
 
 }

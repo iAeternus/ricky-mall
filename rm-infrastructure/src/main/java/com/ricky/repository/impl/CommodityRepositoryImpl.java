@@ -7,6 +7,7 @@ import com.ricky.enums.impl.CommodityType;
 import com.ricky.marker.Aggregate;
 import com.ricky.marker.Entity;
 import com.ricky.marker.Identifier;
+import com.ricky.persistence.converter.AssociationDataConverter;
 import com.ricky.persistence.converter.DataConverter;
 import com.ricky.persistence.converter.impl.AttributeDataConverter;
 import com.ricky.persistence.converter.impl.CommodityImageDataConverter;
@@ -83,19 +84,13 @@ public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, Commodity
 
     @Override
     @SuppressWarnings("unchecked")
-    protected <E extends Entity<I>, I extends Identifier, P extends BasePO> Map<String, DataConverter<E, I, P>> gainRelatedEntityDataConverters() {
-        Map<String, DataConverter<E, I, P>> map = new HashMap<>();
-        map.put(Commodity.RELATED_IMAGES, (DataConverter<E, I, P>) commodityImageDataConverter);
-        map.put(Commodity.RELATED_ATTRIBUTES, (DataConverter<E, I, P>) attributeDataConverter);
-        map.put(Commodity.RELATED_SUPPLIERS, (DataConverter<E, I, P>) supplierDataConverter);
-        map.put(Commodity.RELATED_COMMODITIES, (DataConverter<E, I, P>) relatedCommodityDataConverter);
+    protected <E extends Entity<I>, I extends Identifier, P extends BasePO> Map<String, AssociationDataConverter<E, I, P>> gainRelatedEntityDataConverters() {
+        Map<String, AssociationDataConverter<E, I, P>> map = new HashMap<>();
+        map.put(Commodity.RELATED_IMAGES, (AssociationDataConverter<E, I, P>) commodityImageDataConverter);
+        map.put(Commodity.RELATED_ATTRIBUTES, (AssociationDataConverter<E, I, P>) attributeDataConverter);
+        map.put(Commodity.RELATED_SUPPLIERS, (AssociationDataConverter<E, I, P>) supplierDataConverter);
+        map.put(Commodity.RELATED_COMMODITIES, (AssociationDataConverter<E, I, P>) relatedCommodityDataConverter);
         return map;
     }
-
-    @Override
-    protected <I extends Identifier> void setForeignKey(Aggregate<CommodityId> aggregate, Entity<I> entity) {
-
-    }
-
 
 }

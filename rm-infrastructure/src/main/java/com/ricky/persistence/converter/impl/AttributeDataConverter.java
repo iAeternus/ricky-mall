@@ -1,11 +1,14 @@
 package com.ricky.persistence.converter.impl;
 
 import com.ricky.domain.commodity.model.entity.Attribute;
+import com.ricky.persistence.converter.AssociationDataConverter;
 import com.ricky.persistence.converter.DataConverter;
 import com.ricky.persistence.po.AttributePO;
 import com.ricky.types.commodity.AttributeId;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
 
 /**
  * @author Ricky
@@ -15,7 +18,7 @@ import org.springframework.stereotype.Service;
  * @desc
  */
 @Service
-public class AttributeDataConverter implements DataConverter<Attribute, AttributeId, AttributePO> {
+public class AttributeDataConverter implements AssociationDataConverter<Attribute, AttributeId, AttributePO> {
     @Override
     public AttributePO toPO(@NonNull Attribute entity) {
         return AttributePO.builder()
@@ -32,4 +35,12 @@ public class AttributeDataConverter implements DataConverter<Attribute, Attribut
                 .attributesValue(po.getAttributeValue())
                 .build();
     }
+
+    @Override
+    public AttributePO convert(@NonNull Attribute entity, Serializable foreignKey) {
+        AttributePO po = toPO(entity);
+        po.setCommodityId((Long) foreignKey);
+        return po;
+    }
+
 }

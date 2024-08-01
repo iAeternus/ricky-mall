@@ -20,7 +20,6 @@ public class SupplierId implements Identifier {
 
     @JsonCreator
     public SupplierId(@JsonProperty("value") Long value) {
-        NullException.isNull(value, "供应商ID不能为空");
         this.value = value;
     }
 

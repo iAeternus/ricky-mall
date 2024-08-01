@@ -1,11 +1,14 @@
 package com.ricky.persistence.converter.impl;
 
 import com.ricky.domain.commodity.model.entity.Image;
+import com.ricky.persistence.converter.AssociationDataConverter;
 import com.ricky.persistence.converter.DataConverter;
 import com.ricky.persistence.po.CommodityImagePO;
 import com.ricky.types.commodity.ImageId;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
 
 /**
  * @author Ricky
@@ -15,7 +18,7 @@ import org.springframework.stereotype.Service;
  * @desc
  */
 @Service
-public class CommodityImageDataConverter implements DataConverter<Image, ImageId, CommodityImagePO> {
+public class CommodityImageDataConverter implements AssociationDataConverter<Image, ImageId, CommodityImagePO> {
     @Override
     public CommodityImagePO toPO(@NonNull Image entity) {
         return CommodityImagePO.builder()
@@ -33,5 +36,12 @@ public class CommodityImageDataConverter implements DataConverter<Image, ImageId
                 .url(po.getImageUrl())
                 .sizeInBytes(po.getSizeInBytes())
                 .build();
+    }
+
+    @Override
+    public CommodityImagePO convert(@NonNull Image entity, Serializable foreignKey) {
+        CommodityImagePO po = toPO(entity);
+        po.setCommodityId((Long) foreignKey);
+        return po;
     }
 }

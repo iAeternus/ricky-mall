@@ -20,7 +20,6 @@ public class AttributeId implements Identifier {
 
     @JsonCreator
     public AttributeId(@JsonProperty("value") Long value) {
-        NullException.isNull(value, "商品属性ID不能为空");
         this.value = value;
     }
 }

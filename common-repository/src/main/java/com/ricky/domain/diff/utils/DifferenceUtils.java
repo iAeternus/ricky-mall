@@ -39,7 +39,7 @@ public class DifferenceUtils {
      */
     public static <T extends Aggregate<ID>, ID extends Identifier> AggregateDifference<T, ID> different(T snapshot, T aggregate) {
         DifferenceType differenceType = DifferenceType.basicDifferenceType(snapshot, aggregate);
-        if (differenceType != DifferenceType.MODIFIED) {
+        if (differenceType != null) {
             return new AggregateDifference<>(snapshot, aggregate, differenceType);
         }
 
@@ -67,7 +67,7 @@ public class DifferenceUtils {
      */
     private static <T extends Aggregate<ID>, ID extends Identifier> DifferenceType aggregateDifferenceType(Field[] fields, T snapshot, T aggregate) throws IllegalAccessException {
         DifferenceType differenceType = DifferenceType.basicDifferenceType(snapshot, aggregate);
-        if (differenceType != DifferenceType.MODIFIED) {
+        if (differenceType != null) {
             return differenceType;
         }
 
@@ -98,6 +98,10 @@ public class DifferenceUtils {
                 continue;
             }
             unchanged = snapshotValue.equals(aggregateValue) & unchanged;
+
+            if (!unchanged) {
+                break;
+            }
         }
         return unchanged ? DifferenceType.UNTOUCHED : DifferenceType.MODIFIED;
     }
@@ -111,7 +115,7 @@ public class DifferenceUtils {
      */
     private static <T extends Aggregate<ID>, ID extends Identifier> void setDifferences(T snapshot, T aggregate, Field[] fields, Map<String, FieldDifference> fieldDifferences) throws IllegalAccessException {
         for (Field field : fields) {
-            if (Identifier.class.isAssignableFrom(field.getType())) {
+            if (Identifier.class.isAssignableFrom(field.getType()) || ReflectionUtils.isConstant(field)) {
                 continue;
             }
 
@@ -125,6 +129,9 @@ public class DifferenceUtils {
             }
             // 对比每个字段的差异
             FieldDifference fieldDifference = compareField(field, snapshotValue, aggregateValue);
+            if (fieldDifference.getDifferenceType() == DifferenceType.UNTOUCHED) {
+                continue;
+            }
             fieldDifferences.put(filedName, fieldDifference);
         }
     }
@@ -132,15 +139,12 @@ public class DifferenceUtils {
     @SuppressWarnings("unchecked")
     private static <T extends Aggregate<ID>, ID extends Identifier> FieldDifference compareField(Field field, Object snapshotValue, Object aggregateValue) throws IllegalAccessException {
         ComparableType comparableType = ComparableType.of(aggregateValue == null ? snapshotValue : aggregateValue);
-        if (ComparableType.AGGREGATE_TYPE.equals(comparableType)) {
-            return compareAggregateType(field, (T) snapshotValue, (T) aggregateValue);
-        } else if (ComparableType.COLLECTION_TYPE.equals(comparableType)) {
-            return compareCollectionType(field, snapshotValue, aggregateValue);
-        } else if (ComparableType.JAVA_TYPE.equals(comparableType)) {
-            return compareJavaType(field, snapshotValue, aggregateValue);
-        } else {
-            throw new UnsupportedOperationException();
-        }
+        return switch (comparableType) {
+            case AGGREGATE_TYPE -> compareAggregateType(field, (T) snapshotValue, (T) aggregateValue);
+            case COLLECTION_TYPE -> compareCollectionType(field, snapshotValue, aggregateValue);
+            case JAVA_TYPE -> compareJavaType(field, snapshotValue, aggregateValue);
+            default -> throw new UnsupportedOperationException();
+        };
     }
 
     /**
@@ -199,7 +203,7 @@ public class DifferenceUtils {
 
     private static DifferenceType javaDifferentType(Object snapshot, Object aggregate) {
         DifferenceType differenceType = DifferenceType.basicDifferenceType(snapshot, aggregate);
-        if (differenceType != DifferenceType.MODIFIED) {
+        if (differenceType != null) {
             return differenceType;
         }
 
@@ -342,7 +346,7 @@ public class DifferenceUtils {
 
         // 处理 ADDED 和 MODIFIED
         for (Entity<Identifier> item : entityValues) {
-            if (snapshotMap.containsKey(item.getId())) {
+            if (item.getId() != null && snapshotMap.containsKey(item.getId())) {
                 if (isModified(snapshotMap.get(item.getId()), item)) {
                     differences.add(FieldDifference.builder()
                             .snapshotValue(snapshotMap.get(item.getId()))
@@ -371,8 +375,11 @@ public class DifferenceUtils {
         return differences;
     }
 
-    private static boolean isModified(Entity<Identifier> original, Entity<Identifier> current) {
-        return original.getId().getValue().equals(current.getId().getValue()) && !Objects.equals(original, current);
+    /**
+     * 判断实体是否被改变，判断依据: id相同，值不同
+     */
+    private static boolean isModified(Entity<Identifier> e1, Entity<Identifier> e2) {
+        return e1.getId().getValue().equals(e2.getId().getValue()) && !Objects.equals(e1, e2);
     }
 
     private static boolean specialHandingClass(Class<?> clazz) {

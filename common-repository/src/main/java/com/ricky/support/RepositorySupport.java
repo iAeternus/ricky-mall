@@ -97,23 +97,10 @@ public abstract class RepositorySupport<T extends Aggregate<ID>, ID extends Iden
             return;
         }
 
-        // AggregateDifference<T, ID> aggregateDifference = this.aggregateContext.difference(aggregate);
-        // if (aggregateDifference.isEmpty()) {
-        //     return;
-        // }
-
         // 调用update
         this.doUpdate(aggregate, difference);
         // 最终将DB带来的变化更新回AggregateContext
         this.aggregateContext.merge(aggregate);
-
-        // AggregateDifference<T, ID> aggregateDifference = this.aggregateContext.difference(aggregate);
-        // if (aggregateDifference.getDifferenceType().isInsert()) {
-        //     this.doInsert(aggregate);
-        // } else {
-        //     this.doUpdate(aggregate, aggregateDifference);
-        // }
-        // this.aggregateContext.merge(aggregate);
     }
 
 }

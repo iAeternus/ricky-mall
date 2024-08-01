@@ -2,12 +2,15 @@ package com.ricky.persistence.converter.impl;
 
 import com.ricky.domain.commodity.model.entity.Supplier;
 import com.ricky.marker.Entity;
+import com.ricky.persistence.converter.AssociationDataConverter;
 import com.ricky.persistence.converter.DataConverter;
 import com.ricky.persistence.po.BasePO;
 import com.ricky.persistence.po.SupplierPO;
 import com.ricky.types.commodity.SupplierId;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
 
 /**
  * @author Ricky
@@ -17,7 +20,7 @@ import org.springframework.stereotype.Service;
  * @desc
  */
 @Service
-public class SupplierDataConverter implements DataConverter<Supplier, SupplierId, SupplierPO> {
+public class SupplierDataConverter implements AssociationDataConverter<Supplier, SupplierId, SupplierPO> {
 
     @Override
     public SupplierPO toPO(@NonNull Supplier entity) {
@@ -38,4 +41,10 @@ public class SupplierDataConverter implements DataConverter<Supplier, SupplierId
                 .build();
     }
 
+    @Override
+    public SupplierPO convert(@NonNull Supplier entity, Serializable foreignKey) {
+        SupplierPO po = toPO(entity);
+        po.setCommodityId((Long) foreignKey);
+        return po;
+    }
 }

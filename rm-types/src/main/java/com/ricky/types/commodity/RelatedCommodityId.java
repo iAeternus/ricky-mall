@@ -20,7 +20,6 @@ public class RelatedCommodityId implements Identifier {
 
     @JsonCreator
     public RelatedCommodityId(@JsonProperty("value") Long value) {
-        NullException.isNull(value, "关联商品id不能为空");
         this.value = value;
     }
 

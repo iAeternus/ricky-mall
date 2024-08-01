@@ -40,7 +40,7 @@ public enum DifferenceType {
         if (aggregate == null) {
             return REMOVED;
         }
-        return MODIFIED;
+        return null;
     }
 
     public boolean isInsert() {
