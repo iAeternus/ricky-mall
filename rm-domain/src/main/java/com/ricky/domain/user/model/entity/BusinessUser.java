@@ -5,7 +5,9 @@ import com.ricky.marker.Entity;
 import com.ricky.types.user.BusinessUserId;
 import com.ricky.types.user.Store;
 import com.ricky.types.user.UserId;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Ricky
@@ -15,6 +17,8 @@ import lombok.Data;
  * @desc 商家
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BusinessUser implements Entity<BusinessUserId> {
 
     private BusinessUserId id;

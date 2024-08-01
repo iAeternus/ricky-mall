@@ -26,9 +26,7 @@ public interface AggregateDataConverter<T extends Aggregate<ID>, ID extends Iden
      * @param aggregate 聚合根
      * @return 持久化对象PO
      */
-    PO toPO(@NonNull T aggregate);
-
-    <P extends BasePO> Map<String, List<P>> toRelatedPOLists(@NonNull T aggregate);
+    PO convert(T aggregate);
 
     /**
      * 转换持久化对象PO为聚合根
@@ -36,7 +34,15 @@ public interface AggregateDataConverter<T extends Aggregate<ID>, ID extends Iden
      * @param po 持久化对象PO
      * @return 聚合根
      */
-    <P extends BasePO> T toAggregate(@NonNull PO po, Map<String, List<P>> relatedPOLists);
+    <P extends BasePO> T convert(PO po, Map<String, List<P>> relatedPOLists);
+
+    /**
+     * 获取关联对象PO列表
+     * @param aggregate 聚合根
+     * @return 返货Map，键-字段名，值-关联对象PO列表
+     * @param <P> 关联对象PO类型
+     */
+    <P extends BasePO> Map<String, List<P>> getAssociationPOLists(@NonNull T aggregate);
 
     /**
      * 设置聚合根ID

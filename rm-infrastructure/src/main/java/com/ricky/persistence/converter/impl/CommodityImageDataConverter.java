@@ -2,10 +2,13 @@ package com.ricky.persistence.converter.impl;
 
 import com.ricky.domain.commodity.model.entity.Image;
 import com.ricky.persistence.converter.AssociationDataConverter;
-import com.ricky.persistence.converter.DataConverter;
+import com.ricky.persistence.converter.decorator.ForeignKeyDecorator;
 import com.ricky.persistence.po.CommodityImagePO;
 import com.ricky.types.commodity.ImageId;
 import lombok.NonNull;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -17,31 +20,31 @@ import java.io.Serializable;
  * @className CommodityImageDataConverter
  * @desc
  */
-@Service
-public class CommodityImageDataConverter implements AssociationDataConverter<Image, ImageId, CommodityImagePO> {
-    @Override
-    public CommodityImagePO toPO(@NonNull Image entity) {
-        return CommodityImagePO.builder()
-                .name(entity.getName())
-                .imageUrl(entity.getUrl())
-                .sizeInBytes(entity.getSizeInBytes())
-                .build();
-    }
+@Mapper(componentModel = "spring", uses = ForeignKeyDecorator.class)
+public abstract class CommodityImageDataConverter implements AssociationDataConverter<Image, ImageId, CommodityImagePO> {
 
     @Override
-    public Image toEntity(@NonNull CommodityImagePO po) {
-        return Image.builder()
-                .id(new ImageId(po.getId()))
-                .name(po.getName())
-                .url(po.getImageUrl())
-                .sizeInBytes(po.getSizeInBytes())
-                .build();
-    }
+    @Mappings({
+            @Mapping(target = "id", source = "entity.id.value"),
+            @Mapping(target = "name", source = "entity.name"),
+            @Mapping(target = "commodityId", source = "foreignKey"),
+            @Mapping(target = "imageUrl", source = "entity.url"),
+            @Mapping(target = "sizeInBytes", source = "entity.sizeInBytes"),
+    })
+    public abstract CommodityImagePO convert(Image entity, Serializable foreignKey);
 
     @Override
-    public CommodityImagePO convert(@NonNull Image entity, Serializable foreignKey) {
-        CommodityImagePO po = toPO(entity);
-        po.setCommodityId((Long) foreignKey);
-        return po;
-    }
+    @Mappings({
+            @Mapping(target = "id", source = "id.value"),
+            @Mapping(target = "imageUrl", source = "url"),
+    })
+    public abstract CommodityImagePO convert(Image entity);
+
+    @Override
+    @Mappings({
+            @Mapping(target = "id.value", source = "id"),
+            @Mapping(target = "url", source = "imageUrl"),
+    })
+    public abstract Image convert(CommodityImagePO po);
+
 }

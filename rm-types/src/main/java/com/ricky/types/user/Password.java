@@ -1,5 +1,6 @@
 package com.ricky.types.user;
 
+import com.ricky.enums.impl.PasswordStatus;
 import com.ricky.enums.impl.PasswordStrength;
 import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
@@ -19,10 +20,15 @@ public class Password implements ValueObject {
     String value; // 密码
     PasswordStrength strength; // 密码强度
 
-    public Password(String password, boolean isEncrypted) {
+    public Password(String password, PasswordStatus status) {
         NullException.isNull(password, "password不能为空");
-        this.strength = calculateStrength(password);
-        this.value = isEncrypted ? DigestUtils.md5DigestAsHex(password.getBytes()) : password;
+        if(status == PasswordStatus.UNENCRYPTED) {
+            this.strength = calculateStrength(password);
+            this.value = DigestUtils.md5DigestAsHex(password.getBytes());
+        } else {
+            this.value = password;
+            this.strength = null;
+        }
     }
 
     /**
@@ -37,6 +43,31 @@ public class Password implements ValueObject {
     }
 
     // 检查密码是否包含特定类型的字符
+    /**
+     * 计算密码强度
+     *
+     * @return 返回密码强度
+     */
+    public PasswordStrength calculateStrength(String password) {
+        int lengthScore = Math.min(password.length(), 10); // 密码长度加分，最多加10分
+        int upperCaseScore = containsUpperCase(password) ? 2 : 0; // 大写字母加2分
+        int lowerCaseScore = containsLowerCase(password) ? 2 : 0; // 小写字母加2分
+        int digitScore = containsDigit(password) ? 2 : 0; // 数字加2分
+        int specialCharScore = containsSpecialChar(password) ? 3 : 0; // 特殊字符加3分
+
+        int totalScore = lengthScore + upperCaseScore + lowerCaseScore + digitScore + specialCharScore;
+
+        if (totalScore < 6) {
+            return PasswordStrength.VERY_WEAK;
+        } else if (totalScore < 12) {
+            return PasswordStrength.WEAK;
+        } else if (totalScore < 18) {
+            return PasswordStrength.MEDIUM;
+        } else {
+            return PasswordStrength.STRONG;
+        }
+    }
+
     private boolean containsUpperCase(String password) {
         return password.matches(".*[A-Z].*");
     }
@@ -57,31 +88,6 @@ public class Password implements ValueObject {
             }
         }
         return false;
-    }
-
-    /**
-     * 计算密码强度
-     *
-     * @return 返回密码强度
-     */
-    private PasswordStrength calculateStrength(String password) {
-        int lengthScore = Math.min(password.length(), 10); // 密码长度加分，最多加10分
-        int upperCaseScore = containsUpperCase(password) ? 2 : 0; // 大写字母加2分
-        int lowerCaseScore = containsLowerCase(password) ? 2 : 0; // 小写字母加2分
-        int digitScore = containsDigit(password) ? 2 : 0; // 数字加2分
-        int specialCharScore = containsSpecialChar(password) ? 3 : 0; // 特殊字符加3分
-
-        int totalScore = lengthScore + upperCaseScore + lowerCaseScore + digitScore + specialCharScore;
-
-        if (totalScore < 6) {
-            return PasswordStrength.VERY_WEAK;
-        } else if (totalScore < 12) {
-            return PasswordStrength.WEAK;
-        } else if (totalScore < 18) {
-            return PasswordStrength.MEDIUM;
-        } else {
-            return PasswordStrength.STRONG;
-        }
     }
 
 }

@@ -18,16 +18,16 @@ import lombok.Data;
 public class Attribute implements Entity<AttributeId> {
 
     private AttributeId id;
-    private String attributesKey; // 属性键
-    private String attributesValue; // 属性值
+    private String attributeKey; // 属性键
+    private String attributeValue; // 属性值
 
-    public Attribute(AttributeId id, String attributesKey, String attributesValue) {
-        NullException.isNull(attributesKey, "商品属性键不能为空");
-        NullException.isNull(attributesValue, "商品属性值不能为空");
+    public Attribute(AttributeId id, String attributeKey, String attributeValue) {
+        NullException.isNull(attributeKey, "商品属性键不能为空");
+        NullException.isNull(attributeValue, "商品属性值不能为空");
 
         this.id = id;
-        this.attributesKey = attributesKey;
-        this.attributesValue = attributesValue;
+        this.attributeKey = attributeKey;
+        this.attributeValue = attributeValue;
     }
 
 }

@@ -101,6 +101,8 @@ public class DifferenceUtilsTest {
         }
     }
 
+    /////////////////// Start Test ///////////////////
+
     private final UserAssembler userAssembler = new UserAssembler();
     private final UserDataConverter userDataConverter = new UserDataConverter();
 

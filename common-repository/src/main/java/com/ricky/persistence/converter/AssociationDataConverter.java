@@ -25,6 +25,6 @@ public interface AssociationDataConverter<E extends Entity<ID>, ID extends Ident
      * @param foreignKey 关联对象所需要的外键
      * @return 持久化对象PO
      */
-    P convert(@NonNull E entity, Serializable foreignKey);
+    P convert(E entity, Serializable foreignKey);
 
 }

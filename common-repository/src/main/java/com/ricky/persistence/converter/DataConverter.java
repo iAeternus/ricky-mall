@@ -22,7 +22,7 @@ public interface DataConverter<E extends Entity<ID>, ID extends Identifier, PO e
      * @param entity 领域对象DO
      * @return 持久化对象PO
      */
-    PO toPO(@NonNull E entity);
+    PO convert(E entity);
 
     /**
      * 转换持久化对象PO为领域对象DO
@@ -30,6 +30,6 @@ public interface DataConverter<E extends Entity<ID>, ID extends Identifier, PO e
      * @param po 持久化对象PO
      * @return 领域对象DO
      */
-    E toEntity(@NonNull PO po);
+    E convert(PO po);
 
 }

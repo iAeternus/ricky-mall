@@ -26,7 +26,7 @@ public class UserRepositoryImpl extends ServiceImpl<UserMapper, UserPO> implemen
 
     @Override
     public void saveUser(User user) {
-        UserPO userPO = userDataConverter.toPO(user);
+        UserPO userPO = userDataConverter.convert(user);
         save(userPO);
         user.setId(new UserId(userPO.getId()));
     }
@@ -34,18 +34,18 @@ public class UserRepositoryImpl extends ServiceImpl<UserMapper, UserPO> implemen
     @Override
     public User getByEmail(Email email) {
         UserPO userPO = lambdaQuery().eq(UserPO::getEmail, email.getAddress()).one();
-        return userDataConverter.toEntity(userPO);
+        return userDataConverter.convert(userPO);
     }
 
     @Override
     public User getUserById(Long userId) {
         UserPO userPO = getById(userId);
-        return userDataConverter.toEntity(userPO);
+        return userDataConverter.convert(userPO);
     }
 
     @Override
     public void updateUserById(User user) {
-        UserPO userPO = userDataConverter.toPO(user);
+        UserPO userPO = userDataConverter.convert(user);
         updateById(userPO);
     }
 

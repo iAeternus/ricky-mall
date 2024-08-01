@@ -1,14 +1,14 @@
 package com.ricky.persistence.converter.impl;
 
 import com.ricky.domain.commodity.model.entity.RelatedCommodity;
-import com.ricky.marker.Entity;
 import com.ricky.persistence.converter.AssociationDataConverter;
-import com.ricky.persistence.converter.DataConverter;
-import com.ricky.persistence.po.BasePO;
+import com.ricky.persistence.converter.decorator.ForeignKeyDecorator;
 import com.ricky.persistence.po.RelatedCommodityPO;
-import com.ricky.types.commodity.CommodityId;
 import com.ricky.types.commodity.RelatedCommodityId;
 import lombok.NonNull;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -20,27 +20,26 @@ import java.io.Serializable;
  * @className RelatedCommodityDataConverter
  * @desc
  */
-@Service
-public class RelatedCommodityDataConverter implements AssociationDataConverter<RelatedCommodity, RelatedCommodityId, RelatedCommodityPO> {
-    @Override
-    public RelatedCommodityPO toPO(@NonNull RelatedCommodity entity) {
-        return RelatedCommodityPO.builder()
-                .relatedCommodityId(entity.getRelatedCommodityId())
-                .build();
-    }
+@Mapper(componentModel = "spring", uses = ForeignKeyDecorator.class)
+public abstract class RelatedCommodityDataConverter implements AssociationDataConverter<RelatedCommodity, RelatedCommodityId, RelatedCommodityPO> {
 
     @Override
-    public RelatedCommodity toEntity(@NonNull RelatedCommodityPO po) {
-        return RelatedCommodity.builder()
-                .id(new RelatedCommodityId(po.getId()))
-                .relatedCommodityId(po.getCommodityId())
-                .build();
-    }
+    @Mappings({
+            @Mapping(target = "id", source = "entity.id.value"),
+            @Mapping(target = "commodityId", source = "foreignKey")
+    })
+    public abstract RelatedCommodityPO convert(RelatedCommodity entity, Serializable foreignKey);
 
     @Override
-    public RelatedCommodityPO convert(@NonNull RelatedCommodity entity, Serializable foreignKey) {
-        RelatedCommodityPO po = toPO(entity);
-        po.setCommodityId((Long) foreignKey);
-        return po;
-    }
+    @Mappings({
+            @Mapping(target = "id", source = "id.value"),
+    })
+    public abstract RelatedCommodityPO convert(RelatedCommodity entity);
+
+    @Override
+    @Mappings({
+            @Mapping(target = "id.value", source = "id"),
+    })
+    public abstract RelatedCommodity convert(RelatedCommodityPO po);
+
 }

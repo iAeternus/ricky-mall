@@ -1,5 +1,6 @@
 package com.ricky.types;
 
+import com.ricky.enums.impl.PasswordStatus;
 import com.ricky.enums.impl.PasswordStrength;
 import com.ricky.types.user.Password;
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class PasswordTest {
     @Test
     public void veryWeak() {
         // Given
-        Password password = new Password("abc", true);
+        Password password = new Password("abc", PasswordStatus.UNENCRYPTED);
 
         // Then
         assertThat(password.getStrength()).isEqualTo(PasswordStrength.VERY_WEAK);
@@ -27,7 +28,7 @@ public class PasswordTest {
     @Test
     public void weak() {
         // Given
-        Password password = new Password("123abc", true);
+        Password password = new Password("123abc", PasswordStatus.UNENCRYPTED);
 
         // Then
         assertThat(password.getStrength()).isEqualTo(PasswordStrength.WEAK);
@@ -36,7 +37,7 @@ public class PasswordTest {
     @Test
     public void medium() {
         // Given
-        Password password = new Password("Password123", true);
+        Password password = new Password("Password123", PasswordStatus.UNENCRYPTED);
 
         // Then
         assertThat(password.getStrength()).isEqualTo(PasswordStrength.MEDIUM);
@@ -45,7 +46,7 @@ public class PasswordTest {
     @Test
     public void strong() {
         // Given
-        Password password = new Password("SuperSecurePassword123!@#", true);
+        Password password = new Password("SuperSecurePassword123!@#", PasswordStatus.UNENCRYPTED);
 
         // Then
         assertThat(password.getStrength()).isEqualTo(PasswordStrength.STRONG);

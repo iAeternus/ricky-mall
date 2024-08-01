@@ -24,7 +24,7 @@ public class BusinessUserRepositoryImpl extends ServiceImpl<BusinessUserMapper, 
 
     @Override
     public void saveBusinessUser(BusinessUser businessUser) {
-        BusinessUserPO businessUserPO = businessUserDataConverter.toPO(businessUser);
+        BusinessUserPO businessUserPO = businessUserDataConverter.convert(businessUser);
         save(businessUserPO);
     }
 }

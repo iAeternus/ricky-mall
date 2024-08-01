@@ -2,7 +2,6 @@ package com.ricky.types.common;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import lombok.Builder;
 import lombok.Value;
@@ -36,11 +35,12 @@ public class Money implements ValueObject, Serializable {
     public static final Money ZERO = new Money(BigDecimal.ZERO, Currency.getInstance(DEFAULT_CURRENCY_CODE));
 
     public Money(BigDecimal amount, Currency currency) {
-        NullException.isNull(amount, "amount cannot be null");
-        NullException.isNull(currency, "currency cannot be null");
+        if (amount != null && BigDecimal.ZERO.compareTo(amount) > 0) {
+            throw new IllegalArgumentException("金额不能为负数，amount=" + amount + " currency=" + currency);
+        }
 
-        this.amount = amount;
-        this.currency = currency;
+        this.amount = amount != null ? amount.setScale(2, RoundingMode.HALF_UP) : null;
+        this.currency = amount != null ? currency : null;
     }
 
     @JsonCreator

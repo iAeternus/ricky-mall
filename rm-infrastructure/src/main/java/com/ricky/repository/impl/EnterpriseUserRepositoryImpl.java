@@ -24,7 +24,7 @@ public class EnterpriseUserRepositoryImpl extends ServiceImpl<EnterpriseUserMapp
 
     @Override
     public void saveEnterpriseUser(EnterpriseUser enterpriseUser) {
-        EnterpriseUserPO enterpriseUserPO = enterpriseUserDataConverter.toPO(enterpriseUser);
+        EnterpriseUserPO enterpriseUserPO = enterpriseUserDataConverter.convert(enterpriseUser);
         save(enterpriseUserPO);
     }
 

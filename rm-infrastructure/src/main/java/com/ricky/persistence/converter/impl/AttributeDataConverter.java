@@ -2,10 +2,13 @@ package com.ricky.persistence.converter.impl;
 
 import com.ricky.domain.commodity.model.entity.Attribute;
 import com.ricky.persistence.converter.AssociationDataConverter;
-import com.ricky.persistence.converter.DataConverter;
+import com.ricky.persistence.converter.decorator.ForeignKeyDecorator;
 import com.ricky.persistence.po.AttributePO;
 import com.ricky.types.commodity.AttributeId;
 import lombok.NonNull;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -17,30 +20,28 @@ import java.io.Serializable;
  * @className AttributeDataConverter
  * @desc
  */
-@Service
-public class AttributeDataConverter implements AssociationDataConverter<Attribute, AttributeId, AttributePO> {
-    @Override
-    public AttributePO toPO(@NonNull Attribute entity) {
-        return AttributePO.builder()
-                .attributeKey(entity.getAttributesKey())
-                .attributeValue(entity.getAttributesValue())
-                .build();
-    }
+@Mapper(componentModel = "spring", uses = ForeignKeyDecorator.class)
+public abstract class AttributeDataConverter implements AssociationDataConverter<Attribute, AttributeId, AttributePO> {
 
     @Override
-    public Attribute toEntity(@NonNull AttributePO po) {
-        return Attribute.builder()
-                .id(new AttributeId(po.getId()))
-                .attributesKey(po.getAttributeKey())
-                .attributesValue(po.getAttributeValue())
-                .build();
-    }
+    @Mappings({
+            @Mapping(target = "id", source = "entity.id.value"),
+            @Mapping(target = "commodityId", source = "foreignKey"),
+            @Mapping(target = "attributeKey", source = "entity.attributeKey"),
+            @Mapping(target = "attributeValue", source = "entity.attributeValue"),
+    })
+    public abstract AttributePO convert(Attribute entity, Serializable foreignKey);
 
     @Override
-    public AttributePO convert(@NonNull Attribute entity, Serializable foreignKey) {
-        AttributePO po = toPO(entity);
-        po.setCommodityId((Long) foreignKey);
-        return po;
-    }
+    @Mappings({
+            @Mapping(target = "id", source = "id.value")
+    })
+    public abstract AttributePO convert(Attribute entity);
+
+    @Override
+    @Mappings({
+            @Mapping(target = "id.value", source = "id")
+    })
+    public abstract Attribute convert(AttributePO po);
 
 }

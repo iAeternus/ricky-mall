@@ -3,8 +3,10 @@ package com.ricky.persistence.po;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ricky.enums.impl.StoreType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Ricky
@@ -14,6 +16,8 @@ import lombok.EqualsAndHashCode;
  * @desc
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("business_user")
 @EqualsAndHashCode(callSuper = true)
 public class BusinessUserPO extends BasePO {

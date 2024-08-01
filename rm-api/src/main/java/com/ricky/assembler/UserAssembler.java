@@ -11,6 +11,7 @@ import com.ricky.dto.query.EmailQuery;
 import com.ricky.dto.response.AuthenticationResponse;
 import com.ricky.dto.response.RegisterResponse;
 import com.ricky.dto.response.UserInfoResponse;
+import com.ricky.enums.impl.PasswordStatus;
 import com.ricky.enums.impl.PasswordStrength;
 import com.ricky.types.user.*;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class UserAssembler {
     public User toUser(RegisterCommand request) {
         User user = new User();
         user.setEmail(new Email(request.getEmail()));
-        user.setPassword(new Password(request.getPassword(), true));
+        user.setPassword(new Password(request.getPassword(), PasswordStatus.UNENCRYPTED));
         user.setNickname(new Nickname(request.getNickname()));
         user.setRealName(new RealName(request.getFirstName(), request.getLastName()));
         user.setPhoneNumber(new PhoneNumber(request.getPhoneNumber()));
@@ -38,7 +39,7 @@ public class UserAssembler {
     public User toUser(AuthenticationQuery request) {
         User user = new User();
         user.setEmail(new Email(request.getEmail()));
-        user.setPassword(new Password(request.getPassword(), true));
+        user.setPassword(new Password(request.getPassword(), PasswordStatus.UNENCRYPTED));
         return user;
     }
 

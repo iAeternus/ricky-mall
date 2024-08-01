@@ -7,7 +7,9 @@ import com.ricky.marker.Aggregate;
 import com.ricky.types.common.ExchangeRate;
 import com.ricky.types.common.Money;
 import com.ricky.types.user.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -19,6 +21,8 @@ import java.math.BigDecimal;
  * @desc 用户
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements Aggregate<UserId> {
 
     private UserId id;
@@ -30,7 +34,7 @@ public class User implements Aggregate<UserId> {
     private UserRole role;
     private Integral integral = Integral.ZERO; // 积分
     private Level level = Level.ZERO; // 等级
-    private Money balance = new Money(0); // 余额 TODO 改成自定义的Money
+    private Money balance = new Money(0); // 余额
 
     // TODO 作为商家有商家信息，作为企业用户有企业信息，普通用户这几项就为null
 

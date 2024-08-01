@@ -6,6 +6,9 @@ import com.ricky.persistence.po.BusinessUserPO;
 import com.ricky.types.user.BusinessUserId;
 import com.ricky.types.user.Store;
 import lombok.NonNull;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,32 +18,27 @@ import org.springframework.stereotype.Service;
  * @className BusinessUserDataConverter
  * @desc
  */
-@Service
-public class BusinessUserDataConverter implements DataConverter<BusinessUser, BusinessUserId, BusinessUserPO> {
-    @Override
-    public BusinessUserPO toPO(@NonNull BusinessUser entity) {
-        BusinessUserPO businessUserPO = new BusinessUserPO();
-        BusinessUserId id = entity.getId();
-        businessUserPO.setId(id == null ? null : id.getValue());
-        businessUserPO.setUserId(entity.getUserId().getValue());
-        businessUserPO.setStoreName(entity.getStore().getName());
-        businessUserPO.setBoss(entity.getStore().getBoss());
-        businessUserPO.setRecordNumber(entity.getStore().getRecordNumber());
-        businessUserPO.setStoreType(entity.getStoreType());
-        return businessUserPO;
-    }
+@Mapper(componentModel = "spring")
+public abstract class BusinessUserDataConverter implements DataConverter<BusinessUser, BusinessUserId, BusinessUserPO> {
 
     @Override
-    public BusinessUser toEntity(@NonNull BusinessUserPO po) {
-        BusinessUser businessUser = new BusinessUser();
-        businessUser.setId(new BusinessUserId(po.getId()));
-        businessUser.setStore(new Store(
-                po.getStoreName(),
-                po.getBoss(),
-                po.getRecordNumber()
-        ));
-        businessUser.setStoreType(po.getStoreType());
-        return businessUser;
-    }
+    @Mappings({
+            @Mapping(target = "id", source = "id.value"),
+            @Mapping(target = "userId", source = "userId.value"),
+            @Mapping(target = "storeName", source = "store.name"),
+            @Mapping(target = "boss", source = "store.boss"),
+            @Mapping(target = "recordNumber", source = "store.recordNumber"),
+    })
+    public abstract BusinessUserPO convert(BusinessUser entity);
+
+    @Override
+    @Mappings({
+            @Mapping(target = "id.value", source = "id"),
+            @Mapping(target = "userId.value", source = "userId"),
+            @Mapping(target = "store.name", source = "storeName"),
+            @Mapping(target = "store.boss", source = "boss"),
+            @Mapping(target = "store.recordNumber", source = "recordNumber"),
+    })
+    public abstract BusinessUser convert(BusinessUserPO po);
 
 }

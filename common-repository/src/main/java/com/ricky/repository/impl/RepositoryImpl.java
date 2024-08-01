@@ -41,7 +41,7 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
     @Override
     @Transactional
     public void doInsert(T aggregate) {
-        PO po = dataConverter.toPO(aggregate);
+        PO po = dataConverter.convert(aggregate);
         mapper.insert(po);
         dataConverter.setAggregateId(aggregate, po.getId());
 
@@ -49,7 +49,7 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
         Map<String, IMapper<BasePO>> relatedMappers = gainRelatedMappers();
 
         // 获取需要插入的关联对象列表的集合
-        Map<String, List<BasePO>> relatedPOLists = dataConverter.toRelatedPOLists(aggregate);
+        Map<String, List<BasePO>> relatedPOLists = dataConverter.getAssociationPOLists(aggregate);
         relatedPOLists.forEach((fieldName, relatedObjects) -> {
             if (CollUtils.isEmpty(relatedObjects)) {
                 return;
@@ -83,7 +83,7 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
         if (po == null) {
             throw new NotFoundException("aggregate not found, id=" + id.getValue());
         }
-        return dataConverter.toAggregate(po, selectRelatedLists(po));
+        return dataConverter.convert(po, selectRelatedLists(po));
     }
 
     /**
@@ -99,7 +99,7 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
     @Override
     @Transactional
     public void doUpdate(T aggregate, AggregateDifference<T, ID> difference) {
-        PO po = dataConverter.toPO(aggregate);
+        PO po = dataConverter.convert(aggregate);
         if (difference.isSelfModified(aggregate.getClass())) {
             mapper.updateById(po);
         }
@@ -161,7 +161,7 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
                     }));
             case MODIFIED -> relatedMapper.updateBatch(CollUtils.listConvert(elementDifferences, elementDifference -> {
                 Object tracValue = elementDifference.getTracValue(); // TODO 检查
-                return relatedDataConverter.toPO((Entity<Identifier>) tracValue);
+                return relatedDataConverter.convert((Entity<Identifier>) tracValue);
             }));
             default -> throw new RuntimeException("Incorrect difference type, type=" + fieldDifference.getType());
         }

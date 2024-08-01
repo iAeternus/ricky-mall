@@ -7,6 +7,9 @@ import com.ricky.types.user.Company;
 import com.ricky.types.user.EnterpriseUserId;
 import com.ricky.types.user.UserId;
 import lombok.NonNull;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,28 +19,27 @@ import org.springframework.stereotype.Service;
  * @className EnterpriseUserDataConverter
  * @desc
  */
-@Service
-public class EnterpriseUserDataConverter implements DataConverter<EnterpriseUser, EnterpriseUserId, EnterpriseUserPO> {
+@Mapper(componentModel = "spring")
+public abstract class EnterpriseUserDataConverter implements DataConverter<EnterpriseUser, EnterpriseUserId, EnterpriseUserPO> {
 
     @Override
-    public EnterpriseUserPO toPO(@NonNull EnterpriseUser entity) {
-        EnterpriseUserPO enterpriseUserPO = new EnterpriseUserPO();
-        EnterpriseUserId enterpriseUserId = entity.getId();
-        enterpriseUserPO.setId(enterpriseUserId == null ? null : enterpriseUserId.getValue());
-        enterpriseUserPO.setUserId(entity.getUserId().getValue());
-        enterpriseUserPO.setRecordNumber(entity.getCompany().getRecordNumber());
-        enterpriseUserPO.setCompanyName(entity.getCompany().getName());
-        enterpriseUserPO.setCeo(entity.getCompany().getCeo());
-        return enterpriseUserPO;
-    }
+    @Mappings({
+            @Mapping(target = "id", source = "id.value"),
+            @Mapping(target = "userId", source = "userId.value"),
+            @Mapping(target = "recordNumber", source = "company.recordNumber"),
+            @Mapping(target = "companyName", source = "company.name"),
+            @Mapping(target = "ceo", source = "company.ceo"),
+    })
+    public abstract EnterpriseUserPO convert(EnterpriseUser entity);
 
     @Override
-    public EnterpriseUser toEntity(@NonNull EnterpriseUserPO po) {
-        EnterpriseUser enterpriseUser = new EnterpriseUser();
-        enterpriseUser.setId(new EnterpriseUserId(po.getId()));
-        enterpriseUser.setUserId(new UserId(po.getUserId()));
-        enterpriseUser.setCompany(new Company(po.getRecordNumber(), po.getCompanyName(), po.getCeo()));
-        return enterpriseUser;
-    }
+    @Mappings({
+            @Mapping(target = "id.value", source = "id"),
+            @Mapping(target = "userId.value", source = "userId"),
+            @Mapping(target = "company.recordNumber", source = "recordNumber"),
+            @Mapping(target = "company.name", source = "companyName"),
+            @Mapping(target = "company.ceo", source = "ceo"),
+    })
+    public abstract EnterpriseUser convert(EnterpriseUserPO po);
 
 }
