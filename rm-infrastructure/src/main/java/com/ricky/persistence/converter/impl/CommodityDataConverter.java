@@ -68,6 +68,9 @@ public abstract class CommodityDataConverter implements AggregateDataConverter<C
     @Override
     public Commodity convert(CommodityPO po, Map<String, List<BasePO>> relatedPOLists) {
         Commodity commodity = convert(po);
+        if(CollUtils.isEmpty(relatedPOLists)) {
+            return commodity;
+        }
 
         List<CommodityImagePO> commodityImagePOS = CollUtils.listConvert(relatedPOLists.get(Commodity.RELATED_IMAGES), basePO -> (CommodityImagePO) basePO);
         List<AttributePO> attributePOS = CollUtils.listConvert(relatedPOLists.get(Commodity.RELATED_ATTRIBUTES), basePO -> (AttributePO) basePO);

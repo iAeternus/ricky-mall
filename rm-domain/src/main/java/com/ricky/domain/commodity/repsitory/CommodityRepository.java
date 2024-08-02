@@ -1,6 +1,7 @@
 package com.ricky.domain.commodity.repsitory;
 
 import com.ricky.domain.commodity.model.aggregate.Commodity;
+import com.ricky.types.commodity.Stock;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,7 +15,12 @@ import org.springframework.stereotype.Repository;
 public interface CommodityRepository {
     void saveCommodity(Commodity commodity);
 
+    void modifyCommodity(Commodity commodity);
+
     Commodity getById(Long id);
 
     void removeCommodity(Commodity commodity);
+
+    Commodity getSelfById(Long commodityId);
+
 }

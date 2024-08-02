@@ -3,6 +3,7 @@ package com.ricky.domain.commodity.service.impl;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.domain.commodity.repsitory.CommodityRepository;
 import com.ricky.domain.commodity.service.CommodityDomainService;
+import com.ricky.types.commodity.Stock;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class CommodityDomainServiceImpl implements CommodityDomainService {
 
     @Override
     public void modifyCommodity(Commodity commodity) {
-        commodityRepository.saveCommodity(commodity);
+        commodityRepository.modifyCommodity(commodity);
     }
 
     @Override
@@ -37,6 +38,13 @@ public class CommodityDomainServiceImpl implements CommodityDomainService {
     @Override
     public void removeCommodity(Commodity commodity) {
         commodityRepository.removeCommodity(commodity);
+    }
+
+    @Override
+    public void reduceStock(Long commodityId, Integer delta) {
+        Commodity commodity = commodityRepository.getSelfById(commodityId);
+        commodity.reduceStock(delta);
+        commodityRepository.saveCommodity(commodity);
     }
 
 }

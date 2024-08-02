@@ -6,6 +6,7 @@ import com.ricky.domain.commodity.model.entity.Image;
 import com.ricky.domain.commodity.model.entity.RelatedCommodity;
 import com.ricky.domain.commodity.model.entity.Supplier;
 import com.ricky.enums.impl.CommodityType;
+import com.ricky.exception.ForbiddenException;
 import com.ricky.exception.InsufficientStockException;
 import com.ricky.marker.Aggregate;
 import com.ricky.types.commodity.*;
@@ -69,12 +70,15 @@ public class Commodity implements Aggregate<CommodityId> {
     }
 
     /**
-     * 更新商品库存
-     *
-     * @param newStock 新的库存量
+     * 扣减库存
+     * @param delta 扣减量
      */
-    public void updateStock(Stock newStock) {
-        this.stock = newStock;
+    public void reduceStock(Integer delta) {
+        int newStock = this.stock.getValue() - delta;
+        if(newStock < 0) {
+            throw new ForbiddenException("库存不够");
+        }
+        this.stock = new Stock(newStock);
     }
 
     /**

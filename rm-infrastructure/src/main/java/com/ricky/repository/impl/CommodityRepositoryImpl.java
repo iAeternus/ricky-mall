@@ -8,15 +8,13 @@ import com.ricky.enums.impl.CommodityType;
 import com.ricky.marker.Entity;
 import com.ricky.marker.Identifier;
 import com.ricky.persistence.converter.AssociationDataConverter;
-import com.ricky.persistence.converter.impl.AttributeDataConverter;
-import com.ricky.persistence.converter.impl.CommodityImageDataConverter;
-import com.ricky.persistence.converter.impl.RelatedCommodityDataConverter;
-import com.ricky.persistence.converter.impl.SupplierDataConverter;
+import com.ricky.persistence.converter.impl.*;
 import com.ricky.persistence.mapper.*;
 import com.ricky.persistence.po.*;
 import com.ricky.types.commodity.CommodityId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -34,20 +32,29 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, CommodityId, CommodityPO> implements CommodityRepository {
 
+    private final CommodityMapper commodityMapper;
     private final RelatedCommodityMapper relatedCommodityMapper;
     private final AttributeMapper attributeMapper;
     private final CommodityImageMapper commodityImageMapper;
     private final SupplierMapper supplierMapper;
 
+    private final CommodityDataConverter commodityDataConverter;
     private final RelatedCommodityDataConverter relatedCommodityDataConverter;
     private final AttributeDataConverter attributeDataConverter;
     private final CommodityImageDataConverter commodityImageDataConverter;
     private final SupplierDataConverter supplierDataConverter;
 
     @Override
+    @Transactional
     public void saveCommodity(Commodity commodity) {
         // 新增的商品默认未上架
         commodity.setType(CommodityType.NOT_LISTED);
+        save(commodity);
+    }
+
+    @Override
+    @Transactional
+    public void modifyCommodity(Commodity commodity) {
         save(commodity);
     }
 
@@ -57,8 +64,15 @@ public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, Commodity
     }
 
     @Override
+    @Transactional
     public void removeCommodity(Commodity commodity) {
         remove(commodity);
+    }
+
+    @Override
+    public Commodity getSelfById(Long commodityId) {
+        CommodityPO commodityPO = commodityMapper.selectById(commodityId);
+        return commodityDataConverter.convert(commodityPO, null);
     }
 
     @Override

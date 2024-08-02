@@ -4,6 +4,7 @@ import com.ricky.assembler.decorator.RelatedCommodityDecorator;
 import com.ricky.constants.JsonFormatConstant;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.dto.command.ModifyCommodityCommand;
+import com.ricky.dto.command.ReduceStockCommand;
 import com.ricky.dto.command.SaveCommodityCommand;
 import com.ricky.dto.response.GetCommodityByIdResponse;
 import org.mapstruct.Mapper;
@@ -74,5 +75,7 @@ public interface CommodityAssembler {
             @Mapping(target = "id.value", source = "commodityId"),
     })
     Commodity convert(Long commodityId);
+
+    Commodity convert(ReduceStockCommand command);
 
 }

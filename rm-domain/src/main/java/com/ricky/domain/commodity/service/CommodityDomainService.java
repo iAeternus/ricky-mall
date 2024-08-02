@@ -19,4 +19,6 @@ public interface CommodityDomainService {
     Commodity getById(Long id);
 
     void removeCommodity(Commodity commodity);
+
+    void reduceStock(Long commodityId, Integer delta);
 }

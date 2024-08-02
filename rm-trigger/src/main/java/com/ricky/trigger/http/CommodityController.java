@@ -1,6 +1,7 @@
 package com.ricky.trigger.http;
 
 import com.ricky.dto.command.ModifyCommodityCommand;
+import com.ricky.dto.command.ReduceStockCommand;
 import com.ricky.dto.command.SaveCommodityCommand;
 import com.ricky.dto.response.GetCommodityByIdResponse;
 import com.ricky.model.Result;
@@ -39,18 +40,27 @@ public class CommodityController {
         return Result.ok();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     @ApiOperation("根据id查询商品")
     public Result<GetCommodityByIdResponse> getCommodityById(@PathVariable Long id) {
         GetCommodityByIdResponse response = commodityService.getCommodityById(id);
         return Result.ok(response);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/remove/{id}")
     @ApiOperation("根据id删除商品信息")
     public Result<Void> removeCommodity(@PathVariable Long id) {
         commodityService.removeCommodity(id);
         return Result.ok();
     }
+
+    @PutMapping("/reduce/stock")
+    @ApiOperation("扣减库存")
+    public Result<Void> reduceStock(@RequestBody ReduceStockCommand command) {
+        commodityService.reduceStock(command);
+        return Result.ok();
+    }
+
+
 
 }

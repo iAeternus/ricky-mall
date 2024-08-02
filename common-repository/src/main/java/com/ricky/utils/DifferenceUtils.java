@@ -123,9 +123,10 @@ public class DifferenceUtils {
 
             Object snapshotValue = snapshot == null ? null : field.get(snapshot);
             Object aggregateValue = aggregate == null ? null : field.get(aggregate);
-            if (snapshotValue == null && aggregateValue == null) {
+            if (/*snapshotValue == null && */aggregateValue == null) {
                 continue;
             }
+
             // 对比每个字段的差异
             FieldDifference fieldDifference = compareField(field, snapshotValue, aggregateValue);
             if (fieldDifference.getDifferenceType() == DifferenceType.UNTOUCHED) {
