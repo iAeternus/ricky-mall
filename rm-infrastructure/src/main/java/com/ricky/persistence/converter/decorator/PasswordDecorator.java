@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class PasswordDecorator {
 
-    public Password convert(String password) {
+    public Password map(String password) {
         return new Password(password, PasswordStatus.ENCRYPTED);
     }
 
-    public String convert(Password password) {
+    public String map(Password password) {
         return password.getValue();
     }
 

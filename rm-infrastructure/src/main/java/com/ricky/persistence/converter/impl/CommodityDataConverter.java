@@ -1,15 +1,13 @@
 package com.ricky.persistence.converter.impl;
 
+import com.ricky.constants.JsonFormatConstant;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
-import com.ricky.marker.Entity;
-import com.ricky.marker.Identifier;
 import com.ricky.persistence.converter.AggregateDataConverter;
 import com.ricky.persistence.converter.decorator.MoneyDecorator;
 import com.ricky.persistence.po.*;
 import com.ricky.types.commodity.CommodityId;
 import com.ricky.utils.CollUtils;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -56,11 +54,11 @@ public abstract class CommodityDataConverter implements AggregateDataConverter<C
             @Mapping(source = "categoryId.value", target = "categoryId"),
             @Mapping(source = "brand.name", target = "brandName"),
             @Mapping(source = "promotion.discountPrice.amount", target = "discountPrice"),
-            @Mapping(source = "promotion.startTime", target = "promotionStartTime", dateFormat = "yyyy-MM-dd HH:mm:ss"),
-            @Mapping(source = "promotion.endTime", target = "promotionEndTime", dateFormat = "yyyy-MM-dd HH:mm:ss"),
+            @Mapping(source = "promotion.startTime", target = "promotionStartTime", dateFormat = JsonFormatConstant.LOCAL_DATE_TIME),
+            @Mapping(source = "promotion.endTime", target = "promotionEndTime", dateFormat = JsonFormatConstant.LOCAL_DATE_TIME),
             @Mapping(source = "salesInformation.soldCount", target = "soldCount"),
-            @Mapping(source = "salesInformation.createTime", target = "createTime", dateFormat = "yyyy-MM-dd HH:mm:ss"),
-            @Mapping(source = "salesInformation.updateTime", target = "updateTime", dateFormat = "yyyy-MM-dd HH:mm:ss"),
+            @Mapping(source = "salesInformation.createTime", target = "createTime", dateFormat = JsonFormatConstant.LOCAL_DATE_TIME),
+            @Mapping(source = "salesInformation.updateTime", target = "updateTime", dateFormat = JsonFormatConstant.LOCAL_DATE_TIME),
             @Mapping(source = "seo.metaTitle", target = "metaTitle"),
             @Mapping(source = "seo.metaKeywords", target = "metaKeywords"),
             @Mapping(source = "seo.metaDescription", target = "metaDescription"),
@@ -99,11 +97,11 @@ public abstract class CommodityDataConverter implements AggregateDataConverter<C
             @Mapping(source = "brandName", target = "brand.name"),
             @Mapping(source = "discountPrice", target = "promotion.discountPrice.amount"),
             @Mapping(source = "currencyCode", target = "promotion.discountPrice.currency"),
-            @Mapping(source = "promotionStartTime", target = "promotion.startTime", dateFormat = "yyyy-MM-dd HH:mm:ss"),
-            @Mapping(source = "promotionEndTime", target = "promotion.endTime", dateFormat = "yyyy-MM-dd HH:mm:ss"),
+            @Mapping(source = "promotionStartTime", target = "promotion.startTime", dateFormat = JsonFormatConstant.LOCAL_DATE_TIME),
+            @Mapping(source = "promotionEndTime", target = "promotion.endTime", dateFormat = JsonFormatConstant.LOCAL_DATE_TIME),
             @Mapping(source = "soldCount", target = "salesInformation.soldCount"),
-            @Mapping(source = "createTime", target = "salesInformation.createTime", dateFormat = "yyyy-MM-dd HH:mm:ss"),
-            @Mapping(source = "updateTime", target = "salesInformation.updateTime", dateFormat = "yyyy-MM-dd HH:mm:ss"),
+            @Mapping(source = "createTime", target = "salesInformation.createTime", dateFormat = JsonFormatConstant.LOCAL_DATE_TIME),
+            @Mapping(source = "updateTime", target = "salesInformation.updateTime", dateFormat = JsonFormatConstant.LOCAL_DATE_TIME),
             @Mapping(source = "metaTitle", target = "seo.metaTitle"),
             @Mapping(source = "metaKeywords", target = "seo.metaKeywords"),
             @Mapping(source = "metaDescription", target = "seo.metaDescription"),

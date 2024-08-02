@@ -2,7 +2,10 @@ package com.ricky.dto.response;
 
 import com.ricky.enums.impl.UserRole;
 import com.ricky.types.common.Money;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Ricky
@@ -12,6 +15,9 @@ import lombok.Data;
  * @desc
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserInfoResponse implements Response {
 
     private Long id;

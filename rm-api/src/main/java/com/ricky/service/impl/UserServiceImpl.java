@@ -40,15 +40,15 @@ public class UserServiceImpl implements UserService {
     public void applyForEnterpriseUsers(ApplyEnterpriseUserCommand command) {
         User user = userDomainService.getById(command.getUserId());
         userDomainService.changeRole(user, UserRole.ENTERPRISE_USERS);
-        EnterpriseUser enterpriseUser = userAssembler.toEnterpriseUser(command);
+        EnterpriseUser enterpriseUser = userAssembler.convert(command);
         userDomainService.saveEnterpriseUser(enterpriseUser);
     }
 
     @Override
     public UserInfoResponse getByEmail(EmailQuery query) {
-        Email email = userAssembler.emailFactory(query);
+        Email email = userAssembler.convert(query);
         User user = userDomainService.getByEmail(email);
-        return userAssembler.userInfoResponseFactory(user);
+        return userAssembler.convert(user);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
     public void applyForStoreAuth(ApplyForStoreAuthCommand command) {
         User user = userDomainService.getById(command.getUserId());
         userDomainService.changeRole(user, UserRole.BUSINESS);
-        BusinessUser businessUser = userAssembler.toBusinessUser(command);
+        BusinessUser businessUser = userAssembler.convert(command);
         userDomainService.saveBusinessUser(businessUser);
     }
 

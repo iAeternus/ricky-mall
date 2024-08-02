@@ -1,5 +1,7 @@
 package com.ricky.assembler;
 
+import com.ricky.assembler.decorator.RelatedCommodityDecorator;
+import com.ricky.constants.JsonFormatConstant;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.domain.commodity.model.entity.RelatedCommodity;
 import com.ricky.dto.command.ModifyCommodityCommand;
@@ -8,7 +10,9 @@ import com.ricky.dto.response.GetCommodityByIdResponse;
 import com.ricky.types.commodity.*;
 import com.ricky.types.common.Weight;
 import com.ricky.utils.CollUtils;
-import org.springframework.stereotype.Service;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 /**
  * @author Ricky
@@ -17,76 +21,57 @@ import org.springframework.stereotype.Service;
  * @className CommodityAssembler
  * @desc
  */
-@Service
-public class CommodityAssembler {
+@Mapper(componentModel = "spring", uses = RelatedCommodityDecorator.class)
+public interface CommodityAssembler {
 
-    public Commodity toCommodity(SaveCommodityCommand command) {
-        return Commodity.builder()
-                .name(new CommodityName(command.getName()))
-                .description(new ProductDescription(command.getDescription()))
-                .price(command.getPrice())
-                .stock(new Stock(command.getStock()))
-                .weight(new Weight(command.getWeight(), command.getWeightUnit()))
-                .categoryId(new CategoryId(command.getCategoryId()))
-                .brand(new Brand(command.getBrandName()))
-                .seo(new SEO(command.getMetaTitle(), command.getMetaKeywords(), command.getMetaDescription()))
-                .images(command.getImages())
-                .attributes(command.getAttributes())
-                .suppliers(command.getSuppliers())
-                .relatedCommodities(command.getRelatedCommodities())
-                .build();
-    }
+    @Mappings({
+            @Mapping(target = "name.value", source = "name"),
+            @Mapping(target = "description.value", source = "description"),
+            @Mapping(target = "stock.value", source = "stock"),
+            @Mapping(target = "weight.value", source = "weight"),
+            @Mapping(target = "weight.unit", source = "weightUnit"),
+            @Mapping(target = "categoryId.value", source = "categoryId"),
+            @Mapping(target = "brand.name", source = "brandName"),
+            @Mapping(target = "seo.metaTitle", source = "metaTitle"),
+            @Mapping(target = "seo.metaKeywords", source = "metaKeywords"),
+            @Mapping(target = "seo.metaDescription", source = "metaDescription"),
+    })
+    Commodity convert(SaveCommodityCommand command);
 
-    public Commodity toCommodity(ModifyCommodityCommand command) {
-        return Commodity.builder()
-                .id(new CommodityId(command.getId()))
-                .name(new CommodityName(command.getName()))
-                .description(new ProductDescription(command.getDescription()))
-                .price(command.getPrice())
-                .weight(new Weight(command.getWeight(), command.getWeightUnit()))
-                .categoryId(new CategoryId(command.getCategoryId()))
-                .brand(new Brand(command.getName()))
-                .seo(new SEO(command.getMetaTitle(), command.getMetaKeywords(), command.getMetaDescription()))
-                .images(command.getImages())
-                .attributes(command.getAttributes())
-                .suppliers(command.getSuppliers())
-                .relatedCommodities(command.getRelatedCommodities())
-                .build();
-    }
+    @Mappings({
+            @Mapping(target = "id.value", source = "id"),
+            @Mapping(target = "name.value", source = "name"),
+            @Mapping(target = "description.value", source = "description"),
+            @Mapping(target = "weight.value", source = "weight"),
+            @Mapping(target = "weight.unit", source = "weightUnit"),
+            @Mapping(target = "categoryId.value", source = "categoryId"),
+            @Mapping(target = "brand.name", source = "brandName"),
+            @Mapping(target = "seo.metaTitle", source = "metaTitle"),
+            @Mapping(target = "seo.metaKeywords", source = "metaKeywords"),
+            @Mapping(target = "seo.metaDescription", source = "metaDescription"),
+    })
+    Commodity convert(ModifyCommodityCommand command);
 
-    // private List<Commodity> mapCommodityList(List<Long> commodityIds) {
-    //     return commodityIds.stream()
-    //             .map(commodityId -> new Commodity(new CommodityId(commodityId)))
-    //             .toList();
-    // }
-
-    public GetCommodityByIdResponse toGetCommodityByIdResponse(Commodity commodity) {
-        Promotion promotion = commodity.getPromotion();
-        return GetCommodityByIdResponse.builder()
-                .id(commodity.getId().getValue())
-                .name(commodity.getName().getValue())
-                .description(commodity.getDescription().getValue())
-                .price(commodity.getPrice())
-                .stock(commodity.getStock().getValue())
-                .weight(commodity.getWeight().getValue())
-                .weightUnit(commodity.getWeight().getUnit())
-                .commodityType(commodity.getType())
-                .categoryId(commodity.getCategoryId().getValue())
-                .brandName(commodity.getBrand().getName())
-                .discountPrice(promotion == null ? null : promotion.getDiscountPrice())
-                .promotionStartTime(promotion == null ? null : promotion.getStartTime())
-                .promotionEndTime(promotion == null ? null : promotion.getEndTime())
-                .soldCount(commodity.getSalesInformation().getSoldCount())
-                .createTime(commodity.getSalesInformation().getCreateTime())
-                .updateTime(commodity.getSalesInformation().getUpdateTime())
-                .metaTitle(commodity.getSeo().getMetaTitle())
-                .metaKeywords(commodity.getSeo().getMetaKeywords())
-                .metaDescription(commodity.getSeo().getMetaDescription())
-                .images(commodity.getImages())
-                .attributes(commodity.getAttributes())
-                .suppliers(commodity.getSuppliers())
-                .relatedCommodities(CollUtils.listConvert(commodity.getRelatedCommodities(), RelatedCommodity::getRelatedCommodityId))
-                .build();
-    }
+    @Mappings({
+            @Mapping(target = "id", source = "id.value"),
+            @Mapping(target = "name", source = "name.value"),
+            @Mapping(target = "description", source = "description.value"),
+            @Mapping(target = "stock", source = "stock.value"),
+            @Mapping(target = "weight", source = "weight.value"),
+            @Mapping(target = "weightUnit", source = "weight.unit"),
+            @Mapping(target = "commodityType", source = "type"),
+            @Mapping(target = "categoryId", source = "categoryId.value"),
+            @Mapping(target = "brandName", source = "brand.name"),
+            @Mapping(target = "discountPrice", source = "promotion.discountPrice"),
+            @Mapping(target = "promotionStartTime", source = "promotion.startTime", dateFormat = JsonFormatConstant.LOCAL_DATE_TIME),
+            @Mapping(target = "promotionEndTime", source = "promotion.endTime", dateFormat = JsonFormatConstant.LOCAL_DATE_TIME),
+            @Mapping(target = "soldCount", source = "salesInformation.soldCount"),
+            @Mapping(target = "createTime", source = "salesInformation.createTime"),
+            @Mapping(target = "updateTime", source = "salesInformation.updateTime"),
+            @Mapping(target = "metaTitle", source = "seo.metaTitle"),
+            @Mapping(target = "metaKeywords", source = "seo.metaKeywords"),
+            @Mapping(target = "metaDescription", source = "seo.metaDescription"),
+    })
+    GetCommodityByIdResponse convert(Commodity commodity);
 
 }

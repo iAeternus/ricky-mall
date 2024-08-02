@@ -14,11 +14,11 @@ import java.util.Currency;
 @Service
 public class MoneyDecorator {
 
-    public Currency convert(String currencyCode) {
+    public Currency map(String currencyCode) {
         return Currency.getInstance(currencyCode);
     }
 
-    public String convert(Currency currency) {
+    public String map(Currency currency) {
         return currency.getCurrencyCode();
     }
 

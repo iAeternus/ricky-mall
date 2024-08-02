@@ -26,20 +26,20 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public void saveCommodity(SaveCommodityCommand command) {
-        Commodity commodity = commodityAssembler.toCommodity(command);
+        Commodity commodity = commodityAssembler.convert(command);
         commodityDomainService.saveCommodity(commodity);
     }
 
     @Override
     public void modifyCommodity(ModifyCommodityCommand command) {
-        Commodity commodity = commodityAssembler.toCommodity(command);
+        Commodity commodity = commodityAssembler.convert(command);
         commodityDomainService.modifyCommodity(commodity);
     }
 
     @Override
     public GetCommodityByIdResponse getCommodityById(Long id) {
         Commodity commodity = commodityDomainService.getById(id);
-        return commodityAssembler.toGetCommodityByIdResponse(commodity);
+        return commodityAssembler.convert(commodity);
     }
 
 

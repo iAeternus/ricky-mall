@@ -14,7 +14,7 @@ import lombok.Data;
 public class ApplyForStoreAuthCommand implements Command {
 
     private Long userId;
-    private String name; // 店铺名称
+    private String storeName; // 店铺名称
     private String boss; // 老板名称
     private String recordNumber; // 备案号
     private StoreType storeType; // 店铺类型

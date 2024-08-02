@@ -8,6 +8,7 @@ import com.ricky.types.common.ExchangeRate;
 import com.ricky.types.common.Money;
 import com.ricky.types.user.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ import java.math.BigDecimal;
  * @desc 用户
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements Aggregate<UserId> {

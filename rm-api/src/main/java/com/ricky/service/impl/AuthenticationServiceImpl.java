@@ -35,20 +35,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     @Transactional
     public RegisterResponse register(RegisterCommand request) {
-        User user = userAssembler.toUser(request);
+        User user = userAssembler.convert(request);
         userDomainService.saveUser(user);
         Map<String, Object> claims = userDomainService.getClaims(user);
         String jwt = JwtUtils.createJWT(jwtProperties.getSecretKey(), jwtProperties.getTtl(), claims);
-        return userAssembler.registerResponseFactory(jwt, user.getPassword().getStrength());
+        return userAssembler.convert(jwt, user.getPassword().getStrength());
     }
 
     @Override
     public AuthenticationResponse authentication(AuthenticationQuery request) {
-        User user = userAssembler.toUser(request);
+        User user = userAssembler.convert(request);
         user = userDomainService.login(user);
         Map<String, Object> claims = userDomainService.getClaims(user);
         String jwt = JwtUtils.createJWT(jwtProperties.getSecretKey(), jwtProperties.getTtl(), claims);
-        return userAssembler.authenticationResponseFactory(jwt);
+        return userAssembler.convert(jwt);
     }
 
 }

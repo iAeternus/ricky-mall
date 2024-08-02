@@ -13,8 +13,11 @@ import com.ricky.dto.response.RegisterResponse;
 import com.ricky.dto.response.UserInfoResponse;
 import com.ricky.enums.impl.PasswordStatus;
 import com.ricky.enums.impl.PasswordStrength;
+import com.ricky.persistence.converter.decorator.PasswordDecorator;
 import com.ricky.types.user.*;
-import org.springframework.stereotype.Service;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 /**
  * @author Ricky
@@ -23,69 +26,122 @@ import org.springframework.stereotype.Service;
  * @className UserAssembler
  * @desc
  */
-@Service
-public class UserAssembler {
+@Mapper(componentModel = "spring", uses = PasswordDecorator.class)
+public interface UserAssembler {
 
-    public User toUser(RegisterCommand request) {
-        User user = new User();
-        user.setEmail(new Email(request.getEmail()));
-        user.setPassword(new Password(request.getPassword(), PasswordStatus.UNENCRYPTED));
-        user.setNickname(new Nickname(request.getNickname()));
-        user.setRealName(new RealName(request.getFirstName(), request.getLastName()));
-        user.setPhoneNumber(new PhoneNumber(request.getPhoneNumber()));
-        return user;
-    }
+    @Mappings({
+            @Mapping(target = "email.address", source = "email"),
+            // @Mapping(target = "password.value", source = "password"),
+            @Mapping(target = "nickname.value", source = "nickname"),
+            @Mapping(target = "realName.firstName", source = "firstName"),
+            @Mapping(target = "realName.lastName", source = "lastName"),
+            @Mapping(target = "phoneNumber.value", source = "phoneNumber"),
+    })
+    User convert(RegisterCommand command);
 
-    public User toUser(AuthenticationQuery request) {
-        User user = new User();
-        user.setEmail(new Email(request.getEmail()));
-        user.setPassword(new Password(request.getPassword(), PasswordStatus.UNENCRYPTED));
-        return user;
-    }
+    @Mappings({
+            @Mapping(target = "email.address", source = "email"),
+            // @Mapping(target = "password", source = "password.value"),
+    })
+    User convert(AuthenticationQuery query);
 
-    public RegisterResponse registerResponseFactory(String token, PasswordStrength strength) {
-        return new RegisterResponse(token, strength);
-    }
+    RegisterResponse convert(String token, PasswordStrength strength);
 
-    public AuthenticationResponse authenticationResponseFactory(String token) {
-        return new AuthenticationResponse(token);
-    }
+    AuthenticationResponse convert(String token);
 
-    public EnterpriseUser toEnterpriseUser(ApplyEnterpriseUserCommand command) {
-        EnterpriseUser enterpriseUser = new EnterpriseUser();
-        enterpriseUser.setUserId(new UserId(command.getUserId()));
-        enterpriseUser.setCompany(new Company(command.getRecordNumber(), command.getName(), command.getCeo()));
-        return enterpriseUser;
-    }
+    @Mappings({
+            @Mapping(target = "userId.value", source = "userId"),
+            @Mapping(target = "company.recordNumber", source = "recordNumber"),
+            @Mapping(target = "company.name", source = "companyName"),
+            @Mapping(target = "company.ceo", source = "ceo"),
+    })
+    EnterpriseUser convert(ApplyEnterpriseUserCommand command);
 
-    public Email emailFactory(EmailQuery query) {
-        return new Email(query.getEmail());
-    }
+    @Mappings({
+            @Mapping(target = "address", source = "email"),
+    })
+    Email convert(EmailQuery query);
 
-    public UserInfoResponse userInfoResponseFactory(User user) {
-        UserInfoResponse userInfoResponse = new UserInfoResponse();
-        userInfoResponse.setId(user.getId().getValue());
-        userInfoResponse.setEmail(user.getEmail().getAddress());
-        userInfoResponse.setNickname(user.getNickname().getValue());
-        userInfoResponse.setFirstName(user.getRealName().getFirstName());
-        userInfoResponse.setLastName(user.getRealName().getLastName());
-        userInfoResponse.setPhoneNumber(user.getPhoneNumber().getValue());
-        userInfoResponse.setRole(user.getRole());
-        userInfoResponse.setIntegral(user.getIntegral().getValue());
-        userInfoResponse.setLevel(user.getLevel().getValue());
-        userInfoResponse.setBalance(user.getBalance());
-        return userInfoResponse;
-    }
+    @Mappings({
+            @Mapping(target = "id", source = "id.value"),
+            @Mapping(target = "email", source = "email.address"),
+            @Mapping(target = "nickname", source = "nickname.value"),
+            @Mapping(target = "firstName", source = "realName.firstName"),
+            @Mapping(target = "lastName", source = "realName.lastName"),
+            @Mapping(target = "phoneNumber", source = "phoneNumber.value"),
+            @Mapping(target = "integral", source = "integral.value"),
+            @Mapping(target = "level", source = "level.value"),
+    })
+    UserInfoResponse convert(User user);
 
-    public BusinessUser toBusinessUser(ApplyForStoreAuthCommand command) {
-        BusinessUser businessUser = new BusinessUser();
-        businessUser.setUserId(new UserId(command.getUserId()));
-        businessUser.setStore(new Store(
-                command.getName(),
-                command.getBoss(),
-                command.getRecordNumber()
-        ));
-        businessUser.setStoreType(command.getStoreType());
-        return businessUser;
-    }
+    @Mappings({
+            @Mapping(target = "userId.value", source = "userId"),
+            @Mapping(target = "store.name", source = "storeName"),
+            @Mapping(target = "store.boss", source = "boss"),
+            @Mapping(target = "store.recordNumber", source = "recordNumber"),
+    })
+    BusinessUser convert(ApplyForStoreAuthCommand command);
+
+    // public User convert(RegisterCommand request) {
+    //     User user = new User();
+    //     user.setEmail(new Email(request.getEmail()));
+    //     user.setPassword(new Password(request.getPassword(), PasswordStatus.UNENCRYPTED));
+    //     user.setNickname(new Nickname(request.getNickname()));
+    //     user.setRealName(new RealName(request.getFirstName(), request.getLastName()));
+    //     user.setPhoneNumber(new PhoneNumber(request.getPhoneNumber()));
+    //     return user;
+    // }
+    //
+    // public User convert(AuthenticationQuery request) {
+    //     User user = new User();
+    //     user.setEmail(new Email(request.getEmail()));
+    //     user.setPassword(new Password(request.getPassword(), PasswordStatus.UNENCRYPTED));
+    //     return user;
+    // }
+    //
+    // public RegisterResponse convert(String token, PasswordStrength strength) {
+    //     return new RegisterResponse(token, strength);
+    // }
+    //
+    // public AuthenticationResponse convert(String token) {
+    //     return new AuthenticationResponse(token);
+    // }
+    //
+    // public EnterpriseUser convert(ApplyEnterpriseUserCommand command) {
+    //     EnterpriseUser enterpriseUser = new EnterpriseUser();
+    //     enterpriseUser.setUserId(new UserId(command.getUserId()));
+    //     enterpriseUser.setCompany(new Company(command.getRecordNumber(), command.getName(), command.getCeo()));
+    //     return enterpriseUser;
+    // }
+    //
+    // public Email convert(EmailQuery query) {
+    //     return new Email(query.getEmail());
+    // }
+    //
+    // public UserInfoResponse convert(User user) {
+    //     UserInfoResponse userInfoResponse = new UserInfoResponse();
+    //     userInfoResponse.setId(user.getId().getValue());
+    //     userInfoResponse.setEmail(user.getEmail().getAddress());
+    //     userInfoResponse.setNickname(user.getNickname().getValue());
+    //     userInfoResponse.setFirstName(user.getRealName().getFirstName());
+    //     userInfoResponse.setLastName(user.getRealName().getLastName());
+    //     userInfoResponse.setPhoneNumber(user.getPhoneNumber().getValue());
+    //     userInfoResponse.setRole(user.getRole());
+    //     userInfoResponse.setIntegral(user.getIntegral().getValue());
+    //     userInfoResponse.setLevel(user.getLevel().getValue());
+    //     userInfoResponse.setBalance(user.getBalance());
+    //     return userInfoResponse;
+    // }
+    //
+    // public BusinessUser convert(ApplyForStoreAuthCommand command) {
+    //     BusinessUser businessUser = new BusinessUser();
+    //     businessUser.setUserId(new UserId(command.getUserId()));
+    //     businessUser.setStore(new Store(
+    //             command.getName(),
+    //             command.getBoss(),
+    //             command.getRecordNumber()
+    //     ));
+    //     businessUser.setStoreType(command.getStoreType());
+    //     return businessUser;
+    // }
 }

@@ -14,7 +14,7 @@ public class ApplyEnterpriseUserCommand implements Command {
 
     private Long userId;
     private String recordNumber; // 备案号
-    private String name; // 公司名
+    private String companyName; // 公司名
     private String ceo; // 首席执行官
 
 }

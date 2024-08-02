@@ -1,6 +1,8 @@
 package com.ricky.dto.query;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Ricky
@@ -10,6 +12,8 @@ import lombok.Data;
  * @desc
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmailQuery implements Query {
 
     private String email;

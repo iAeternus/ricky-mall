@@ -1,5 +1,6 @@
 package com.ricky.dto.command;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -10,6 +11,7 @@ import lombok.Data;
  * @desc 注册请求实体
  */
 @Data
+@Builder
 public class RegisterCommand implements Command {
 
     private String email;

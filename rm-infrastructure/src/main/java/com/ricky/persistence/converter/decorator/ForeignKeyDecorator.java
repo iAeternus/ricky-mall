@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Service
 public class ForeignKeyDecorator {
 
-    public Long convert(Serializable id) {
+    public Long map(Serializable id) {
         return Long.valueOf(id.toString());
     }
 
