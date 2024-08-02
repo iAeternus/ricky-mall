@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
  * @author Ricky
  * @version 1.0
  * @date 2024/8/1
- * @className PasswordDecorator
+ * @className PasswordNoEncryptionDecorator
  * @desc
  */
 @Service
-public class PasswordDecorator {
+public class PasswordNoEncryptionDecorator {
 
     public Password map(String password) {
-        return new Password(password, PasswordStatus.ENCRYPTED);
+        return new Password(password, PasswordStatus.NO_ENCRYPTION_REQUIRED);
     }
 
     public String map(Password password) {

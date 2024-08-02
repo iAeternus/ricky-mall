@@ -15,6 +15,9 @@ import java.io.Serializable;
 public class ForeignKeyDecorator {
 
     public Long map(Serializable id) {
+        if (id == null) {
+            return null;
+        }
         return Long.valueOf(id.toString());
     }
 

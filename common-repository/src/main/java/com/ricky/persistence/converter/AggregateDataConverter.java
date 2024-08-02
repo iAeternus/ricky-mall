@@ -38,9 +38,10 @@ public interface AggregateDataConverter<T extends Aggregate<ID>, ID extends Iden
 
     /**
      * 获取关联对象PO列表
+     *
      * @param aggregate 聚合根
+     * @param <P>       关联对象PO类型
      * @return 返货Map，键-字段名，值-关联对象PO列表
-     * @param <P> 关联对象PO类型
      */
     <P extends BasePO> Map<String, List<P>> getAssociationPOLists(@NonNull T aggregate);
 

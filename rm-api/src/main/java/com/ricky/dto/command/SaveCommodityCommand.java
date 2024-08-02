@@ -6,8 +6,10 @@ import com.ricky.domain.commodity.model.entity.RelatedCommodity;
 import com.ricky.domain.commodity.model.entity.Supplier;
 import com.ricky.enums.impl.WeightUnit;
 import com.ricky.types.common.Money;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -20,6 +22,8 @@ import java.util.List;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SaveCommodityCommand implements Command {
 
     /*
@@ -27,18 +31,12 @@ public class SaveCommodityCommand implements Command {
 {
   "attributes": [
     {
-      "attributesKey": "color",
-      "attributesValue": "red",
-      "id": {
-        "value": 1
-      }
+      "attributeKey": "color",
+      "attributeValue": "red"
     },
     {
-      "attributesKey": "size",
-      "attributesValue": "small",
-      "id": {
-        "value": 2
-      }
+      "attributeKey": "size",
+      "attributeValue": "small"
     }
   ],
   "brandName": "xxx",
@@ -46,25 +44,16 @@ public class SaveCommodityCommand implements Command {
   "description": "用过都说好",
   "images": [
     {
-      "id": {
-        "value": 1
-      },
       "name": "图1",
       "sizeInBytes": 1024,
       "url": "https://bilibili.com"
     },
     {
-      "id": {
-        "value": 2
-      },
       "name": "图2",
       "sizeInBytes": 1024,
       "url": "https://bilibili.com"
     },
     {
-      "id": {
-        "value": 3
-      },
       "name": "图3",
       "sizeInBytes": 1024,
       "url": "https://bilibili.com"
@@ -80,27 +69,15 @@ public class SaveCommodityCommand implements Command {
   },
   "relatedCommodities": [
     {
-      "id": {
-        "value": 1
-      },
       "relatedCommodityId": 10
     },
     {
-      "id": {
-        "value": 2
-      },
       "relatedCommodityId": 11
     },
     {
-      "id": {
-        "value": 3
-      },
       "relatedCommodityId": 12
     },
     {
-      "id": {
-        "value": 4
-      },
       "relatedCommodityId": 13
     }
   ],

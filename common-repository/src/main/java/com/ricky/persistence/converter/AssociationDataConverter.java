@@ -3,7 +3,6 @@ package com.ricky.persistence.converter;
 import com.ricky.marker.Entity;
 import com.ricky.marker.Identifier;
 import com.ricky.persistence.po.BasePO;
-import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;

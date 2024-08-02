@@ -22,7 +22,7 @@ public class Password implements ValueObject {
 
     public Password(String password, PasswordStatus status) {
         NullException.isNull(password, "password不能为空");
-        if(status == PasswordStatus.UNENCRYPTED) {
+        if (status == PasswordStatus.UNENCRYPTED) {
             this.strength = calculateStrength(password);
             this.value = DigestUtils.md5DigestAsHex(password.getBytes());
         } else {
@@ -43,6 +43,7 @@ public class Password implements ValueObject {
     }
 
     // 检查密码是否包含特定类型的字符
+
     /**
      * 计算密码强度
      *

@@ -1,12 +1,11 @@
 package com.ricky.domain.commodity.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ricky.exception.NullException;
 import com.ricky.marker.Entity;
 import com.ricky.types.commodity.SupplierId;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @author Ricky
@@ -24,6 +23,7 @@ public class Supplier implements Entity<SupplierId> {
     private String contact; // 联系方式
     private String address; // 地址
 
+    @JsonCreator
     public Supplier(SupplierId id, String name, String contact, String address) {
         NullException.isNull(name, "供应商名称不能为空");
 

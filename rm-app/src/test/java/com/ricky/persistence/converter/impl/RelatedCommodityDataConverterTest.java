@@ -2,7 +2,6 @@ package com.ricky.persistence.converter.impl;
 
 import com.ricky.domain.commodity.model.entity.RelatedCommodity;
 import com.ricky.persistence.po.RelatedCommodityPO;
-import com.ricky.types.commodity.CommodityId;
 import com.ricky.types.commodity.RelatedCommodityId;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

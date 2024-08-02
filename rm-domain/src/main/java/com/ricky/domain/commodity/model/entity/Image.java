@@ -1,5 +1,6 @@
 package com.ricky.domain.commodity.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ricky.exception.NullException;
 import com.ricky.marker.Entity;
 import com.ricky.types.commodity.ImageId;
@@ -28,6 +29,7 @@ public class Image implements Entity<ImageId> {
     private String url; // 图片url
     private Long sizeInBytes; // 图片大小，以字节为单位
 
+    @JsonCreator
     public Image(String name, String url, Long sizeInBytes) {
         NullException.isNull(url, "图片url不能为空");
         if (sizeInBytes == null || sizeInBytes <= 0) {

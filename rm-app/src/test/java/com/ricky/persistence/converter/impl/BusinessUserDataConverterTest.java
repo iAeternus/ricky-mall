@@ -6,7 +6,6 @@ import com.ricky.persistence.po.BusinessUserPO;
 import com.ricky.types.user.BusinessUserId;
 import com.ricky.types.user.Store;
 import com.ricky.types.user.UserId;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,7 +28,7 @@ public class BusinessUserDataConverterTest {
     @Test
     public void convert() {
         // Given
-        BusinessUser  businessUser = new BusinessUser(
+        BusinessUser businessUser = new BusinessUser(
                 new BusinessUserId(1L),
                 new UserId(1L),
                 new Store("xxx", "xxx", "xxx"),

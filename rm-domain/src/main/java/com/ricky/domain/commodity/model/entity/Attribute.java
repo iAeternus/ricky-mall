@@ -1,5 +1,7 @@
 package com.ricky.domain.commodity.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ricky.exception.NullException;
 import com.ricky.marker.Entity;
 import com.ricky.types.commodity.AttributeId;
@@ -21,7 +23,10 @@ public class Attribute implements Entity<AttributeId> {
     private String attributeKey; // 属性键
     private String attributeValue; // 属性值
 
-    public Attribute(AttributeId id, String attributeKey, String attributeValue) {
+    @JsonCreator
+    public Attribute(@JsonProperty("id") AttributeId id,
+                     @JsonProperty("attributeKey") String attributeKey,
+                     @JsonProperty("attributeValue") String attributeValue) {
         NullException.isNull(attributeKey, "商品属性键不能为空");
         NullException.isNull(attributeValue, "商品属性值不能为空");
 

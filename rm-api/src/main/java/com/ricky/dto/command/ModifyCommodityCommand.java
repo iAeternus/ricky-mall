@@ -6,8 +6,10 @@ import com.ricky.domain.commodity.model.entity.RelatedCommodity;
 import com.ricky.domain.commodity.model.entity.Supplier;
 import com.ricky.enums.impl.WeightUnit;
 import com.ricky.types.common.Money;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -20,6 +22,8 @@ import java.util.List;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ModifyCommodityCommand implements Command {
 
     /*
@@ -27,21 +31,21 @@ public class ModifyCommodityCommand implements Command {
 {
   "attributes": [
     {
-      "attributesKey": "color",
-      "attributesValue": "red",
+      "attributeKey": "color",
+      "attributeValue": "red",
       "id": {
-        "value": 1
+        "value": 42
       }
     }
   ],
   "brandName": "xxx",
   "categoryId": 1,
   "description": "用过都说好啊",
-  "id": 51,
+  "id": 61,
   "images": [
     {
       "id": {
-        "value": 1
+        "value": 90
       },
       "name": "图1",
       "sizeInBytes": 1024,
@@ -49,7 +53,7 @@ public class ModifyCommodityCommand implements Command {
     },
     {
       "id": {
-        "value": 2
+        "value": 91
       },
       "name": "图2",
       "sizeInBytes": 1024,
@@ -57,17 +61,19 @@ public class ModifyCommodityCommand implements Command {
     },
     {
       "id": {
-        "value": 3
+        "value": 92
       },
-      "name": "图3",
+      "name": "图3-1",
       "sizeInBytes": 1024,
       "url": "https://bilibili.com"
     },
     {
-      "id": {
-        "value": 4
-      },
-      "name": "图4",
+      "name": "图3-2",
+      "sizeInBytes": 1024,
+      "url": "https://bilibili.com"
+    },
+    {
+      "name": "图3-3",
       "sizeInBytes": 1024,
       "url": "https://bilibili.com"
     }
@@ -80,24 +86,30 @@ public class ModifyCommodityCommand implements Command {
     "amount": 1000,
     "currency": "CNY"
   },
-  "relatedCommodityIds": [
+  "relatedCommodities": [
     {
       "id": {
-        "value": 1
+        "value": 53
       },
       "relatedCommodityId": 10
     },
     {
       "id": {
-        "value": 2
+        "value": 54
       },
       "relatedCommodityId": 11
     },
     {
       "id": {
-        "value": 4
+        "value": 55
       },
-      "relatedCommodityId": 13
+      "relatedCommodityId": 12
+    },
+    {
+      "id": {
+        "value": 56
+      },
+      "relatedCommodityId": 15
     }
   ],
   "stock": 1000,

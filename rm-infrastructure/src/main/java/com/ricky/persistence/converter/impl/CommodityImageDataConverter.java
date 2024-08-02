@@ -5,11 +5,9 @@ import com.ricky.persistence.converter.AssociationDataConverter;
 import com.ricky.persistence.converter.decorator.ForeignKeyDecorator;
 import com.ricky.persistence.po.CommodityImagePO;
 import com.ricky.types.commodity.ImageId;
-import lombok.NonNull;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 

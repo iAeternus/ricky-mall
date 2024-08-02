@@ -4,12 +4,9 @@ import com.ricky.domain.user.model.entity.BusinessUser;
 import com.ricky.persistence.converter.DataConverter;
 import com.ricky.persistence.po.BusinessUserPO;
 import com.ricky.types.user.BusinessUserId;
-import com.ricky.types.user.Store;
-import lombok.NonNull;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import org.springframework.stereotype.Service;
 
 /**
  * @author Ricky

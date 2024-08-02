@@ -3,14 +3,10 @@ package com.ricky.persistence.converter.impl;
 import com.ricky.domain.user.model.entity.EnterpriseUser;
 import com.ricky.persistence.converter.DataConverter;
 import com.ricky.persistence.po.EnterpriseUserPO;
-import com.ricky.types.user.Company;
 import com.ricky.types.user.EnterpriseUserId;
-import com.ricky.types.user.UserId;
-import lombok.NonNull;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import org.springframework.stereotype.Service;
 
 /**
  * @author Ricky

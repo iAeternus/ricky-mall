@@ -50,7 +50,7 @@ public class UserAssemblerTest {
         // Then
         assertThat(user).isEqualTo(User.builder()
                 .email(new Email("10449469060@qq.com"))
-                .password(new Password("123456", PasswordStatus.NO_ENCRYPTION_REQUIRED))
+                .password(new Password("123456", PasswordStatus.UNENCRYPTED))
                 .nickname(new Nickname("Ricky"))
                 .realName(new RealName("Wu", "Zi wei"))
                 .phoneNumber(new PhoneNumber("13872069156"))
@@ -68,7 +68,7 @@ public class UserAssemblerTest {
         // Then
         assertThat(user).isEqualTo(User.builder()
                 .email(new Email("10449469060@qq.com"))
-                .password(new Password("123456", PasswordStatus.NO_ENCRYPTION_REQUIRED))
+                .password(new Password("123456", PasswordStatus.UNENCRYPTED))
                 .build());
     }
 

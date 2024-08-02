@@ -1,6 +1,5 @@
 package com.ricky.types.commodity;
 
-import com.ricky.exception.NullException;
 import com.ricky.marker.ValueObject;
 import com.ricky.types.common.Money;
 import lombok.Builder;

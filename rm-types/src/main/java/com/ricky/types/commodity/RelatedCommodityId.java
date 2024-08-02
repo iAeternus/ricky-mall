@@ -2,7 +2,6 @@ package com.ricky.types.commodity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ricky.exception.NullException;
 import com.ricky.marker.Identifier;
 import lombok.Value;
 
