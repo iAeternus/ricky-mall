@@ -1,6 +1,7 @@
 package com.ricky.trigger.http;
 
 import com.ricky.dto.command.ModifyCommodityCommand;
+import com.ricky.dto.command.ModifyCommodityPriceCommand;
 import com.ricky.dto.command.ReduceStockCommand;
 import com.ricky.dto.command.SaveCommodityCommand;
 import com.ricky.dto.response.GetCommodityByIdResponse;
@@ -61,6 +62,11 @@ public class CommodityController {
         return Result.ok();
     }
 
-
+    @PutMapping("/modify/price")
+    @ApiOperation("变更商品价格")
+    public Result<Void> modifyPrice(@RequestBody ModifyCommodityPriceCommand command) {
+        commodityService.modifyPrice(command);
+        return Result.ok();
+    }
 
 }

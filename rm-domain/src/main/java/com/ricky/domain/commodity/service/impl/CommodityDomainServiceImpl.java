@@ -7,6 +7,8 @@ import com.ricky.types.commodity.Stock;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 /**
  * @author Ricky
  * @version 1.0
@@ -44,7 +46,14 @@ public class CommodityDomainServiceImpl implements CommodityDomainService {
     public void reduceStock(Long commodityId, Integer delta) {
         Commodity commodity = commodityRepository.getSelfById(commodityId);
         commodity.reduceStock(delta);
-        commodityRepository.saveCommodity(commodity);
+        commodityRepository.modifyCommodity(commodity);
+    }
+
+    @Override
+    public void modifyPrice(Long commodityId, BigDecimal delta) {
+        Commodity commodity = commodityRepository.getSelfById(commodityId);
+        commodity.updatePrice(delta);
+        commodityRepository.modifyCommodity(commodity);
     }
 
 }

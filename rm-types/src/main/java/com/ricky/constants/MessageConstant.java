@@ -13,5 +13,6 @@ public abstract class MessageConstant {
     public static final String INCORRECT_PASSWORD = "密码不正确";
     public static final String BALANCE_NOT_ENOUGH = "余额不足";
     public static final String INSUFFICIENT_STOCK = "库存不足，无法完成交易";
+    public static final String LESS_THAN_ZERO = "数值不能小于0";
 
 }

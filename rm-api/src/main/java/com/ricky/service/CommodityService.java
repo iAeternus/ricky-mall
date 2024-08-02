@@ -1,6 +1,7 @@
 package com.ricky.service;
 
 import com.ricky.dto.command.ModifyCommodityCommand;
+import com.ricky.dto.command.ModifyCommodityPriceCommand;
 import com.ricky.dto.command.ReduceStockCommand;
 import com.ricky.dto.command.SaveCommodityCommand;
 import com.ricky.dto.response.GetCommodityByIdResponse;
@@ -24,4 +25,6 @@ public interface CommodityService {
     void removeCommodity(Long id);
 
     void reduceStock(ReduceStockCommand command);
+
+    void modifyPrice(ModifyCommodityPriceCommand command);
 }

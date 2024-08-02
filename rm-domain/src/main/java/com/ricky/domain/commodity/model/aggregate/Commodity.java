@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -61,46 +62,26 @@ public class Commodity implements Aggregate<CommodityId> {
     }
 
     /**
-     * 更新商品价格
-     *
-     * @param newPrice 新的商品价格
-     */
-    public void updatePrice(Money newPrice) {
-        this.price = newPrice;
-    }
-
-    /**
-     * 扣减库存
-     * @param delta 扣减量
-     */
-    public void reduceStock(Integer delta) {
-        int newStock = this.stock.getValue() - delta;
-        if(newStock < 0) {
-            throw new ForbiddenException("库存不够");
-        }
-        this.stock = new Stock(newStock);
-    }
-
-    /**
-     * 校验库存是否足够进行销售
-     *
-     * @param quantity 请求销售的数量
-     * @return 如果库存足够返回true，否则返回false
-     */
-    public boolean checkStock(int quantity) {
-        return this.stock.getValue() >= quantity;
-    }
-
-    /**
      * 减少库存量
      *
-     * @param quantity 减少的数量
+     * @param delta 减少的数量
      */
-    public void reduceStock(int quantity) {
-        if (!checkStock(quantity)) {
+    public void reduceStock(Integer delta) {
+        if (this.stock.getValue() < delta) {
             throw new InsufficientStockException(MessageConstant.INSUFFICIENT_STOCK);
         }
-        this.stock = new Stock(this.stock.getValue() - quantity);
+        this.stock = new Stock(this.stock.getValue() - delta);
+    }
+
+    /**
+     * 变更商品价格，delta为正加价，反之降价
+     * @param delta 变更的数额
+     */
+    public void updatePrice(BigDecimal delta) {
+        if(BigDecimal.ZERO.compareTo(delta) > 0 && delta.abs().compareTo(this.price.getAmount()) > 0) {
+            throw new ForbiddenException(MessageConstant.LESS_THAN_ZERO);
+        }
+        this.price = new Money(this.price.getAmount().add(delta), this.price.getCurrency());
     }
 
 }

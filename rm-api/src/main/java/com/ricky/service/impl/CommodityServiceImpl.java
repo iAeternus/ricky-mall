@@ -4,6 +4,7 @@ import com.ricky.assembler.CommodityAssembler;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.domain.commodity.service.CommodityDomainService;
 import com.ricky.dto.command.ModifyCommodityCommand;
+import com.ricky.dto.command.ModifyCommodityPriceCommand;
 import com.ricky.dto.command.ReduceStockCommand;
 import com.ricky.dto.command.SaveCommodityCommand;
 import com.ricky.dto.response.GetCommodityByIdResponse;
@@ -52,6 +53,11 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public void reduceStock(ReduceStockCommand command) {
         commodityDomainService.reduceStock(command.getCommodityId(), command.getDelta());
+    }
+
+    @Override
+    public void modifyPrice(ModifyCommodityPriceCommand command) {
+        commodityDomainService.modifyPrice(command.getCommodityId(), command.getDelta());
     }
 
 }

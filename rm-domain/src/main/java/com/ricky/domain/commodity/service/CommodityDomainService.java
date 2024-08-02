@@ -3,6 +3,8 @@ package com.ricky.domain.commodity.service;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 /**
  * @author Ricky
  * @version 1.0
@@ -21,4 +23,6 @@ public interface CommodityDomainService {
     void removeCommodity(Commodity commodity);
 
     void reduceStock(Long commodityId, Integer delta);
+
+    void modifyPrice(Long commodityId, BigDecimal delta);
 }
