@@ -15,4 +15,6 @@ public interface CommodityRepository {
     void saveCommodity(Commodity commodity);
 
     Commodity getById(Long id);
+
+    void removeCommodity(Commodity commodity);
 }

@@ -19,4 +19,6 @@ public interface CommodityService {
     void modifyCommodity(ModifyCommodityCommand command);
 
     GetCommodityByIdResponse getCommodityById(Long id);
+
+    void removeCommodity(Long id);
 }

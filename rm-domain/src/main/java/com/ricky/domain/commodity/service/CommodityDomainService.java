@@ -17,4 +17,6 @@ public interface CommodityDomainService {
     void modifyCommodity(Commodity commodity);
 
     Commodity getById(Long id);
+
+    void removeCommodity(Commodity commodity);
 }

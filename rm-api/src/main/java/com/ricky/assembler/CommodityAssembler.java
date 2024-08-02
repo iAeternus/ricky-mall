@@ -70,4 +70,9 @@ public interface CommodityAssembler {
     })
     GetCommodityByIdResponse convert(Commodity commodity);
 
+    @Mappings({
+            @Mapping(target = "id.value", source = "commodityId"),
+    })
+    Commodity convert(Long commodityId);
+
 }

@@ -66,14 +66,13 @@ public abstract class CommodityDataConverter implements AggregateDataConverter<C
     public abstract CommodityPO convert(Commodity entity);
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <P extends BasePO> Commodity convert(CommodityPO po, Map<String, List<P>> relatedPOLists) {
+    public Commodity convert(CommodityPO po, Map<String, List<BasePO>> relatedPOLists) {
         Commodity commodity = convert(po);
 
-        List<CommodityImagePO> commodityImagePOS = (List<CommodityImagePO>) relatedPOLists.get(Commodity.RELATED_IMAGES);
-        List<AttributePO> attributePOS = (List<AttributePO>) relatedPOLists.get(Commodity.RELATED_ATTRIBUTES);
-        List<SupplierPO> supplierPOS = (List<SupplierPO>) relatedPOLists.get(Commodity.RELATED_SUPPLIERS);
-        List<RelatedCommodityPO> relatedCommodityPOS = (List<RelatedCommodityPO>) relatedPOLists.get(Commodity.RELATED_COMMODITIES);
+        List<CommodityImagePO> commodityImagePOS = CollUtils.listConvert(relatedPOLists.get(Commodity.RELATED_IMAGES), basePO -> (CommodityImagePO) basePO);
+        List<AttributePO> attributePOS = CollUtils.listConvert(relatedPOLists.get(Commodity.RELATED_ATTRIBUTES), basePO -> (AttributePO) basePO);
+        List<SupplierPO> supplierPOS = CollUtils.listConvert(relatedPOLists.get(Commodity.RELATED_SUPPLIERS), basePO -> (SupplierPO) basePO);
+        List<RelatedCommodityPO> relatedCommodityPOS = CollUtils.listConvert(relatedPOLists.get(Commodity.RELATED_COMMODITIES), basePO -> (RelatedCommodityPO) basePO);
 
         commodity.setImages(CollUtils.listConvert(commodityImagePOS, commodityImageDataConverter::convert));
         commodity.setAttributes(CollUtils.listConvert(attributePOS, attributeDataConverter::convert));

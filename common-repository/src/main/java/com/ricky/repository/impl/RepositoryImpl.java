@@ -1,5 +1,7 @@
 package com.ricky.repository.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.ricky.domain.diff.entity.AggregateDifference;
 import com.ricky.domain.diff.entity.FieldDifference;
 import com.ricky.domain.diff.entity.concrete.CollectionFieldDifference;
@@ -18,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -38,6 +42,32 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
     @Autowired
     private AggregateDataConverter<T, ID, PO> dataConverter;
 
+    /**
+     * 获取关联对象的mapper
+     *
+     * @param <M> IMapper 的子类
+     * @param <P> BasePO的子类
+     * @return 返回Map，键-字段名，值-关联对象的mapper
+     */
+    protected abstract <M extends IMapper<P>, P extends BasePO> Map<String, M> relatedMappers();
+
+    /**
+     * 获取关联对象外键列名
+     *
+     * @return 返回Map，键-字段名，值-外键的列名
+     */
+    protected abstract Map<String, String> relatedColumnNames();
+
+    /**
+     * 获取所有关联实体数据转换器，需要派生类实现
+     *
+     * @param <E> 实体
+     * @param <I> 实体标识符
+     * @param <P> PO持久化对象
+     * @return 返回Map，键-聚合根中的关联对象字段名，值-数据转换器
+     */
+    protected abstract <E extends Entity<I>, I extends Identifier, P extends BasePO> Map<String, AssociationDataConverter<E, I, P>> relatedDataConverters();
+
     @Override
     @Transactional
     public void doInsert(T aggregate) {
@@ -46,10 +76,14 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
         dataConverter.setAggregateId(aggregate, po.getId());
 
         // 获取关联对象的mapper
-        Map<String, IMapper<BasePO>> relatedMappers = gainRelatedMappers();
+        Map<String, IMapper<BasePO>> relatedMappers = relatedMappers();
+        if (CollUtils.isEmpty(relatedMappers)) {
+            return;
+        }
 
         // 获取需要插入的关联对象列表的集合
         Map<String, List<BasePO>> relatedPOLists = dataConverter.getAssociationPOLists(aggregate);
+        // handle associations
         relatedPOLists.forEach((fieldName, relatedObjects) -> {
             if (CollUtils.isEmpty(relatedObjects)) {
                 return;
@@ -65,36 +99,41 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
         });
     }
 
-    /**
-     * 查询所有关联对象列表，需要派生类实现
-     *
-     * @param po 一般提供外键id
-     * @return 返回Map，键-聚合根中的关联对象字段名，值-关联对象列表
-     */
-    protected abstract <P extends BasePO> Map<String, List<P>> selectRelatedLists(PO po);
-
-    protected abstract <M extends IMapper<P>, P extends BasePO> Map<String, M> gainRelatedMappers();
-
-    // private <P extends BasePO> Map<String, List<P>> relatedLists;
-
     @Override
     protected T doSelect(ID id) {
         PO po = mapper.selectById(id.getValue());
         if (po == null) {
             throw new NotFoundException("aggregate not found, id=" + id.getValue());
         }
-        return dataConverter.convert(po, selectRelatedLists(po));
+
+        // 获取关联对象的mapper
+        Map<String, IMapper<BasePO>> relatedMappers = relatedMappers();
+        if (CollUtils.isEmpty(relatedMappers)) {
+            return dataConverter.convert(po, null);
+        }
+
+        // 获取关联对象的外键
+        Map<String, String> relatedColumns = relatedColumnNames();
+
+        return dataConverter.convert(po, selectRelatedLists(po, relatedMappers, relatedColumns));
     }
 
-    /**
-     * 获取所有关联实体数据转换器，需要派生类实现
-     *
-     * @param <E> 实体
-     * @param <I> 实体标识符
-     * @param <P> PO持久化对象
-     * @return 返回Map，键-聚合根中的关联对象字段名，值-数据转换器
-     */
-    protected abstract <E extends Entity<I>, I extends Identifier, P extends BasePO> Map<String, AssociationDataConverter<E, I, P>> gainRelatedEntityDataConverters();
+    private Map<String, List<BasePO>> selectRelatedLists(PO po,
+                                                         Map<String, IMapper<BasePO>> relatedMappers,
+                                                         Map<String, String> relatedColumns) {
+        Map<String, List<BasePO>> relatedLists = new HashMap<>();
+        relatedMappers.forEach((fieldName, mapper) -> {
+            List<BasePO> relatedPOS = mapper.selectList(new QueryWrapper<BasePO>()
+                    .eq(relatedColumns.get(fieldName), po.getId()));
+
+            if (CollUtils.isEmpty(relatedPOS)) {
+                relatedLists.put(fieldName, Collections.emptyList());
+            } else {
+                relatedLists.put(fieldName, relatedPOS);
+            }
+        });
+        return relatedLists;
+    }
 
     @Override
     @Transactional
@@ -111,11 +150,18 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
         }
 
         // 获取关联对象的数据转换器
-        Map<String, AssociationDataConverter<Entity<Identifier>, Identifier, BasePO>> relatedEntityDataConverters = gainRelatedEntityDataConverters();
-        // 获取关联对象的mapper
-        Map<String, IMapper<BasePO>> relatedMappers = gainRelatedMappers();
+        Map<String, AssociationDataConverter<Entity<Identifier>, Identifier, BasePO>> relatedEntityDataConverters = relatedDataConverters();
+        if (CollUtils.isEmpty(relatedEntityDataConverters)) {
+            return;
+        }
 
-        // 处理关联对象
+        // 获取关联对象的mapper
+        Map<String, IMapper<BasePO>> relatedMappers = relatedMappers();
+        if (CollUtils.isEmpty(relatedMappers)) {
+            return;
+        }
+
+        // handle associations
         for (FieldDifference fieldDifference : fieldDifferences) {
             if (!(fieldDifference instanceof CollectionFieldDifference collectionFieldDifference)) {
                 continue;
@@ -154,13 +200,12 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
                 Entity<Identifier> entity = (Entity<Identifier>) tracValue;
                 return relatedDataConverter.convert(entity, aggregate.getId().getValue()); // 设置外键
             }));
-            case REMOVED ->
-                    relatedMapper.deleteBatchIds(CollUtils.listConvert(elementDifferences, elementDifference -> {
-                        Object snapshotValue = elementDifference.getSnapshotValue();
-                        return ((Entity<Identifier>) snapshotValue).getId().getValue();
-                    }));
+            case REMOVED -> relatedMapper.deleteBatchIds(CollUtils.listConvert(elementDifferences, elementDifference -> {
+                Object snapshotValue = elementDifference.getSnapshotValue();
+                return ((Entity<Identifier>) snapshotValue).getId().getValue();
+            }));
             case MODIFIED -> relatedMapper.updateBatch(CollUtils.listConvert(elementDifferences, elementDifference -> {
-                Object tracValue = elementDifference.getTracValue(); // TODO 检查
+                Object tracValue = elementDifference.getTracValue();
                 return relatedDataConverter.convert((Entity<Identifier>) tracValue);
             }));
             default -> throw new RuntimeException("Incorrect difference type, type=" + fieldDifference.getType());
@@ -168,12 +213,27 @@ public abstract class RepositoryImpl<T extends Aggregate<ID>, ID extends Identif
     }
 
     @Override
-    protected void doDelete(T aggregate) {
+    @Transactional
+    public void doDelete(T aggregate) {
         ID id = aggregate.getId();
         if (id == null) {
             return;
         }
+
         mapper.deleteById(id.getValue());
+
+        // 获取关联对象的mapper
+        Map<String, IMapper<BasePO>> relatedMappers = relatedMappers();
+        if (CollUtils.isEmpty(relatedMappers)) {
+            return;
+        }
+
+        // 获取关联对象的外键
+        Map<String, String> relatedColumns = relatedColumnNames();
+
+        // handle associations
+        relatedMappers.forEach((fieldName, mapper) -> mapper.delete(new UpdateWrapper<BasePO>()
+                .eq(relatedColumns.get(fieldName), aggregate.getId().getValue())));
     }
 
 }

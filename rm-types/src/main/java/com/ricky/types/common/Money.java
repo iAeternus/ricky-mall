@@ -77,6 +77,9 @@ public class Money implements ValueObject, Serializable {
     }
 
     public BigDecimal getAmount(int newScale, RoundingMode roundingMode) {
+        if(amount == null) {
+            return null;
+        }
         return amount.setScale(newScale, roundingMode);
     }
 
@@ -85,6 +88,9 @@ public class Money implements ValueObject, Serializable {
     }
 
     public String currencyCode() {
+        if(currency == null) {
+            return null;
+        }
         return currency.getCurrencyCode();
     }
 

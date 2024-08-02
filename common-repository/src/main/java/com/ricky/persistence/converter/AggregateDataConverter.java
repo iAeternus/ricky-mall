@@ -34,7 +34,7 @@ public interface AggregateDataConverter<T extends Aggregate<ID>, ID extends Iden
      * @param po 持久化对象PO
      * @return 聚合根
      */
-    <P extends BasePO> T convert(PO po, Map<String, List<P>> relatedPOLists);
+    T convert(PO po, Map<String, List<BasePO>> relatedPOLists);
 
     /**
      * 获取关联对象PO列表

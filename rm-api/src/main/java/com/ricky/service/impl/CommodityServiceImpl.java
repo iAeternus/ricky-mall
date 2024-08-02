@@ -42,5 +42,11 @@ public class CommodityServiceImpl implements CommodityService {
         return commodityAssembler.convert(commodity);
     }
 
+    @Override
+    public void removeCommodity(Long id) {
+        Commodity commodity = commodityAssembler.convert(id);
+        commodityDomainService.removeCommodity(commodity);
+    }
+
 
 }

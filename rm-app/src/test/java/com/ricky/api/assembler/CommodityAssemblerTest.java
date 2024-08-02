@@ -213,4 +213,18 @@ public class CommodityAssemblerTest {
                 .build());
     }
 
+    @Test
+    public void convert4() {
+        // Given
+        Long commodityId = 1L;
+
+        // When
+        Commodity commodity = commodityAssembler.convert(commodityId);
+
+        // Then
+        assertThat(commodity).isEqualTo(Commodity.builder()
+                .id(new CommodityId(1L))
+                .build());
+    }
+
 }

@@ -9,6 +9,7 @@ import com.ricky.utils.DifferenceUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;

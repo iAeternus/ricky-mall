@@ -34,4 +34,9 @@ public class CommodityDomainServiceImpl implements CommodityDomainService {
         return commodityRepository.getById(id);
     }
 
+    @Override
+    public void removeCommodity(Commodity commodity) {
+        commodityRepository.removeCommodity(commodity);
+    }
+
 }

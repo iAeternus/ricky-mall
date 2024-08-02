@@ -46,4 +46,11 @@ public class CommodityController {
         return Result.ok(response);
     }
 
+    @DeleteMapping("/{id}")
+    @ApiOperation("根据id删除商品信息")
+    public Result<Void> removeCommodity(@PathVariable Long id) {
+        commodityService.removeCommodity(id);
+        return Result.ok();
+    }
+
 }

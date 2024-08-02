@@ -7,6 +7,7 @@ import com.ricky.enums.impl.WeightUnit;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @SuperBuilder
+@NoArgsConstructor
 @AllArgsConstructor
 @TableName("commodity")
 @EqualsAndHashCode(callSuper = true)

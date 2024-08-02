@@ -1,6 +1,7 @@
 package com.ricky.repository.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.domain.commodity.repsitory.CommodityRepository;
 import com.ricky.enums.impl.CommodityType;
@@ -17,6 +18,7 @@ import com.ricky.types.commodity.CommodityId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,23 +57,13 @@ public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, Commodity
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    protected <P extends BasePO> Map<String, List<P>> selectRelatedLists(CommodityPO po) {
-        Map<String, List<P>> map = new HashMap<>();
-        map.put(Commodity.RELATED_IMAGES, (List<P>) commodityImageMapper.selectList(new QueryWrapper<CommodityImagePO>().lambda()
-                .eq(CommodityImagePO::getCommodityId, po.getId())));
-        map.put(Commodity.RELATED_ATTRIBUTES, (List<P>) attributeMapper.selectList(new QueryWrapper<AttributePO>().lambda()
-                .eq(AttributePO::getCommodityId, po.getId())));
-        map.put(Commodity.RELATED_SUPPLIERS, (List<P>) supplierMapper.selectList(new QueryWrapper<SupplierPO>().lambda()
-                .eq(SupplierPO::getCommodityId, po.getId())));
-        map.put(Commodity.RELATED_COMMODITIES, (List<P>) relatedCommodityMapper.selectList(new QueryWrapper<RelatedCommodityPO>().lambda()
-                .eq(RelatedCommodityPO::getCommodityId, po.getId())));
-        return map;
+    public void removeCommodity(Commodity commodity) {
+        remove(commodity);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    protected <M extends IMapper<P>, P extends BasePO> Map<String, M> gainRelatedMappers() {
+    protected <M extends IMapper<P>, P extends BasePO> Map<String, M> relatedMappers() {
         Map<String, M> map = new HashMap<>();
         map.put(Commodity.RELATED_IMAGES, (M) commodityImageMapper);
         map.put(Commodity.RELATED_ATTRIBUTES, (M) attributeMapper);
@@ -82,12 +74,22 @@ public class CommodityRepositoryImpl extends RepositoryImpl<Commodity, Commodity
 
     @Override
     @SuppressWarnings("unchecked")
-    protected <E extends Entity<I>, I extends Identifier, P extends BasePO> Map<String, AssociationDataConverter<E, I, P>> gainRelatedEntityDataConverters() {
+    protected <E extends Entity<I>, I extends Identifier, P extends BasePO> Map<String, AssociationDataConverter<E, I, P>> relatedDataConverters() {
         Map<String, AssociationDataConverter<E, I, P>> map = new HashMap<>();
         map.put(Commodity.RELATED_IMAGES, (AssociationDataConverter<E, I, P>) commodityImageDataConverter);
         map.put(Commodity.RELATED_ATTRIBUTES, (AssociationDataConverter<E, I, P>) attributeDataConverter);
         map.put(Commodity.RELATED_SUPPLIERS, (AssociationDataConverter<E, I, P>) supplierDataConverter);
         map.put(Commodity.RELATED_COMMODITIES, (AssociationDataConverter<E, I, P>) relatedCommodityDataConverter);
+        return map;
+    }
+
+    @Override
+    protected Map<String, String> relatedColumnNames() {
+        Map<String, String> map = new HashMap<>();
+        map.put(Commodity.RELATED_IMAGES, "commodity_id");
+        map.put(Commodity.RELATED_ATTRIBUTES, "commodity_id");
+        map.put(Commodity.RELATED_SUPPLIERS, "commodity_id");
+        map.put(Commodity.RELATED_COMMODITIES, "commodity_id");
         return map;
     }
 
