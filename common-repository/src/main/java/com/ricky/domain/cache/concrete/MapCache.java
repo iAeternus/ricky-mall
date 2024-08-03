@@ -21,17 +21,17 @@ public class MapCache<T extends Aggregate<ID>, ID extends Identifier> extends Ca
     private final Map<ID, T> cacheMap = new HashMap<>();
 
     @Override
-    public T find(ID id) {
+    public synchronized T find(ID id) {
         return cacheMap.get(id);
     }
 
     @Override
-    public void save(ID id, T aggregate) {
+    public synchronized void save(ID id, T aggregate) {
         cacheMap.put(id, aggregate);
     }
 
     @Override
-    public void remove(ID id) {
+    public synchronized void remove(ID id) {
         cacheMap.remove(id);
     }
 

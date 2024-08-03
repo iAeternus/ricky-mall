@@ -2,6 +2,7 @@ package com.ricky.repository.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.ricky.context.AggregateContext;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.domain.commodity.repsitory.CommodityRepository;
 import com.ricky.enums.impl.CommodityType;

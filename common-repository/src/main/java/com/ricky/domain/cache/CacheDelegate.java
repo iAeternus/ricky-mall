@@ -1,5 +1,6 @@
 package com.ricky.domain.cache;
 
+import com.ricky.domain.cache.concrete.CaffeineCache;
 import com.ricky.domain.cache.concrete.MapCache;
 import com.ricky.domain.cache.concrete.RedisCache;
 import com.ricky.marker.Aggregate;
@@ -26,10 +27,15 @@ public class CacheDelegate<T extends Aggregate<ID>, ID extends Identifier> exten
 
     @Resource
     private CacheProperties cacheProperties;
+
     @Resource
     private MapCache<T, ID> mapCache;
+
     @Resource
     private RedisCache<T, ID> redisCache;
+
+    @Resource
+    private CaffeineCache<T, ID> caffeineCache;
 
     @PostConstruct
     public void afterInit() {
@@ -41,6 +47,9 @@ public class CacheDelegate<T extends Aggregate<ID>, ID extends Identifier> exten
         initContextMap();
     }
 
+    /**
+     * 存储实现类，键-标识符，值-cache实现类
+     */
     private final Map<String, Cache<T, ID>> contextMap = new HashMap<>();
 
     private void initContextMap() {
@@ -51,6 +60,7 @@ public class CacheDelegate<T extends Aggregate<ID>, ID extends Identifier> exten
         // 具体的实现类
         contextMap.put(CacheProperties.MAP, mapCache);
         contextMap.put(CacheProperties.REDIS, redisCache);
+        contextMap.put(CacheProperties.CAFFEINE, caffeineCache);
     }
 
     public Cache<T, ID> selectImpl(String type) {
