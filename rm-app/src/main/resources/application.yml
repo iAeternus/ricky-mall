@@ -58,7 +58,7 @@ thread:
 
 # 限流配置
 rate-limiter:
-  permits-per-second: 1
+  permits-per-second: 3
   timeout: 5
 
 jwt:

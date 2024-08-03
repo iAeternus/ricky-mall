@@ -82,7 +82,7 @@
 
         <dependency>
             <groupId>com.ricky</groupId>
-            <artifactId>common-repository</artifactId>
+            <artifactId>ddd-repository-framework</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <!-- 自身模块 end -->

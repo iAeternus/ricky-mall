@@ -17,7 +17,8 @@
         <module>rm-infrastructure</module>
         <module>rm-trigger</module>
         <module>rm-types</module>
-        <module>common-repository</module>
+        <module>ddd-repository-framework</module>
+        <module>ddd-event-framework</module>
     </modules>
 
     <properties>
