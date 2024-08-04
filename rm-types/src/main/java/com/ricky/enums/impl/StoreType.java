@@ -2,7 +2,6 @@ package com.ricky.enums.impl;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.ricky.enums.BaseEnum;
-import lombok.Getter;
 
 /**
  * @author Ricky
@@ -11,8 +10,7 @@ import lombok.Getter;
  * @className StoreType
  * @desc 店铺类型
  */
-@Getter
-public enum StoreType implements BaseEnum {
+public enum StoreType implements BaseEnum<Short> {
 
     SELF_OPERATED_STORE((short) 0, "自营店铺"),
     PINDUOGOU_STORE((short) 1, "拼购店铺"),
@@ -23,11 +21,12 @@ public enum StoreType implements BaseEnum {
 
     @EnumValue
     final Short code;
-    final String description;
+    final String msg;
 
-    StoreType(Short code, String description) {
+    StoreType(Short code, String msg) {
         this.code = code;
-        this.description = description;
+        this.msg = msg;
+        initEnum(code, msg);
     }
 
 }

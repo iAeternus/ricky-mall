@@ -1,7 +1,7 @@
 package com.ricky.enums.impl;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.ricky.enums.BaseEnum;
-import lombok.Getter;
 
 /**
  * @author Ricky
@@ -10,20 +10,21 @@ import lombok.Getter;
  * @className PasswordStrength
  * @desc
  */
-@Getter
-public enum PasswordStrength implements BaseEnum {
+public enum PasswordStrength implements BaseEnum<Short> {
 
     VERY_WEAK((short) 0, "非常弱"),
     WEAK((short) 1, "弱"),
     MEDIUM((short) 2, "中等"),
     STRONG((short) 3, "强");
 
+    @EnumValue
     final Short code;
-    final String description;
+    final String msg;
 
-    PasswordStrength(Short code, String description) {
+    PasswordStrength(Short code, String msg) {
         this.code = code;
-        this.description = description;
+        this.msg = msg;
+        initEnum(code, msg);
     }
 
 }

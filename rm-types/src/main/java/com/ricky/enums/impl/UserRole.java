@@ -2,7 +2,6 @@ package com.ricky.enums.impl;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.ricky.enums.BaseEnum;
-import lombok.Getter;
 
 /**
  * @author Ricky
@@ -11,8 +10,7 @@ import lombok.Getter;
  * @className UserRole
  * @desc
  */
-@Getter
-public enum UserRole implements BaseEnum {
+public enum UserRole implements BaseEnum<Short> {
 
     ORDINARY_USERS((short) 0, "普通用户"),
     ENTERPRISE_USERS((short) 1, "企业用户"),
@@ -23,11 +21,12 @@ public enum UserRole implements BaseEnum {
 
     @EnumValue
     final Short code;
-    final String description;
+    final String msg;
 
-    UserRole(Short code, String description) {
+    UserRole(Short code, String msg) {
         this.code = code;
-        this.description = description;
+        this.msg = msg;
+        initEnum(code, msg);
     }
 
 }

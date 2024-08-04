@@ -2,7 +2,6 @@ package com.ricky.enums.impl;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.ricky.enums.BaseEnum;
-import lombok.Getter;
 
 /**
  * @author Ricky
@@ -11,8 +10,7 @@ import lombok.Getter;
  * @className WeightUnit
  * @desc 重量单位
  */
-@Getter
-public enum WeightUnit implements BaseEnum {
+public enum WeightUnit implements BaseEnum<String> {
 
     GRAM("g", "克"),
     KILOGRAM("kg", "千克"),
@@ -22,11 +20,12 @@ public enum WeightUnit implements BaseEnum {
 
     @EnumValue
     final String code;
-    final String description;
+    final String msg;
 
-    WeightUnit(String code, String description) {
+    WeightUnit(String code, String msg) {
         this.code = code;
-        this.description = description;
+        this.msg = msg;
+        initEnum(code, msg);
     }
 
     /**

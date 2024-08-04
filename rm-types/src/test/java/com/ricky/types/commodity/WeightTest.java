@@ -1,5 +1,6 @@
 package com.ricky.types.commodity;
 
+import com.ricky.enums.BaseEnum;
 import com.ricky.enums.impl.WeightUnit;
 import com.ricky.types.common.Weight;
 import org.junit.Test;
@@ -25,6 +26,15 @@ public class WeightTest {
 
         // Then
         assertThat(result.toString()).isEqualTo("1.0千克");
+    }
+
+    @Test
+    public void test() {
+        System.out.println(WeightUnit.KILOGRAM.getCode());
+        System.out.println(WeightUnit.KILOGRAM.getMsg());
+
+        String kg = BaseEnum.of(WeightUnit.class, "kg").getMsg();
+        System.out.println(kg);
     }
 
 }

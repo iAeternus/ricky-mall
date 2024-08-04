@@ -1,11 +1,11 @@
 package com.ricky.enums.impl;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.ricky.enums.BaseEnum;
 import lombok.Getter;
 
 
-@Getter
-public enum ResponseCode implements BaseEnum {
+public enum ResponseCode implements BaseEnum<Short> {
 
     SUCCESS((short) 0, "成功"),
     UN_ERROR((short) -1, "未知失败"),
@@ -14,12 +14,14 @@ public enum ResponseCode implements BaseEnum {
     RATE_LIMITER((short) -4, "请求已被限流，超过限流配置"),
     ;
 
+    @EnumValue
     final Short code;
-    final String description;
+    final String msg;
 
-    ResponseCode(Short code, String description) {
+    ResponseCode(Short code, String msg) {
         this.code = code;
-        this.description = description;
+        this.msg = msg;
+        initEnum(code, msg);
     }
 
 }

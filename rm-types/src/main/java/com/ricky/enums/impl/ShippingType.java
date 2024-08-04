@@ -1,7 +1,7 @@
 package com.ricky.enums.impl;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.ricky.enums.BaseEnum;
-import lombok.Getter;
 
 /**
  * @author Ricky
@@ -10,19 +10,20 @@ import lombok.Getter;
  * @className ShippingType
  * @desc
  */
-@Getter
-public enum ShippingType implements BaseEnum {
+public enum ShippingType implements BaseEnum<Short> {
 
     EXPRESS_DELIVERY((short) 0, "快递"),
     SELF_PICKUP((short) 1, "自提"),
     ;
 
+    @EnumValue
     final Short code;
-    final String description;
+    final String msg;
 
-    ShippingType(Short code, String description) {
+    ShippingType(Short code, String msg) {
         this.code = code;
-        this.description = description;
+        this.msg = msg;
+        initEnum(code, msg);
     }
 
 }

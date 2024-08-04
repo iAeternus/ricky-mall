@@ -11,8 +11,7 @@ import lombok.Getter;
  * @className CommodityType
  * @desc 商品状态
  */
-@Getter
-public enum CommodityType implements BaseEnum {
+public enum CommodityType implements BaseEnum<Short> {
 
     NOT_LISTED((short) 0, "未上架"),
     LISTED((short) 1, "已上架"),
@@ -20,11 +19,12 @@ public enum CommodityType implements BaseEnum {
 
     @EnumValue
     final Short code;
-    final String description;
+    final String msg;
 
-    CommodityType(Short code, String description) {
+    CommodityType(Short code, String msg) {
         this.code = code;
-        this.description = description;
+        this.msg = msg;
+        initEnum(code, msg);
     }
 
 }

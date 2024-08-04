@@ -50,7 +50,7 @@ public class Weight implements ValueObject {
 
     @Override
     public String toString() {
-        return value + unit.getDescription();
+        return value + unit.getMsg();
     }
 
 }

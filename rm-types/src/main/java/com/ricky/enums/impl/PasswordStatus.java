@@ -1,7 +1,7 @@
 package com.ricky.enums.impl;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.ricky.enums.BaseEnum;
-import lombok.Getter;
 
 /**
  * @author Ricky
@@ -10,20 +10,21 @@ import lombok.Getter;
  * @className PasswordStatus
  * @desc
  */
-@Getter
-public enum PasswordStatus implements BaseEnum {
+public enum PasswordStatus implements BaseEnum<Short> {
 
     UNENCRYPTED((short) 0, "未加密"),
     ENCRYPTED((short) 1, "已加密"),
     NO_ENCRYPTION_REQUIRED((short) 2, "无需加密"),
     ;
 
+    @EnumValue
     final Short code;
-    final String description;
+    final String msg;
 
-    PasswordStatus(Short code, String description) {
+    PasswordStatus(Short code, String msg) {
         this.code = code;
-        this.description = description;
+        this.msg = msg;
+        initEnum(code, msg);
     }
 
 }

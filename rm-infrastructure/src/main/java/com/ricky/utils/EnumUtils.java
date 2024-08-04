@@ -41,7 +41,7 @@ public class EnumUtils {
      */
     public static <T extends Enum<T>> T fromDescription(Class<T> enumClass, String description) {
         for (T t : enumClass.getEnumConstants()) {
-            if (t instanceof BaseEnum && ((BaseEnum) t).getDescription().equals(description)) {
+            if (t instanceof BaseEnum && ((BaseEnum) t).getMsg().equals(description)) {
                 return t;
             }
         }
