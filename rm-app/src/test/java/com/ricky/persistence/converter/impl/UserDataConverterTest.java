@@ -3,6 +3,7 @@ package com.ricky.persistence.converter.impl;
 import com.ricky.domain.user.model.aggregate.User;
 import com.ricky.enums.impl.PasswordStatus;
 import com.ricky.enums.impl.UserRole;
+import com.ricky.persistence.converter.UserDataConverter;
 import com.ricky.persistence.po.UserPO;
 import com.ricky.types.common.Money;
 import com.ricky.types.user.*;

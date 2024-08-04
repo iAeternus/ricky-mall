@@ -10,7 +10,7 @@ import com.ricky.enums.BaseEnum;
  * @className PasswordStrength
  * @desc
  */
-public enum PasswordStrength implements BaseEnum<Short> {
+public enum PasswordStrength implements BaseEnum<Short, String> {
 
     VERY_WEAK((short) 0, "非常弱"),
     WEAK((short) 1, "弱"),
@@ -18,13 +18,13 @@ public enum PasswordStrength implements BaseEnum<Short> {
     STRONG((short) 3, "强");
 
     @EnumValue
-    final Short code;
-    final String msg;
+    final Short key;
+    final String val;
 
-    PasswordStrength(Short code, String msg) {
-        this.code = code;
-        this.msg = msg;
-        initEnum(code, msg);
+    PasswordStrength(Short key, String val) {
+        this.key = key;
+        this.val = val;
+        initEnum(key, val);
     }
 
 }

@@ -30,10 +30,10 @@ public class WeightTest {
 
     @Test
     public void test() {
-        System.out.println(WeightUnit.KILOGRAM.getCode());
-        System.out.println(WeightUnit.KILOGRAM.getMsg());
+        System.out.println(WeightUnit.KILOGRAM.getKey());
+        System.out.println(WeightUnit.KILOGRAM.getVal());
 
-        String kg = BaseEnum.of(WeightUnit.class, "kg").getMsg();
+        String kg = BaseEnum.of(WeightUnit.class, "g").getVal();
         System.out.println(kg);
     }
 

@@ -2,10 +2,9 @@ package com.ricky.enums.impl;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.ricky.enums.BaseEnum;
-import lombok.Getter;
 
 
-public enum ResponseCode implements BaseEnum<Short> {
+public enum ResponseCode implements BaseEnum<Short, String> {
 
     SUCCESS((short) 0, "成功"),
     UN_ERROR((short) -1, "未知失败"),
@@ -15,13 +14,13 @@ public enum ResponseCode implements BaseEnum<Short> {
     ;
 
     @EnumValue
-    final Short code;
-    final String msg;
+    final Short key;
+    final String val;
 
-    ResponseCode(Short code, String msg) {
-        this.code = code;
-        this.msg = msg;
-        initEnum(code, msg);
+    ResponseCode(Short key, String msg) {
+        this.key = key;
+        this.val = msg;
+        initEnum(key, msg);
     }
 
 }

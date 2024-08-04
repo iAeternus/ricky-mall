@@ -14,5 +14,6 @@ public abstract class MessageConstant {
     public static final String BALANCE_NOT_ENOUGH = "余额不足";
     public static final String INSUFFICIENT_STOCK = "库存不足，无法完成交易";
     public static final String LESS_THAN_ZERO = "数值不能小于0";
+    public static final String PROMOTION_NOT_FOUND = "优惠类型不存在";
 
 }

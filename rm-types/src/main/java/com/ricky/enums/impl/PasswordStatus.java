@@ -10,7 +10,7 @@ import com.ricky.enums.BaseEnum;
  * @className PasswordStatus
  * @desc
  */
-public enum PasswordStatus implements BaseEnum<Short> {
+public enum PasswordStatus implements BaseEnum<Short, String> {
 
     UNENCRYPTED((short) 0, "未加密"),
     ENCRYPTED((short) 1, "已加密"),
@@ -18,13 +18,13 @@ public enum PasswordStatus implements BaseEnum<Short> {
     ;
 
     @EnumValue
-    final Short code;
-    final String msg;
+    final Short key;
+    final String val;
 
-    PasswordStatus(Short code, String msg) {
-        this.code = code;
-        this.msg = msg;
-        initEnum(code, msg);
+    PasswordStatus(Short key, String val) {
+        this.key = key;
+        this.val = val;
+        initEnum(key, val);
     }
 
 }

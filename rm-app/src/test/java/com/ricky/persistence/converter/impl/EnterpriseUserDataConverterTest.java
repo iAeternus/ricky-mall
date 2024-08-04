@@ -1,6 +1,7 @@
 package com.ricky.persistence.converter.impl;
 
 import com.ricky.domain.user.model.entity.EnterpriseUser;
+import com.ricky.persistence.converter.EnterpriseUserDataConverter;
 import com.ricky.persistence.po.EnterpriseUserPO;
 import com.ricky.types.user.Company;
 import com.ricky.types.user.EnterpriseUserId;

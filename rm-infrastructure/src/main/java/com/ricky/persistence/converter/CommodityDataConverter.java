@@ -1,8 +1,7 @@
-package com.ricky.persistence.converter.impl;
+package com.ricky.persistence.converter;
 
 import com.ricky.constants.JsonFormatConstant;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
-import com.ricky.persistence.converter.AggregateDataConverter;
 import com.ricky.persistence.converter.decorator.MoneyDecorator;
 import com.ricky.persistence.po.*;
 import com.ricky.types.commodity.CommodityId;

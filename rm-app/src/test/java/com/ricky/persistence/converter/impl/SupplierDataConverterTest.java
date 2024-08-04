@@ -1,6 +1,7 @@
 package com.ricky.persistence.converter.impl;
 
 import com.ricky.domain.commodity.model.entity.Supplier;
+import com.ricky.persistence.converter.SupplierDataConverter;
 import com.ricky.persistence.po.SupplierPO;
 import com.ricky.types.commodity.SupplierId;
 import org.junit.jupiter.api.Test;

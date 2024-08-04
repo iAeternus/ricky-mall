@@ -1,6 +1,5 @@
 package com.ricky.enums;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 import java.util.Map;
@@ -8,14 +7,15 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 /**
+ * @param <K> 枚举键key类型
+ * @param <V> 枚举值value类型
  * @author Ricky
  * @version 1.0
  * @date 2024/7/13
  * @className BaseEnum
  * @desc 基础枚举接口
- * @param <T> 枚举值code类型
  */
-public interface BaseEnum<T> {
+public interface BaseEnum<K, V> {
 
     /**
      * 初始化枚举
@@ -23,7 +23,7 @@ public interface BaseEnum<T> {
      * @param code 枚举值
      * @param msg  枚举信息
      */
-    default void initEnum(final T code, final String msg) {
+    default void initEnum(final K code, final V msg) {
         EnumContainer.putEnum(this, code, msg);
     }
 
@@ -32,8 +32,8 @@ public interface BaseEnum<T> {
      *
      * @return 枚举值
      */
-    default T getCode() {
-        return EnumContainer.getEnum(this).getCode();
+    default K getKey() {
+        return EnumContainer.getEnum(this).getKey();
     }
 
     /**
@@ -41,14 +41,14 @@ public interface BaseEnum<T> {
      *
      * @return 描述
      */
-    default String getMsg() {
-        return EnumContainer.getEnum(this).getMsg();
+    default V getVal() {
+        return EnumContainer.getEnum(this).getVal();
     }
 
     @SuppressWarnings("unchecked")
-    static <T, R extends BaseEnum<T>> R of(Class<? extends BaseEnum<T>> clazz, final T code) {
+    static <R extends BaseEnum<K, V>, K, V> R of(Class<? extends BaseEnum<K, V>> clazz, final K key) {
         return Stream.of(clazz.getEnumConstants())
-                .filter(enumBean -> enumBean.getCode().equals(code))
+                .filter(baseEnum -> baseEnum.getKey().equals(key))
                 .map(baseEnum -> (R) baseEnum)
                 .findAny()
                 .orElse(null);
@@ -58,27 +58,27 @@ public interface BaseEnum<T> {
      * 枚举容器，存储枚举值
      */
     class EnumContainer {
-        private static final Map<BaseEnum<?>, EnumBean<?>> ENUM_MAP = new ConcurrentHashMap<>();
+        private static final Map<BaseEnum<?, ?>, EnumBean<?, ?>> ENUM_MAP = new ConcurrentHashMap<>();
 
-        public static <T> void putEnum(BaseEnum<T> baseEnum, T code, String msg) {
-            ENUM_MAP.put(baseEnum, new EnumBean<T>(code, msg));
+        public static <K, V> void putEnum(BaseEnum<K, V> baseEnum, K key, V val) {
+            ENUM_MAP.put(baseEnum, new EnumBean<K, V>(key, val));
         }
 
         @SuppressWarnings("unchecked")
-        public static <K extends BaseEnum<T>, T> EnumBean<T> getEnum(K dict) {
-            return (EnumBean<T>) ENUM_MAP.get(dict);
+        public static <D extends BaseEnum<K, V>, K, V> EnumBean<K, V> getEnum(D dict) {
+            return (EnumBean<K, V>) ENUM_MAP.get(dict);
         }
     }
 
     @Getter
-    class EnumBean<T> {
+    class EnumBean<K, V> {
 
-        private final T code;
-        private final String msg;
+        private final K key;
+        private final V val;
 
-        public EnumBean(final T code, final String msg) {
-            this.code = code;
-            this.msg = msg;
+        public EnumBean(final K key, final V val) {
+            this.key = key;
+            this.val = val;
         }
 
     }

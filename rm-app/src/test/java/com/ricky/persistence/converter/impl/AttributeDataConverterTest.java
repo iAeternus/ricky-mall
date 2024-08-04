@@ -1,6 +1,7 @@
 package com.ricky.persistence.converter.impl;
 
 import com.ricky.domain.commodity.model.entity.Attribute;
+import com.ricky.persistence.converter.AttributeDataConverter;
 import com.ricky.persistence.po.AttributePO;
 import com.ricky.types.commodity.AttributeId;
 import org.junit.jupiter.api.Test;

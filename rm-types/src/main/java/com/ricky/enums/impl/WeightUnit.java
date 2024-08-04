@@ -10,7 +10,7 @@ import com.ricky.enums.BaseEnum;
  * @className WeightUnit
  * @desc 重量单位
  */
-public enum WeightUnit implements BaseEnum<String> {
+public enum WeightUnit implements BaseEnum<String, String> {
 
     GRAM("g", "克"),
     KILOGRAM("kg", "千克"),
@@ -19,27 +19,27 @@ public enum WeightUnit implements BaseEnum<String> {
     ;
 
     @EnumValue
-    final String code;
-    final String msg;
+    final String key;
+    final String val;
 
-    WeightUnit(String code, String msg) {
-        this.code = code;
-        this.msg = msg;
-        initEnum(code, msg);
+    WeightUnit(String key, String val) {
+        this.key = key;
+        this.val = val;
+        initEnum(key, val);
     }
 
     /**
      * 转换为克
      *
-     * @param value 重量值
+     * @param weightValue 重量值
      * @return 转换为克后的重量值
      */
-    public double toGrams(double value) {
+    public double toGrams(double weightValue) {
         return switch (this) {
-            case GRAM -> value;
-            case KILOGRAM -> value * 1000;
-            case OUNCE -> value * 28.35;
-            case POUND -> value * 453.59237;
+            case GRAM -> weightValue;
+            case KILOGRAM -> weightValue * 1000;
+            case OUNCE -> weightValue * 28.35;
+            case POUND -> weightValue * 453.59237;
         };
     }
 

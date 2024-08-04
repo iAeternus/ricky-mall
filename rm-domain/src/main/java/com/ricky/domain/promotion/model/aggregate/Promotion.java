@@ -1,6 +1,9 @@
 package com.ricky.domain.promotion.model.aggregate;
 
+import com.ricky.domain.promotion.model.entity.CouponPromotionStrategy;
+import com.ricky.enums.impl.PromotionType;
 import com.ricky.marker.Aggregate;
+import com.ricky.types.order.OrderId;
 import com.ricky.types.promotion.PromotionId;
 import lombok.Data;
 
@@ -21,7 +24,15 @@ public class Promotion implements Aggregate<PromotionId> {
      */
     private PromotionId id;
 
+    /**
+     * 订单id
+     */
+    private OrderId orderId;
 
+    /**
+     * 折扣类型
+     */
+    private PromotionType type;
 
     /**
      * 创建时间

@@ -1,4 +1,4 @@
-package com.ricky.persistence.converter.impl;
+package com.ricky.persistence.converter;
 
 import com.ricky.domain.user.model.entity.EnterpriseUser;
 import com.ricky.persistence.converter.DataConverter;

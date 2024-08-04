@@ -10,20 +10,20 @@ import com.ricky.enums.BaseEnum;
  * @className ShippingType
  * @desc
  */
-public enum ShippingType implements BaseEnum<Short> {
+public enum ShippingType implements BaseEnum<Short, String> {
 
     EXPRESS_DELIVERY((short) 0, "快递"),
     SELF_PICKUP((short) 1, "自提"),
     ;
 
     @EnumValue
-    final Short code;
-    final String msg;
+    final Short key;
+    final String val;
 
-    ShippingType(Short code, String msg) {
-        this.code = code;
-        this.msg = msg;
-        initEnum(code, msg);
+    ShippingType(Short key, String val) {
+        this.key = key;
+        this.val = val;
+        initEnum(key, val);
     }
 
 }

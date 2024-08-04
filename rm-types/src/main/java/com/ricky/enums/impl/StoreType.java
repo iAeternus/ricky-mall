@@ -10,7 +10,7 @@ import com.ricky.enums.BaseEnum;
  * @className StoreType
  * @desc 店铺类型
  */
-public enum StoreType implements BaseEnum<Short> {
+public enum StoreType implements BaseEnum<Short, String> {
 
     SELF_OPERATED_STORE((short) 0, "自营店铺"),
     PINDUOGOU_STORE((short) 1, "拼购店铺"),
@@ -20,13 +20,13 @@ public enum StoreType implements BaseEnum<Short> {
     ;
 
     @EnumValue
-    final Short code;
-    final String msg;
+    final Short key;
+    final String val;
 
-    StoreType(Short code, String msg) {
-        this.code = code;
-        this.msg = msg;
-        initEnum(code, msg);
+    StoreType(Short key, String val) {
+        this.key = key;
+        this.val = val;
+        initEnum(key, val);
     }
 
 }

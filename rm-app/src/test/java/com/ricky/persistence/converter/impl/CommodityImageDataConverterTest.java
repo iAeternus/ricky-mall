@@ -1,6 +1,7 @@
 package com.ricky.persistence.converter.impl;
 
 import com.ricky.domain.commodity.model.entity.Image;
+import com.ricky.persistence.converter.CommodityImageDataConverter;
 import com.ricky.persistence.po.CommodityImagePO;
 import com.ricky.types.commodity.ImageId;
 import org.junit.jupiter.api.Test;

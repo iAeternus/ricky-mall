@@ -7,6 +7,7 @@ import com.ricky.domain.commodity.model.entity.RelatedCommodity;
 import com.ricky.domain.commodity.model.entity.Supplier;
 import com.ricky.enums.impl.CommodityType;
 import com.ricky.enums.impl.WeightUnit;
+import com.ricky.persistence.converter.CommodityDataConverter;
 import com.ricky.persistence.po.*;
 import com.ricky.types.commodity.*;
 import com.ricky.types.common.Money;

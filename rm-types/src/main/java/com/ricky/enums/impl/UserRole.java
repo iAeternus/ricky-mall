@@ -10,7 +10,7 @@ import com.ricky.enums.BaseEnum;
  * @className UserRole
  * @desc
  */
-public enum UserRole implements BaseEnum<Short> {
+public enum UserRole implements BaseEnum<Short, String> {
 
     ORDINARY_USERS((short) 0, "普通用户"),
     ENTERPRISE_USERS((short) 1, "企业用户"),
@@ -20,13 +20,13 @@ public enum UserRole implements BaseEnum<Short> {
     ;
 
     @EnumValue
-    final Short code;
-    final String msg;
+    final Short key;
+    final String val;
 
-    UserRole(Short code, String msg) {
-        this.code = code;
-        this.msg = msg;
-        initEnum(code, msg);
+    UserRole(Short key, String val) {
+        this.key = key;
+        this.val = val;
+        initEnum(key, val);
     }
 
 }

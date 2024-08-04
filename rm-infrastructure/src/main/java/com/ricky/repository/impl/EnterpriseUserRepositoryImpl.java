@@ -3,7 +3,7 @@ package com.ricky.repository.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ricky.domain.user.model.entity.EnterpriseUser;
 import com.ricky.domain.user.repository.EnterpriseUserRepository;
-import com.ricky.persistence.converter.impl.EnterpriseUserDataConverter;
+import com.ricky.persistence.converter.EnterpriseUserDataConverter;
 import com.ricky.persistence.mapper.EnterpriseUserMapper;
 import com.ricky.persistence.po.EnterpriseUserPO;
 import lombok.RequiredArgsConstructor;

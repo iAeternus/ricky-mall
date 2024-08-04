@@ -1,15 +1,12 @@
 package com.ricky.bus.impl;
 
-import com.ricky.annotations.Subscribe;
 import com.ricky.bus.EventBus;
 import com.ricky.handler.EventHandler;
 import com.ricky.model.Event;
-import com.ricky.model.SubscribedMethod;
 import com.ricky.processor.PublishProcessorChain;
 import com.ricky.processor.impl.AnnotationPublishProcessor;
 import com.ricky.processor.impl.SubClassPublishProcessor;
 
-import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -62,25 +59,6 @@ public class ConcurrentMapEventBus implements EventBus {
     @Override
     public <E extends Event> void subscribe(Class<E> eventType, EventHandler<E> handler) {
         handlers.computeIfAbsent(eventType, k -> new CopyOnWriteArrayList<>()).add(handler);
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public void subscribeAll(Object handler, Class<?> eventHandlerType) {
-        Method[] declaredMethods = eventHandlerType.getDeclaredMethods();
-
-        for (Method method : declaredMethods) {
-            if (method.isAnnotationPresent(Subscribe.class)) {
-                Class<?>[] parameterTypes = method.getParameterTypes();
-                if (parameterTypes.length != 1) {
-                    throw new IllegalArgumentException("Event handler method must have exactly one argument.");
-                }
-
-                Class<Event> eventType = (Class<Event>) parameterTypes[0];
-                SubscribedMethod<Event> subscribedMethod = new SubscribedMethod<>(method, handler);
-                subscribe(eventType, subscribedMethod);
-            }
-        }
     }
 
     @Override

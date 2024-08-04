@@ -1,4 +1,4 @@
-package com.ricky.persistence.converter.impl;
+package com.ricky.persistence.converter;
 
 import com.ricky.domain.commodity.model.entity.RelatedCommodity;
 import com.ricky.persistence.converter.AssociationDataConverter;
