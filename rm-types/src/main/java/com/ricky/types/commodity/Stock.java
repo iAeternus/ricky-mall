@@ -11,6 +11,7 @@ import lombok.Value;
  * @desc 商品库存量，默认为0
  */
 @Value
+@Deprecated
 public class Stock implements ValueObject {
 
     Integer value;

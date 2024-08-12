@@ -1,5 +1,7 @@
 package com.ricky.domain.promotion.model.entity;
 
+import com.ricky.types.common.Money;
+
 import java.math.BigDecimal;
 
 /**
@@ -9,17 +11,14 @@ import java.math.BigDecimal;
  * @className CouponPromotionStrategy
  * @desc 优惠劵促销策略
  */
-public interface CouponPromotionStrategy<T> {
+public interface CouponPromotionStrategy {
 
     /**
      * 优惠券金额计算
      *
-     * @param couponInfo 券折扣信息；直减、满减、折扣、N元购
      * @param skuPrice   sku金额
      * @return 优惠后金额
      */
-    BigDecimal discountAmount(T couponInfo, BigDecimal skuPrice);
-
-    boolean canApply(BigDecimal skuPrice);
+    Money discountAmount(Money skuPrice);
 
 }

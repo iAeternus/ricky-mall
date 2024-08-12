@@ -1,6 +1,7 @@
 package com.ricky.domain.promotion.model.entity.impl;
 
 import com.ricky.domain.promotion.model.entity.CouponPromotionStrategy;
+import com.ricky.types.common.Money;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -12,7 +13,18 @@ import java.util.Map;
  * @className MaxOutPromotion
  * @desc 满减
  */
-public class MaxOutPromotion implements CouponPromotionStrategy<Map<String, String>> {
+public class MaxOutPromotion implements CouponPromotionStrategy {
+
+    /**
+     * 满减信息，满足x元后-n元
+     * 键-x
+     * 值-n
+     */
+    private final Map<String, String> couponInfo;
+
+    public MaxOutPromotion(Map<String, String> couponInfo) {
+        this.couponInfo = couponInfo;
+    }
 
     /**
      * 满减计算
@@ -20,7 +32,7 @@ public class MaxOutPromotion implements CouponPromotionStrategy<Map<String, Stri
      * 2. 最低支付金额1元
      */
     @Override
-    public BigDecimal discountAmount(Map<String, String> couponInfo, BigDecimal skuPrice) {
+    public Money discountAmount(Money skuPrice) {
         String x = couponInfo.get("x");
         String n = couponInfo.get("n");
 
@@ -28,17 +40,13 @@ public class MaxOutPromotion implements CouponPromotionStrategy<Map<String, Stri
         if (skuPrice.compareTo(new BigDecimal(x)) < 0) {
             return skuPrice;
         }
+
         // 减去优惠金额判断
-        BigDecimal discountAmount = skuPrice.subtract(new BigDecimal(n));
+        Money discountAmount = skuPrice.subtract(new BigDecimal(n));
         if (discountAmount.compareTo(BigDecimal.ZERO) < 1) {
-            return BigDecimal.ONE;
+            return new Money(BigDecimal.ONE, skuPrice.getCurrency());
         }
 
         return discountAmount;
-    }
-
-    @Override
-    public boolean canApply(BigDecimal skuPrice) {
-        return false;
     }
 }

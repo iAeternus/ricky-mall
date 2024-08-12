@@ -1,6 +1,7 @@
 package com.ricky.domain.promotion.model.entity.impl;
 
 import com.ricky.domain.promotion.model.entity.CouponPromotionStrategy;
+import com.ricky.types.common.Money;
 
 import java.math.BigDecimal;
 
@@ -11,19 +12,23 @@ import java.math.BigDecimal;
  * @className NYGPromotion
  * @desc n元购
  */
-public class NYGPromotion implements CouponPromotionStrategy<Double> {
+public class NYGPromotion implements CouponPromotionStrategy {
+
+    /**
+     * n元购信息，10 -> 10元购
+     */
+    private final Double couponInfo;
+
+    public NYGPromotion(Double couponInfo) {
+        this.couponInfo = couponInfo;
+    }
 
     /**
      * n元购购买
      * 1. 无论原价多少钱都固定金额购买
      */
     @Override
-    public BigDecimal discountAmount(Double couponInfo, BigDecimal skuPrice) {
-        return new BigDecimal(couponInfo);
-    }
-
-    @Override
-    public boolean canApply(BigDecimal skuPrice) {
-        return false;
+    public Money discountAmount(Money skuPrice) {
+        return new Money(couponInfo, skuPrice.getCurrency());
     }
 }

@@ -24,14 +24,37 @@ import java.util.Objects;
 @Builder
 public class Money implements ValueObject, Serializable {
 
+    /**
+     * 金额数额
+     */
     BigDecimal amount;
+
+    /**
+     * 货币类型
+     */
     Currency currency;
 
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 默认货币类型
+     */
     public static final String DEFAULT_CURRENCY_CODE = "CNY";
 
+    /**
+     * 默认保留小数位数
+     */
+    public static final int DEFAULT_SCALE = 2;
+
+    /**
+     * 默认舍入方式
+     */
+    public static final RoundingMode DEFAULT_ROUNDING_MODE = RoundingMode.HALF_UP;
+
+    /**
+     * 0元
+     */
     public static final Money ZERO = new Money(BigDecimal.ZERO, Currency.getInstance(DEFAULT_CURRENCY_CODE));
 
     public Money(BigDecimal amount, Currency currency) {
@@ -77,7 +100,7 @@ public class Money implements ValueObject, Serializable {
     }
 
     public BigDecimal getAmount(int newScale, RoundingMode roundingMode) {
-        if(amount == null) {
+        if (amount == null) {
             return null;
         }
         return amount.setScale(newScale, roundingMode);
@@ -88,7 +111,7 @@ public class Money implements ValueObject, Serializable {
     }
 
     public String currencyCode() {
-        if(currency == null) {
+        if (currency == null) {
             return null;
         }
         return currency.getCurrencyCode();
@@ -105,55 +128,103 @@ public class Money implements ValueObject, Serializable {
     /**
      * 加法
      */
-    public Money add(Money money) {
+    public Money add(BigDecimal amount, int scale, RoundingMode roundingMode) {
+        return new Money(this.amount.add(amount).setScale(scale, roundingMode), this.currency);
+    }
+
+    public Money add(BigDecimal amount) {
+        return add(amount, DEFAULT_SCALE, DEFAULT_ROUNDING_MODE);
+    }
+
+    public Money add(Money money, int scale, RoundingMode roundingMode) {
         if (!this.currency.equals(money.currency)) {
             throw new IllegalArgumentException("Currencies must be the same for addition");
         }
-        return new Money(this.amount.add(money.amount), this.currency);
+        return add(money.amount, scale, roundingMode);
+    }
+
+    public Money add(Money money) {
+        return add(money, DEFAULT_SCALE, DEFAULT_ROUNDING_MODE);
     }
 
     /**
      * 减法
      */
-    public Money subtract(Money money) {
+    public Money subtract(BigDecimal amount, int scale, RoundingMode roundingMode) {
+        return new Money(this.amount.subtract(amount).setScale(scale, roundingMode), this.currency);
+    }
+
+    public Money subtract(BigDecimal amount) {
+        return subtract(amount, DEFAULT_SCALE, DEFAULT_ROUNDING_MODE);
+    }
+
+    public Money subtract(Money money, int scale, RoundingMode roundingMode) {
         if (!this.currency.equals(money.currency)) {
             throw new IllegalArgumentException("Currencies must be the same for subtraction");
         }
-        return new Money(this.amount.subtract(money.amount), this.currency);
+        return subtract(money.amount, scale, roundingMode);
+    }
+
+    public Money subtract(Money money) {
+        return subtract(money, DEFAULT_SCALE, DEFAULT_ROUNDING_MODE);
     }
 
     /**
      * 乘法
      */
-    public Money multiply(Money money) {
+    public Money multiply(BigDecimal amount, int scale, RoundingMode roundingMode) {
+        return new Money(this.amount.multiply(amount).setScale(scale, roundingMode), this.currency);
+    }
+
+    public Money multiply(BigDecimal amount) {
+        return multiply(amount, DEFAULT_SCALE, DEFAULT_ROUNDING_MODE);
+    }
+
+    public Money multiply(Money money, int scale, RoundingMode roundingMode) {
         if (!this.currency.equals(money.currency)) {
             throw new IllegalArgumentException("Currencies must be the same for multiply");
         }
-        return new Money(this.amount.multiply(money.amount).setScale(2, RoundingMode.HALF_UP), this.currency);
+        return multiply(money.amount, scale, roundingMode);
+    }
+
+    public Money multiply(Money money) {
+        return multiply(money, DEFAULT_SCALE, DEFAULT_ROUNDING_MODE);
     }
 
     /**
      * 除法
      */
+    public Money divide(BigDecimal amount, int scale, RoundingMode roundingMode) {
+        if (BigDecimal.ZERO.compareTo(amount) == 0) {
+            throw new ArithmeticException("Divided by zero");
+        }
+        return new Money(this.amount.divide(amount, scale, roundingMode), this.currency);
+    }
+
+    public Money divide(BigDecimal amount) {
+        return divide(amount, DEFAULT_SCALE, DEFAULT_ROUNDING_MODE);
+    }
+
     public Money divide(Money money, int scale, RoundingMode roundingMode) {
         if (!this.currency.equals(money.currency)) {
             throw new IllegalArgumentException("Currencies must be the same for division");
         }
-        if (BigDecimal.ZERO.compareTo(money.amount) == 0) {
-            throw new ArithmeticException("Divided by zero");
-        }
-        return new Money(this.amount.divide(money.amount, scale, roundingMode), this.currency);
+        return divide(money.amount, scale, roundingMode);
     }
 
     public Money divide(Money money) {
-        return divide(money, 2, RoundingMode.HALF_UP);
+        return divide(money, DEFAULT_SCALE, DEFAULT_ROUNDING_MODE);
+    }
+
+    public int compareTo(BigDecimal amount) {
+        return this.amount.compareTo(amount);
     }
 
     public int compareTo(Money money) {
         if (!this.currency.equals(money.currency)) {
             throw new IllegalArgumentException("Currencies must be the same for compare");
         }
-        return this.amount.compareTo(money.amount);
+        return compareTo(money.amount);
     }
 
     @Override

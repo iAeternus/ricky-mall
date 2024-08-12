@@ -12,6 +12,7 @@ import com.ricky.marker.Aggregate;
 import com.ricky.types.commodity.*;
 import com.ricky.types.common.Money;
 import com.ricky.types.common.Weight;
+import com.ricky.types.store.StoreId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,14 +39,16 @@ public class Commodity implements Aggregate<CommodityId> {
     private CommodityName name; // 商品名称
     private ProductDescription description; // 商品描述
     private Money price; // 商品价格
-    private Stock stock; // 商品库存量
     private Weight weight; // 商品重量
     private CommodityType type; // 商品状态
-    private CategoryId categoryId; // 分类ID
-    private Brand brand; // 品牌
-    private Promotion promotion; // 促销信息
     private SalesInformation salesInformation; // 销售信息
     private SEO seo; // SEO信息
+
+    // private Stock stock; // 商品库存量
+    private Promotion promotion; // 促销信息 TODO
+
+    private CategoryId categoryId; // 分类ID
+    private StoreId storeId; // 店铺id
 
     private List<Image> images; // 商品图片
     private List<Attribute> attributes; // 商品属性集合
@@ -74,7 +77,7 @@ public class Commodity implements Aggregate<CommodityId> {
     }
 
     /**
-     * 变更商品价格，delta为正加价，反之降价
+     * 变更商品价格，delta为正则加价，反之降价
      * @param delta 变更的数额
      */
     public void updatePrice(BigDecimal delta) {

@@ -12,6 +12,7 @@ import lombok.Value;
  * @desc 品牌
  */
 @Value
+@Deprecated
 public class Brand implements ValueObject {
 
     String name; // 品牌名

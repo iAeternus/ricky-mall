@@ -1,5 +1,6 @@
 package com.ricky.domain.commodity.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
 import com.ricky.domain.commodity.repsitory.CommodityRepository;
 import com.ricky.domain.commodity.service.CommodityDomainService;

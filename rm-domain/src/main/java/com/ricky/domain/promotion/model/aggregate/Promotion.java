@@ -1,13 +1,12 @@
 package com.ricky.domain.promotion.model.aggregate;
 
-import com.ricky.domain.promotion.model.entity.CouponPromotionStrategy;
+import com.ricky.enums.impl.PromotionObjectEnum;
 import com.ricky.enums.impl.PromotionType;
 import com.ricky.marker.Aggregate;
-import com.ricky.types.order.OrderId;
+import com.ricky.types.common.DateTimeInfo;
 import com.ricky.types.promotion.PromotionId;
+import com.ricky.types.promotion.PromotionObjectId;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 /**
  * @author Ricky
@@ -25,18 +24,23 @@ public class Promotion implements Aggregate<PromotionId> {
     private PromotionId id;
 
     /**
-     * 订单id
+     * 促销对象
      */
-    private OrderId orderId;
+    private PromotionObjectEnum promotionObject;
 
     /**
-     * 折扣类型
+     * 促销对象id
+     */
+    private PromotionObjectId promotionObjectId;
+
+    /**
+     * 促销类型
      */
     private PromotionType type;
 
     /**
-     * 创建时间
+     * 时间信息
      */
-    private LocalDateTime createTime;
+    private DateTimeInfo dateTimeInfo;
 
 }

@@ -1,6 +1,7 @@
 package com.ricky.domain.promotion.model.entity.impl;
 
 import com.ricky.domain.promotion.model.entity.CouponPromotionStrategy;
+import com.ricky.types.common.Money;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -12,7 +13,16 @@ import java.math.RoundingMode;
  * @className DiscountPromotion
  * @desc 折扣
  */
-public class DiscountPromotion implements CouponPromotionStrategy<Double> {
+public class DiscountPromotion implements CouponPromotionStrategy {
+
+    /**
+     * 折扣，0.88 -> 88折
+     */
+    private final Double couponInfo;
+
+    public DiscountPromotion(Double couponInfo) {
+        this.couponInfo = couponInfo;
+    }
 
     /**
      * 折扣计算
@@ -21,16 +31,12 @@ public class DiscountPromotion implements CouponPromotionStrategy<Double> {
      * 3. 最低支付金额1元
      */
     @Override
-    public BigDecimal discountAmount(Double couponInfo, BigDecimal skuPrice) {
-        BigDecimal discountAmount = skuPrice.multiply(new BigDecimal(couponInfo)).setScale(2, RoundingMode.HALF_UP);
+    public Money discountAmount(Money skuPrice) {
+        Money discountAmount = skuPrice.multiply(BigDecimal.valueOf(couponInfo));
         if (discountAmount.compareTo(BigDecimal.ZERO) < 1) {
-            return BigDecimal.ONE;
+            return new Money(BigDecimal.ONE, skuPrice.getCurrency());
         }
         return discountAmount;
     }
 
-    @Override
-    public boolean canApply(BigDecimal skuPrice) {
-        return false;
-    }
 }

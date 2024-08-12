@@ -1,5 +1,6 @@
 package com.ricky.domain.commodity.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ricky.domain.commodity.model.aggregate.Commodity;
 import org.springframework.stereotype.Service;
 

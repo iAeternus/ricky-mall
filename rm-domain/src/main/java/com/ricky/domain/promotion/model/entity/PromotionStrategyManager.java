@@ -1,5 +1,15 @@
 package com.ricky.domain.promotion.model.entity;
 
+import com.ricky.domain.promotion.model.entity.impl.DiscountPromotion;
+import com.ricky.domain.promotion.model.entity.impl.MaxOutPromotion;
+import com.ricky.domain.promotion.model.entity.impl.NYGPromotion;
+import com.ricky.domain.promotion.model.entity.impl.ZJPromotion;
+import com.ricky.enums.impl.PromotionType;
+import com.ricky.types.common.Money;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
+
 /**
  * @author Ricky
  * @version 1.0
@@ -7,33 +17,37 @@ package com.ricky.domain.promotion.model.entity;
  * @className PromotionStrategyManager
  * @desc 促销策略管理器
  */
-public class PromotionStrategyManager {
+@Service
+public class PromotionStrategyManager implements CouponPromotionStrategy {
 
-    // private static final Map<PromotionType, CouponPromotionStrategy<?>> STRATEGY_MAP = new HashMap<>();
-    //
-    // static {
-    //     STRATEGY_MAP.put(PromotionType.MAX_OF, new PromotionStrategyHolder<>(new MaxOutPromotion()));
-    //     STRATEGY_MAP.put(PromotionType.ZJ, new PromotionStrategyHolder<>(new ZJPromotion()));
-    //     STRATEGY_MAP.put(PromotionType.DISCOUNT, new PromotionStrategyHolder<>(new DiscountPromotion()));
-    //     STRATEGY_MAP.put(PromotionType.NYG, new PromotionStrategyHolder<>(new NYGPromotion()));
-    // }
-    //
-    // public BigDecimal discountAmount(PromotionType type, Map<String, String> couponInfo, BigDecimal skuPrice) {
-    //     return STRATEGY_MAP.get(type).discountAmount(couponInfo, skuPrice);
-    // }
-    //
-    // private static class PromotionStrategyHolder<T> implements CouponPromotionStrategy<T> {
-    //
-    //     private final CouponPromotionStrategy<T> promotionStrategy;
-    //
-    //     public PromotionStrategyHolder(CouponPromotionStrategy<T> promotionStrategy) {
-    //         this.promotionStrategy = promotionStrategy;
-    //     }
-    //
-    //     @Override
-    //     public BigDecimal discountAmount(T couponInfo, BigDecimal skuPrice) {
-    //         return promotionStrategy.discountAmount(couponInfo, skuPrice);
-    //     }
-    // }
+    private final CouponPromotionStrategy strategy;
+
+    public PromotionStrategyManager(PromotionType type) {
+        this.strategy = selectImpl(type, selectCouponInfo(type));
+    }
+
+    private Object selectCouponInfo(PromotionType type) {
+        return switch (type) {
+            case MAX_OF -> Map.of("x", 100, "n", 12);
+            case ZJ -> 10.0;
+            case DISCOUNT -> 0.88;
+            case NYG -> 1.0;
+        };
+    }
+
+    @SuppressWarnings("unchecked")
+    private CouponPromotionStrategy selectImpl(PromotionType type, Object couponInfo) {
+        return switch (type) {
+            case MAX_OF -> new MaxOutPromotion((Map<String, String>) couponInfo);
+            case ZJ -> new ZJPromotion((Double) couponInfo);
+            case DISCOUNT -> new DiscountPromotion((Double) couponInfo);
+            case NYG -> new NYGPromotion((Double) couponInfo);
+        };
+    }
+
+    @Override
+    public Money discountAmount(Money skuPrice) {
+        return strategy.discountAmount(skuPrice);
+    }
 
 }
